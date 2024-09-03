@@ -41,4 +41,3 @@ Optional commit body, providing additional information about the changes made. I
 - Commit messages should be written in English to ensure consistency for all contributors.
 
 By following this commit convention, we can have a clear and informative history, making it easier to understand the changes made in the project.
-
