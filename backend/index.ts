@@ -9,6 +9,7 @@ const PORT = process.env.PORT;
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
 
+
 app.post("/login", userController.login);
 
 app.get("/", (request: Request, response: Response) => {
