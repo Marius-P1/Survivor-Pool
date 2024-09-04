@@ -5,13 +5,16 @@ import Button from "primevue/button"
 import InputText from 'primevue/inputtext';
 import Menubar from 'primevue/menubar';
 
-import 'primevue/resources/themes/md-dark-indigo/theme.css'       // theme
-import 'primevue/resources/primevue.min.css'                    // core css
-import 'primeicons/primeicons.css'                              // icons
+// Import css
+import './assets/main.css'
+
+// Import router
+import router from './router'
 
 
 const app = createApp(App);
 app.use(PrimeVue);
+app.use(router);
 app.component('PrimeMenubar', Menubar);
 app.component('PrimeButton', Button);
 app.component('InputText', InputText);
