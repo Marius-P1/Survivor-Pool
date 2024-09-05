@@ -9,6 +9,7 @@ const PORT = process.env.PORT;
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
 const fetchController = require("./fetch/fetch");
+const customerController = require("./controllers/customers/customers");
 
 
 app.post("/login", userController.login);
@@ -17,6 +18,10 @@ app.get("/", (request: Request, response: Response) => {
 	response.status(200).send("Hello World");
 });
 
+app.get("/customers", customerController.getCustomers);
+app.get("/customers/:id", customerController.getCustomer);
+app.get("/customers/:id/image", customerController.getCustomerImage);
+app.get("/customers/:id/clothes", customerController.getCustomerClothes);
 
 // Example of a protected route (You can only access this route if you have a valid token)
 // The authMiddleware function checks if the token is valid
