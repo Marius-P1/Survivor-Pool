@@ -7,6 +7,8 @@ import Menubar from 'primevue/menubar';
 import Ripple from "primevue/ripple";
 import StyleClass from 'primevue/styleclass';
 import Image from 'primevue/image';
+import Dropdown from 'primevue/dropdown';
+import PrimePassword from 'primevue/password';
 
 // Import css
 import './assets/main.css'
