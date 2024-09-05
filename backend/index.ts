@@ -4,11 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
+import apiFetchRouter from './controllers/apiFetch';
 const userController = require("./controllers/user");
 
 app.post("/login", userController.login);
+app.use('/tests', apiFetchRouter);
 
 app.get("/", (request: Request, response: Response) => {
 	response.status(200).send("Hello World");
