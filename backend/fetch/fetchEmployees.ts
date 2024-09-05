@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 /* ------- API INFO ------- */
-const url = process.env.APIURL;
+const url = process.env.API_URL;
 const api_key = process.env.TEAMTOKEN;
 const autorization_token = 'Bearer ' + process.env.TOKENPERSO;
 /* ------- API INFO ------- */
@@ -45,7 +45,7 @@ async function requestEmployees() {
             });
         });
 
-        //console.log('API Response:', response.body); // Log the response body
+        console.log('API Response:', response.body); // Log the response body
 
         let hasToBeUpdated = false;
         const apiEmployees: Employee[] = JSON.parse(response.body);
@@ -65,12 +65,7 @@ async function requestEmployees() {
                             }
                         }, (error: any, response: any, body: any) => {
                             if (error) return reject(error);
-                            try {
-                                apiEmployees[index] = JSON.parse(body);
-                            } catch (e) {
-                                console.error('Failed to parse JSON:', body);
-                                return reject(e);
-                            }
+                            apiEmployees[index] = JSON.parse(body);
                             resolve();
                         });
                     }),
