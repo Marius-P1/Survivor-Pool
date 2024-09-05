@@ -6,14 +6,12 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-import apiFetchRouter from './controllers/apiFetch';
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
 const fetchController = require("./fetch/fetch");
 
 
 app.post("/login", userController.login);
-app.use('/tests', apiFetchRouter);
 
 app.get("/", (request: Request, response: Response) => {
 	response.status(200).send("Hello World");
