@@ -9,7 +9,9 @@ const PORT = process.env.PORT;
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
 const fetchController = require("./fetch/fetch");
+const cors = require('cors');
 
+app.use(cors());
 
 app.post("/login", userController.login);
 
