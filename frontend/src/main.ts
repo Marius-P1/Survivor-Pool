@@ -33,5 +33,6 @@ app.component('AppSidebar', AppSidebar);
 app.component('PrimeMenubar', Menubar);
 app.component('PrimeButton', Button);
 app.component('InputText', InputText);
+app.component('PrimePassword', PrimePassword);
 
 app.mount('#app')
