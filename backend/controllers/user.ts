@@ -35,7 +35,7 @@ async function getEmployeeAPI(email: string, password: string) : Promise<string 
 
 	try {
 		const respons = await requestPromise({
-			url: 'https://soul-connection.fr/api/employees/login',
+			url: process.env.API_URL + '/employees/login',
 			method: 'POST',
 			headers: {
 				'accept': 'application/json',
