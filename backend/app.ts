@@ -5,9 +5,9 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import indexRouter from './routes';
-import usersRouter from './routes/users';
-import apiFetchRouter from './routes/apiFetch';
+//import indexRouter from './routes';
+//import usersRouter from './routes/users';
+import apiFetchRouter from './controllers/apiFetch';
 import {AddressInfo} from "net";
 
 const app = express();
@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/', indexRouter);
+//app.use('/users', usersRouter);
 app.use('/tests', apiFetchRouter);
 
 // catch 404 and forward to error handler
