@@ -1,48 +1,49 @@
 <template>
-  <div class="flex flex-column p-4">
+  <div class="zodiac-parent">
     <h2>Zodiac Compatibility Checker</h2>
+    <!-- Circular customers Images -->
 
-    <!-- Circular Zodiac Images -->
-    <div class="flex mb-3 zodiacs-block">
-      <div class="mx-1">
-        <img
-            v-if="selectedSign1"
-            :src="getZodiacImage(selectedSign1)"
-            class="zodiac-image"
-            alt="Sign 1"
-        />
-      </div>
-      <div class="mx-1">
-        <img
-            v-if="selectedSign2"
-            :src="getZodiacImage(selectedSign2)"
-            class="zodiac-image"
-            alt="Sign 2"
-        />
-      </div>
-    </div>
 
     <!-- PrimeDropdowns for Selecting Zodiac Signs -->
-    <div class="flex flex-column">
-      <PrimeDropdown
-          v-model="selectedSign1"
-          :options="zodiacSigns"
-          optionLabel="name"
-          placeholder="Select Zodiac 1"
-          class="p-mb-3"
-      />
-      <PrimeDropdown
-          v-model="selectedSign2"
-          :options="zodiacSigns"
-          optionLabel="name"
-          placeholder="Select Zodiac 2"
-      />
+    <div class="flex flex-row gap-8">
+      <div class="flex flex-column">
+        <div class="mx-1">
+          <img
+              :src="getZodiacImage(selectedSign1)"
+              class="zodiac-image"
+              alt="Sign 1"
+          />
+        </div>
+        <PrimeDropdown
+            v-model="selectedSign1"
+            :options="zodiacSigns"
+            optionLabel="name"
+            placeholder="Select Zodiac 1"
+            class=""
+        />
+      </div>
+      <div class="flex flex-column">
+        <div class="">
+          <img
+              :src="getZodiacImage(selectedSign2)"
+              class="zodiac-image"
+              alt="Sign 2"
+          />
+        </div>
+        <PrimeDropdown
+            v-model="selectedSign2"
+            :options="zodiacSigns"
+            optionLabel="name"
+            placeholder="Select Zodiac 2"
+        />
+      </div>
     </div>
 
     <!-- Compatibility Percentage -->
     <div v-if="selectedSign1 && selectedSign2" class="mt-4">
       <h3>Compatibility: {{ compatibilityPercentage }}%</h3>
     </div>
+
   </div>
 </template>
 
@@ -79,8 +80,11 @@ export default {
   },
   methods: {
     getZodiacImage(sign) {
+      if (!sign) {
+        return require('../assets/default_customer.jpg');
+      }
       const zodiac = this.zodiacSigns.find(zodiac => zodiac.name === sign.name);
-      return zodiac ? zodiac.image : 'path/to/default/image.jpg';
+      return zodiac ? zodiac.image : require('../assets/default_customer.jpg');
     },
     calculateCompatibility() {
       if (this.selectedSign1 && this.selectedSign2) {
@@ -91,21 +95,9 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped>
-.zodiac-image {
-  width: 20vw;
-  height: 20vw;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #000;
-}
-
-.zodiacs-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+  @import "../assets/css/Astrological.css";
 </style>
