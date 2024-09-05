@@ -2,8 +2,11 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 import dashboard from "@/pages/master/AppDashboard.vue";
 import home from "@/pages/AppHome.vue";
-import login from "@/pages/master/LoginPage.vue";
+import login from "@/pages/master/AppLogin.vue";
 import profile from "@/pages/AppProfile.vue";
+import astrological from "@/pages/AppAstrological.vue";
+import wardrobe from "@/pages/AppWardrobe.vue";
+
 
 const routes = [
     {
@@ -26,6 +29,16 @@ const routes = [
         path: '/profile',
         component: profile
     },
+    {
+        name: 'Astrological',
+        path: '/astrological',
+        component: astrological
+    },
+    {
+        name: 'Wardrobe',
+        path: '/wardrobe',
+        component: wardrobe
+    }
 ];
 
 const router = Router();
