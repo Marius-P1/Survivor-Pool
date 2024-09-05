@@ -52,8 +52,8 @@ export default defineComponent({
         <PrimePassword v-model="userpassword" :feedback="false" />
         <label>Password</label>
       </span>
-      <PrimeButton class="mb-4 w-1" label="Login" @click="Login" icon="pi pi-user" />
-      <PrimeButton class="w-1" label="Sign out" severity="danger" @click="SignOut" icon="pi pi-times" />
+      <PrimeButton class="mb-4 flex-grow-1" label="Login" @click="Login" icon="pi pi-user" />
+      <PrimeButton class="" label="Sign out" severity="danger" @click="SignOut" icon="pi pi-times" />
     </div>
   </div>
 </template>
