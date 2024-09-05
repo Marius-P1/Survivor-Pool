@@ -34,7 +34,7 @@ async function getDetailsEvents(id: number, token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/events/' + id,
+            url: process.env.API_URL + '/events/' + id,
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -74,7 +74,7 @@ module.exports = async function fetchEvents(token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/events',
+            url: process.env.API_URL + '/events',
             method: 'GET',
             headers: {
                 'accept': 'application/json',

@@ -30,7 +30,7 @@ async function getDetailsEncounter(id: number, token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/encounters/' + id,
+            url: process.env.API_URL + '/encounters/' + id,
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -70,7 +70,7 @@ module.exports = async function fetchEncounters(token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/encounters',
+            url: process.env.API_URL + '/encounters',
             method: 'GET',
             headers: {
                 'accept': 'application/json',

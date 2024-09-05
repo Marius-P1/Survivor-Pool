@@ -43,7 +43,7 @@ async function fetchPayments(token: string, customerId: number) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/customers/' + customerId + '/payments_history',
+            url: process.env.API_URL + '/customers/' + customerId + '/payments_history',
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -88,7 +88,7 @@ async function getCustomersClothesIds(token: string, customerId: number) : Promi
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/customers/' + customerId + '/clothes',
+            url: process.env.API_URL + '/customers/' + customerId + '/clothes',
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -122,7 +122,7 @@ async function fetchCustomersImage(token: string, customerId: number) : Promise<
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/customers/' + customerId + '/image',
+            url: process.env.API_URL + '/customers/' + customerId + '/image',
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -213,7 +213,7 @@ async function getDetailsCustomer(token: string, customerId: number) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/customers/' + customerId,
+            url: process.env.API_URL + '/customers/' + customerId,
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -241,7 +241,7 @@ module.exports = async function fetchCustomers(token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/customers',
+            url: process.env.API_URL + '/customers',
             method: 'GET',
             headers: {
                 'accept': 'application/json',

@@ -39,7 +39,7 @@ module.exports = async function fetchTips(token: string) {
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/tips',
+            url: process.env.API_URL + '/tips',
             method: 'GET',
             headers: {
                 'accept': 'application/json',

@@ -46,7 +46,7 @@ module.exports = async function fetchClothes(token: string, id: number, recursiv
 
     try {
         const respons = await requestPromise({
-            url: 'https://soul-connection.fr/api/clothes/' + id + '/image',
+            url: process.env.API_URL + '/clothes/' + id + '/image',
             method: 'GET',
             headers: {
                 'accept': 'application/json',
