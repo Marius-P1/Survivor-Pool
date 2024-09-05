@@ -1,40 +1,31 @@
-// @ts-ignore
+import { PrismaClient, Role } from '@prisma/client';
+const prisma = new PrismaClient();
 import express from 'express';
 // @ts-ignore
-import path from 'path';
-import * as fs from 'fs';
-// @ts-ignore
 import request from 'request';
-
 const app = express();
+import dotenv from "dotenv";
 
-/* ------- JSON FILE ------- */
-const employeesJsonFilePath = path.join(__dirname, '../json/employees.json');
-const costumersJsonFilePath = path.join(__dirname, '../json/client.json');
-
-function readJsonFileSync(filepath: string, encoding: BufferEncoding = 'utf8'): any {
-    const file = fs.readFileSync(filepath, encoding);
-    return JSON.parse(file);
-}
-/* ------- JSON FILE ------- */
+dotenv.config();
 
 /* ------- API INFO ------- */
-const url = 'https://soul-connection.fr/api';
-const api_key = 'f6f0e17dd019269fb27bf4e21a823fb8';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFubmUubWFydGluQHNvdWwtY29ubmVjdGlvbi5mciIsIm5hbWUiOiJKZWFubmUiLCJzdXJuYW1lIjoiTWFydGluIiwiZXhwIjoxNzI3MTgyNDcyfQ.gZwOFHOxITY7B_6vsrJgIUTI0PN6Nxj2m6jARkGFRK0';
-const autorization_token = 'Bearer ' + token;
-const email = "jeanne.martin@soul-connection.fr";
-const password = "naouLeA82oeirn";
+const url = process.env.APIURL;
+const api_key = process.env.TEAMTOKEN;
+const autorization_token = 'Bearer ' + process.env.TOKENPERSO;
 /* ------- API INFO ------- */
 
 interface Employee {
     id: number;
+    createdAt: Date;
+    updatedAt: Date;
     email: string;
-    name: string;
-    surname: string;
-    birth_date?: string;
-    gender?: string;
-    work?: string;
+    name: string | null;
+    surname: string | null;
+    birthdate?: string | null;
+    gender?: string | null;
+    work?: string | null;
+    image?: string | null;
+    role?: Role | null;
 }
 
 async function requestEmployees() {
@@ -54,53 +45,67 @@ async function requestEmployees() {
             });
         });
 
+        //console.log('API Response:', response.body); // Log the response body
+
         let hasToBeUpdated = false;
         const apiEmployees: Employee[] = JSON.parse(response.body);
-        const localData = readJsonFileSync(employeesJsonFilePath);
-        const localEmployees: Employee[] = localData.employees || [];
+        const localEmployees: Employee[] = await prisma.employee.findMany();
 
-        const promises = apiEmployees.map((apiEmployee, index) => {
+        const promises = Array.isArray(apiEmployees) ? apiEmployees.map((apiEmployee, index) => {
             return new Promise<void>((resolve, reject) => {
-                request({
-                    url: url + '/employees/' + apiEmployee.id,
-                    method: 'GET',
-                    headers: {
-                        'accept': 'application/json',
-                        'X-Group-Authorization': api_key,
-                        'Authorization': autorization_token
-                    }
-                }, (error: any, response: any, body: any) => {
-                    if (error) return reject(error);
-                    apiEmployees[index] = JSON.parse(body);
-                    resolve();
-                });
-                request({
-                    url: url + '/employees/' + apiEmployee.id + '/image',
-                    method: 'GET',
-                    headers: {
-                        'accept': 'application/json',
-                        'X-Group-Authorization': api_key,
-                        'Authorization': autorization_token
-                    }
-                }, (error: any, response: any, body: any) => {
-                    if (error) return reject(error);
-                    //console.log('Image:', body);
-                });
+                Promise.all([
+                    new Promise<void>((resolve, reject) => {
+                        request({
+                            url: url + '/employees/' + apiEmployee.id,
+                            method: 'GET',
+                            headers: {
+                                'accept': 'application/json',
+                                'X-Group-Authorization': api_key,
+                                'Authorization': autorization_token
+                            }
+                        }, (error: any, response: any, body: any) => {
+                            if (error) return reject(error);
+                            try {
+                                apiEmployees[index] = JSON.parse(body);
+                            } catch (e) {
+                                console.error('Failed to parse JSON:', body);
+                                return reject(e);
+                            }
+                            resolve();
+                        });
+                    }),
+                    new Promise<void>((resolve, reject) => {
+                        request({
+                            url: url + '/employees/' + apiEmployee.id + '/image',
+                            method: 'GET',
+                            headers: {
+                                'accept': 'application/json',
+                                'X-Group-Authorization': api_key,
+                                'Authorization': autorization_token
+                            }
+                        }, (error: any, response: any, body: any) => {
+                            if (error) return reject(error);
+                            apiEmployees[index].image = body; // Assuming body contains the image data
+                            resolve();
+                        });
+                    })
+                ]).then(() => resolve()).catch(reject);
             });
-        });
+        }) : [];
 
         await Promise.all(promises);
 
         for (let i = 0; i < localEmployees.length; i++) {
             const user = localEmployees[i];
-            if (!user.hasOwnProperty('birth_date')) user.birth_date = 'undefined';
+            if (!user.hasOwnProperty('birthdate')) user.birthdate = 'undefined';
             if (!user.hasOwnProperty('gender')) user.gender = 'undefined';
             if (!user.hasOwnProperty('work')) user.work = 'undefined';
+            if (!user.hasOwnProperty('image')) user.image = 'undefined';
 
             for (let j = 0; j < apiEmployees.length; j++) {
                 const apiUser = apiEmployees[j];
                 if (user.id === apiUser.id) {
-                    const fields: (keyof Employee)[] = ['birth_date', 'gender', 'work', 'name', 'surname', 'email'] as (keyof Employee)[];
+                    const fields: (keyof Employee)[] = ['birthdate', 'gender', 'work', 'name', 'surname', 'email', 'image'] as (keyof Employee)[];
                     // @ts-ignore
                     fields.forEach(field => {
                         if (user[field] !== apiUser[field]) {
@@ -113,17 +118,21 @@ async function requestEmployees() {
             }
         }
 
-        const newUsers = (localEmployees === undefined) ? apiEmployees : apiEmployees.filter(apiUser =>
+        const newUsers = Array.isArray(apiEmployees) ? (localEmployees === undefined ? apiEmployees : apiEmployees.filter(apiUser =>
             !localEmployees.some(localUser => localUser.email === apiUser.email)
-        );
+        )) : [];
 
         if (newUsers.length > 0) {
-            localEmployees.push(...newUsers);
-            fs.writeFileSync(employeesJsonFilePath, JSON.stringify({ employees: localEmployees }, null, 2), 'utf8');
+            await prisma.employee.createMany({ data: newUsers.map(user => ({ ...user, role: user.role as Role })) });
             console.log('New employees added.');
         } else {
             if (hasToBeUpdated) {
-                fs.writeFileSync(employeesJsonFilePath, JSON.stringify({ employees: localEmployees }, null, 2), 'utf8');
+                for (const user of localEmployees) {
+                    await prisma.employee.update({
+                        where: { id: user.id },
+                        data: { ...user, role: user.role as Role }
+                    });
+                }
                 console.log('Users updated.');
             } else {
                 console.log('No new users to add.');
@@ -132,46 +141,11 @@ async function requestEmployees() {
     } catch (error) {
         console.error('Error updating API users:', error);
     }
+    console.log('Request done');
+    const employees = await prisma.employee.findMany();
+    console.log('Now the employees are:', JSON.stringify(employees, null, 2));
 }
 
 setInterval(requestEmployees, 10000);
-
-async function requestCustomers() {
-    try {
-        const response = await new Promise<{ body: string }>((resolve, reject) => {
-            request({
-                url: url + '/customers',
-                method: 'GET',
-                headers: {
-                    'accept': 'application/json',
-                    'X-Group-Authorization': api_key,
-                    'Authorization': autorization_token
-                }
-            }, (error: any, response: any, body: any) => {
-                if (error) return reject(error);
-                resolve({ body });
-            });
-        });
-
-        const apiUsers = JSON.parse(response.body);
-        const localUsers = readJsonFileSync(costumersJsonFilePath).client;
-
-        const newUsers = (localUsers === undefined) ? apiUsers : apiUsers.filter((apiUser: any) =>
-            !localUsers.some((localUser: any) => localUser.email === apiUser.email)
-        );
-
-        if (newUsers.length > 0) {
-            localUsers.push(...newUsers);
-            fs.writeFileSync(costumersJsonFilePath, JSON.stringify({ users: localUsers }, null, 2), 'utf8');
-            console.log('New users added.');
-        } else {
-            console.log('No new users to add.');
-        }
-    } catch (error) {
-        console.error('Error updating customers:', error);
-    }
-}
-
-//setInterval(requestCustomers, 5000);
 
 export default app;
