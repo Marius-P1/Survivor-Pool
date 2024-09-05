@@ -8,6 +8,7 @@ const PORT = process.env.PORT;
 
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
+const fetchController = require("./fetch/fetch");
 
 
 app.post("/login", userController.login);
@@ -28,3 +29,8 @@ app.listen(PORT, () => {
 }).on("error", (error) => {
 	throw new Error(error.message);
 });
+
+// Fetch data from API on server start
+fetchController();
+// And then fetch data from API every X minutes (set in a .env file)
+setInterval(fetchController, parseInt(process.env.FETCH_INTERVAL as string) * 60000);
