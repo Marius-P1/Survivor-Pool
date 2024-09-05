@@ -28,6 +28,7 @@ app.use(router);
 app.directive('ripple', Ripple);
 app.directive('styleclass', StyleClass);
 
+app.component('PrimeDropdown', Dropdown);
 app.component('PrimeImage', Image);
 app.component('AppSidebar', AppSidebar);
 app.component('PrimeMenubar', Menubar);
