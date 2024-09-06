@@ -3,6 +3,7 @@ import { promisify } from 'util';
 import dotenv from "dotenv";
 
 const request = require('request')
+const fetch = require('node-fetch');
 const prisma = new PrismaClient()
 
 dotenv.config();
@@ -118,27 +119,23 @@ async function getCustomersClothesIds(token: string, customerId: number) : Promi
 }
 
 async function fetchCustomersImage(token: string, customerId: number) : Promise<string | null> {
-    const requestPromise = promisify(request);
-
     try {
-        const respons = await requestPromise({
-            url: process.env.API_URL + '/customers/' + customerId + '/image',
+        const avatar = await fetch(process.env.API_URL + '/customers/' + customerId + '/image', {
             method: 'GET',
             headers: {
-                'accept': 'application/json',
+                'accept': 'image/png',
                 'Authorization': 'Bearer ' + token,
-                'X-Group-Authorization': TEAMTOKEN
+                'X-Group-Authorization': TEAMTOKEN!
             }
         });
-
-        if (respons.statusCode !== 200) {
+        if (!avatar.ok) {
             console.log("Error: Could not fetch data from customer image id: ", customerId);
-            console.log("Status code: ", respons.statusCode);
-            console.log("Body: ", respons.body);
+            console.log("Status code: ", avatar.status);
+            console.log("Body: ", await avatar.text());
             return null;
         }
-        const customerImage = respons.body;
-        const customerImageStr = Buffer.from(customerImage).toString('base64');
+        const customerImage = await avatar.buffer();
+        const customerImageStr = customerImage.toString('base64');
         return customerImageStr;
     }
     catch (error) {
@@ -228,7 +225,6 @@ async function getDetailsCustomer(token: string, customerId: number) {
         }
         const customer = JSON.parse(respons.body);
         await createCustomers(customer.id, customer.email, customer.name, customer.surname, customer.birth_date, customer.gender, customer.description, customer.astrological_sign, customer.phone_number, customer.address, customerImage, clothesIds);
-        console.log("Customer: ", customer.id);
         return;
     }
     catch (error) {
