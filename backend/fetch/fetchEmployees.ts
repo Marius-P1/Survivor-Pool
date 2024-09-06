@@ -12,6 +12,13 @@ const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
 const authorization_token = 'Bearer ' + process.env.TOKENPERSO;
 
+enum Role {
+    CLIENT,
+    COACH,
+    MANAGER,
+    OTHER
+}
+
 async function checkIfEmployeeIdExists(id: number) {
     const employee = await prisma.employee.findUnique({
         where: { id: id }
@@ -32,7 +39,7 @@ async function createEmployee(id: number, email: string, name: string | null, su
             work: work,
             image: image,
             // @ts-ignore
-            role: role
+            role: (work === "coach") ? Role.COACH : Role.MANAGER
         }
     });
 }
