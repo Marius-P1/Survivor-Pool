@@ -10,7 +10,6 @@ dotenv.config();
 const app = express();
 const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
-const authorization_token = 'Bearer ' + process.env.TOKENPERSO;
 
 enum Role {
     CLIENT,
@@ -27,7 +26,7 @@ async function checkIfEmployeeIdExists(id: number) {
 }
 
 async function createEmployee(id: number, email: string, name: string | null, surname: string | null,
-    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null) {
+    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null, constumerIdsList: number[]) {
     await prisma.employee.create({
         data: {
             id: id,
@@ -39,7 +38,8 @@ async function createEmployee(id: number, email: string, name: string | null, su
             work: work,
             image: image,
             // @ts-ignore
-            role: (work === "coach") ? Role.COACH : Role.MANAGER
+            role: (work === "coach") ? Role.COACH : Role.MANAGER,
+            constumerIds: constumerIdsList
         }
     });
 }
@@ -64,7 +64,7 @@ async function fetchEmployeeDetails(token: string, employeeId: number) {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
@@ -88,7 +88,7 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
@@ -107,13 +107,14 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
 async function getEmployeeDetails(token: string, employeeId: number) {
     const employee = await fetchEmployeeDetails(token, employeeId);
     const employeeImage = await fetchEmployeeImage(token, employeeId);
+    const constumerIdsList: number[] = [];
 
     if (employee === null) return;
     if (await checkIfEmployeeIdExists(employeeId)) {
         await updateEmployeeImageIfNull(employeeId, employeeImage);
     } else {
         await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birthdate,
-            employee.gender, employee.work, employeeImage, employee.role);
+            employee.gender, employee.work, employeeImage, employee.role, constumerIdsList);
     }
 }
 
@@ -127,7 +128,7 @@ module.exports = async function fetchEmployees(token: string) {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
