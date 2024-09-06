@@ -3,13 +3,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
 const PORT = process.env.PORT;
 
 const userController = require("./controllers/user");
 const authMiddleware = require("./middleware/auth");
 const fetchController = require("./fetch/fetch");
-const customerController = require("./controllers/customers/customers");
+const customerController = require("./controllers/customers");
 
 
 app.post("/login", userController.login);
