@@ -17,6 +17,7 @@ const fetchTips = require("./fetchTips");
 const fetchEncounters = require("./fetchEncounters");
 const fetchEvents = require("./fetchEvents");
 const fetchCustomers = require("./fetchCustomers");
+const fetchEmployees = require("./fetchEmployees");
 
 async function getEmployeeAPI(email: string, password: string) : Promise<string | null> {
 	const requestPromise = promisify(request);
@@ -60,5 +61,6 @@ module.exports = async () => {
     await fetchEncounters(token);
     await fetchEvents(token);
     await fetchCustomers(token);
+	await fetchEmployees(token);
     console.log("Data fetched from API");
 }
