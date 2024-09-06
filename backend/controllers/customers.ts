@@ -64,7 +64,7 @@ exports.getCustomerImage = async function (request: Request, response: Response)
 		return;
 	}
 	const image = Buffer.from(customer.image, 'base64');
-	response.status(200).send(image);
+	response.status(200).type('image/png').send(image);
 }
 
 exports.getCustomerClothes = async function (request: Request, response: Response) {
