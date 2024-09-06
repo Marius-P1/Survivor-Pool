@@ -10,7 +10,6 @@ dotenv.config();
 const app = express();
 const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
-const authorization_token = 'Bearer ' + process.env.TOKENPERSO;
 
 enum Role {
     CLIENT,
@@ -65,7 +64,7 @@ async function fetchEmployeeDetails(token: string, employeeId: number) {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
@@ -89,7 +88,7 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
@@ -105,39 +104,10 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
     }
 }
 
-async function fetchCoachConstumerIds(token: string, employeeId: number): Promise<number[]> {
-    const requestPromise = promisify(request);
-    try {
-        const response = await requestPromise({
-            url: `${API_URL}/employees/${employeeId}/customers`,
-            method: 'GET',
-            headers: {
-                'accept': 'application/json',
-                'Authorization': authorization_token,
-                'X-Group-Authorization': TEAMTOKEN
-            }
-        });
-
-        if (response.statusCode !== 200) {
-            console.log("Error: Could not fetch customers for coach id: ", employeeId);
-            return [];
-        }
-        const customers = JSON.parse(response.body);
-        let customerIds = [];
-        for (let i = 0; i < customers.length; i++) {
-            customerIds.push(customers[i].id);
-        }
-        return customerIds;
-    } catch (error) {
-        console.log("Error: ", error);
-        return [];
-    }
-}
-
 async function getEmployeeDetails(token: string, employeeId: number) {
     const employee = await fetchEmployeeDetails(token, employeeId);
     const employeeImage = await fetchEmployeeImage(token, employeeId);
-    const constumerIdsList: number[] = []; //await fetchCoachConstumerIds(token, employeeId);
+    const constumerIdsList: number[] = [];
 
     if (employee === null) return;
     if (await checkIfEmployeeIdExists(employeeId)) {
@@ -158,7 +128,7 @@ module.exports = async function fetchEmployees(token: string) {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
-                'Authorization': authorization_token,
+                'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
