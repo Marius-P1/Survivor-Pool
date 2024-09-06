@@ -5,6 +5,25 @@ import Dropdown from 'primevue/dropdown';
 import { ref, onMounted } from "vue";
 import { ProductService } from './service/ProductService.js';
 
+onMounted(() => {
+  ProductService.getProductsSmall().then((data) => (products.value = data.slice(0, 9)));
+})
+
+const selectedCountry = ref();
+const countries = ref([
+  { name: 'Australia', code: 'AU' },
+  { name: 'Brazil', code: 'BR' },
+  { name: 'China', code: 'CN' },
+  { name: 'Egypt', code: 'EG' },
+  { name: 'France', code: 'FR' },
+  { name: 'Germany', code: 'DE' },
+  { name: 'India', code: 'IN' },
+  { name: 'Japan', code: 'JP' },
+  { name: 'Spain', code: 'ES' },
+  { name: 'United States', code: 'US' }
+]);
+
+const products = ref();
 const responsiveOptions = ref([
   {
     breakpoint: '1400px',
