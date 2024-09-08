@@ -63,8 +63,7 @@ exports.getCustomerImage = async function (request: Request, response: Response)
 		response.status(404).send("Image not found");
 		return;
 	}
-	const image = Buffer.from(customer.image, 'base64');
-	response.status(200).type('image/png').send(image);
+	response.status(200).type('image/png').send(customer.image);
 }
 
 exports.getCustomerClothes = async function (request: Request, response: Response) {
@@ -86,4 +85,32 @@ exports.getCustomerClothes = async function (request: Request, response: Respons
 		}
 	});
 	response.status(200).send(clothes);
+}
+
+exports.getCustomerEncounters = async function (request: Request, response: Response) {
+	const id = parseInt(request.params.id);
+	if (isNaN(id)) {
+		response.status(400).send("Invalid ID");
+		return;
+	}
+	const meetings = await prisma.enconters.findMany({
+		where: {
+			customer_id: id
+		}
+	});
+	response.status(200).send(meetings);
+}
+
+exports.getCustomerPayments = async function (request: Request, response: Response) {
+	const id = parseInt(request.params.id);
+	if (isNaN(id)) {
+		response.status(400).send("Invalid ID");
+		return;
+	}
+	const payments = await prisma.payments.findMany({
+		where: {
+			customer_id: id
+		}
+	});
+	response.status(200).send(payments);
 }
