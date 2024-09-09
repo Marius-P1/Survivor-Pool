@@ -130,7 +130,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
     height: 100%;
   }
 
-  .container2 {
+  .container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -162,7 +162,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
       </template>
     </Dropdown>
   </div>
-  <div v-if="selectedCustomer" class="container2">
+  <div v-if="selectedCustomer" class="container">
     <div class="card-carousel">
       <Carousel :value="customerClothes.hat" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
