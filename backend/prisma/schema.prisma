@@ -46,7 +46,8 @@ model Employee {
   work      String?
   image     String?
   role      Role     @default(OTHER)
-  constumerIds Int[]
+  customerIds Int[]
+  lastLogin DateTime @default(now())
 }
 
 model Tips {
