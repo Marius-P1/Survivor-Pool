@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
             name: employee.name,
             surname: employee.surname,
             birthdate: employee.birthdate,
-            gender: employee.gender,
+            lastLogin: employee.lastLogin,
             work: employee.work
         }
     });
@@ -42,8 +42,8 @@ router.get('/:id', async (req, res) => {
         name: employee.name,
         surname: employee.surname,
         birthdate: employee.birthdate,
-        work: employee.work,
-        lastLogin: employee.lastLogin
+        gender: employee.gender,
+        work: employee.work
     }
     res.send(employeeWithoutImage);
 });
