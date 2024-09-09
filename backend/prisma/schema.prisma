@@ -47,6 +47,7 @@ model Employee {
   image     String?
   role      Role     @default(OTHER)
   constumerIds Int[]
+  lastLogin DateTime @default(now())
 }
 
 model Tips {
