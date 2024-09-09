@@ -34,6 +34,9 @@ async function getEmployeeAPI(email: string, password: string) : Promise<string 
 		});
 
 		if (respons.statusCode !== 200) {
+			console.log("Error: Could not get token from API");
+			console.log("Status code: ", respons.statusCode);
+			console.log("Body: ", respons.body);
 			return null;
 		}
 		const tokenAPI = JSON.parse(respons.body)["access_token"];

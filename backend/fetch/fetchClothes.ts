@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { promisify } from 'util';
 import dotenv from "dotenv";
 
+const fetch = require('node-fetch');
 const request = require('request')
 const prisma = new PrismaClient()
 
@@ -42,25 +42,23 @@ module.exports = async function fetchClothes(token: string, id: number, recursiv
         return;
     }
 
-    const requestPromise = promisify(request);
-
     try {
-        const respons = await requestPromise({
-            url: process.env.API_URL + '/clothes/' + id + '/image',
+        const avatar = await fetch(process.env.API_URL + '/clothes/' + id + '/image', {
             method: 'GET',
             headers: {
-                'accept': 'application/json',
+                'accept': 'image/png',
                 'Authorization': 'Bearer ' + token,
-                'X-Group-Authorization': TEAMTOKEN
+                'X-Group-Authorization': TEAMTOKEN!
             }
         });
-
-        if (respons.statusCode !== 200) {
+        if (!avatar.ok) {
             console.log("Error: Could not fetch data from clothes id: ", id);
+            console.log("Status code: ", avatar.status);
+            console.log("Body: ", await avatar.text());
             return;
         }
-        const clothesImage = respons.body;
-        const clothesImageStr = Buffer.from(clothesImage).toString('base64');
+        const clothesImage = await avatar.buffer();
+        const clothesImageStr = clothesImage.toString('base64');
         await createClothes(id, clothesImageStr);
         if (recursive) {
             await fetchClothes(token, id + 1, recursive);
