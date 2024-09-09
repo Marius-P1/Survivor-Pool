@@ -27,7 +27,7 @@ async function checkIfEmployeeIdExists(id: number) {
 }
 
 async function createEmployee(id: number, email: string, name: string | null, surname: string | null,
-    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null, constumerIdsList: number[]) {
+    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null, customerIdsList: number[]) {
     await prisma.employee.create({
         data: {
             id: id,
@@ -40,7 +40,7 @@ async function createEmployee(id: number, email: string, name: string | null, su
             image: image,
             // @ts-ignore
             role: (work === "coach") ? Role.COACH : Role.MANAGER,
-            constumerIds: constumerIdsList
+            customerIds: customerIdsList
         }
     });
 }
@@ -106,14 +106,14 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
 async function getEmployeeDetails(token: string, employeeId: number) {
     const employee = await fetchEmployeeDetails(token, employeeId);
     const employeeImage = await fetchEmployeeImage(token, employeeId);
-    const constumerIdsList: number[] = [];
+    const customerIdsList: number[] = [];
 
     if (employee === null) return;
     if (await checkIfEmployeeIdExists(employeeId)) {
         await updateEmployeeImageIfNull(employeeId, employeeImage);
     } else {
         await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birthdate,
-            employee.gender, employee.work, employeeImage, employee.role, constumerIdsList);
+            employee.gender, employee.work, employeeImage, employee.role, customerIdsList);
     }
 }
 
