@@ -5,16 +5,16 @@ import Dropdown from 'primevue/dropdown';
 import { ref, onMounted } from "vue";
 import { ProductService } from './service/ProductService.js';
 
-onMounted(() => {
+const selectedCustomer = ref();
   ProductService.getProductsSmall().then((data) => (products.value = data.slice(0, 9)));
-})
+const customers = ref([]);
+const customerClothes = ref({
+  hat: [],
+  top: [],
+  bottom: [],
+  shoes: [],
+});
 
-const selectedCountry = ref();
-const countries = ref([
-  { name: 'Australia', code: 'AU' },
-  { name: 'Brazil', code: 'BR' },
-  { name: 'China', code: 'CN' },
-  { name: 'Egypt', code: 'EG' },
   { name: 'France', code: 'FR' },
   { name: 'Germany', code: 'DE' },
   { name: 'India', code: 'IN' },
@@ -103,7 +103,7 @@ const responsiveOptions = ref([
 
 <template>
   <div class="card flex justify-content-center">
-    <Dropdown v-model="selectedCountry" :options="countries" optionLabel="name" placeholder="Select a Alban" class="w-full md:w-14rem">
+    <Dropdown v-model="selectedCustomer" :options="customers" optionLabel="fullName" placeholder="Select a Customer" class="w-full md:w-14rem">
       <template #value="slotProps">
         <div v-if="slotProps.value" class="flex align-items-center">
           <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.code.toLowerCase()}`" style="width: 18px" />
@@ -123,7 +123,7 @@ const responsiveOptions = ref([
   </div>
   <div class="container2">
     <div class="card-carousel">
-      <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" :circular="true" :showIndicators="false" >
+      <Carousel :value="customerClothes.hat" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
@@ -135,6 +135,7 @@ const responsiveOptions = ref([
     </div>
     <div class="card-carousel">
       <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" :circular="true" :showIndicators="false" >
+      <Carousel :value="customerClothes.top" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
@@ -145,7 +146,7 @@ const responsiveOptions = ref([
       </Carousel>
     </div>
     <div class="card-carousel">
-      <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" :circular="true" :showIndicators="false" >
+      <Carousel :value="customerClothes.bottom" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
@@ -156,7 +157,7 @@ const responsiveOptions = ref([
       </Carousel>
     </div>
     <div class="card-carousel">
-      <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" :circular="true" :showIndicators="false" >
+      <Carousel :value="customerClothes.shoes" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
