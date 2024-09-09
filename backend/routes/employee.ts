@@ -42,6 +42,7 @@ router.get('/:id', async (req, res) => {
         name: employee.name,
         surname: employee.surname,
         birthdate: employee.birthdate,
+        lastLogin: employee.lastLogin,
         gender: employee.gender,
         work: employee.work
     }
