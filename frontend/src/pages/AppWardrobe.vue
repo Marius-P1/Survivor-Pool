@@ -66,6 +66,17 @@ const GetCustomerClothes = async () => {
   }
 };
 
+onMounted(async () => {
+  customers.value = await GetCustomers();
+  await GetCustomerClothes();
+})
+
+watch(selectedCustomer, async (newCustomer, oldCustomer) => {
+  console.log(`Customer changed from ${oldCustomer} to ${newCustomer.name} with id ${newCustomer.id}`);
+  await GetCustomerClothes();
+  await GetCustomerImage();
+});
+
 </script>
 
 <style>
