@@ -73,7 +73,7 @@ router.get('/:id/image', async (req, res) => {
     res.status(200).type('image/png').send(employee.image);
 });
 
-router.get('/customersList', async (req, res) => {
+router.get('/customerslist', async (req, res) => {
     const employee = await getEmployeeFromDB(await getIdFromRequest(req));
     if (employee === null) {
         res.status(404).send("Employee not found");
@@ -102,7 +102,7 @@ router.get('/customersList', async (req, res) => {
     res.send(customersDataList);
 });
 
-router.put('customersList/add/:idconst', async (req, res) => {
+router.put('customerslist/add/:idconst', async (req, res) => {
     const employeeId = await getIdFromRequest(req);
     const constId = parseInt(req.params.idconst);
     const employee = await getEmployeeFromDB(employeeId);
@@ -127,7 +127,7 @@ router.put('customersList/add/:idconst', async (req, res) => {
     res.send("Customer added");
 });
 
-router.put('/customersList/remove/:idconst', async (req, res) => {
+router.put('/customerslist/remove/:idconst', async (req, res) => {
     const employeeId = await getIdFromRequest(req);
     const constumerId = parseInt(req.params.idconst);
     const employee = await getEmployeeFromDB(employeeId);
