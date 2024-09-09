@@ -103,7 +103,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
     margin-top: 0;
     padding: 0;
     margin-bottom: 1%;
-    width: 230px;
+    width: 200px;
   }
 
   p {
