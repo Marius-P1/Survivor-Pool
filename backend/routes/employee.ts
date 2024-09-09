@@ -20,6 +20,10 @@ async function custumerIsInDB(constId: number) {
     return customer !== null;
 }
 
+async function getIdFromRequest(req: any) {
+    return 1;
+}
+
 router.get('/', async (req, res) => {
     const employees = await prisma.employee.findMany();
     const employeesWithoutImage = employees.map(employee => {
@@ -69,9 +73,8 @@ router.get('/:id/image', async (req, res) => {
     res.status(200).type('image/png').send(employee.image);
 });
 
-router.get('/:id/customersList', async (req, res) => {
-    const employeeId = req.params.id;
-    const employee = await getEmployeeFromDB(parseInt(employeeId));
+router.get('/customersList', async (req, res) => {
+    const employee = await getEmployeeFromDB(await getIdFromRequest(req));
     if (employee === null) {
         res.status(404).send("Employee not found");
         return;
@@ -99,8 +102,8 @@ router.get('/:id/customersList', async (req, res) => {
     res.send(customersDataList);
 });
 
-router.put('/:id/customersList/add/:idconst', async (req, res) => {
-    const employeeId = parseInt(req.params.id);
+router.put('customersList/add/:idconst', async (req, res) => {
+    const employeeId = await getIdFromRequest(req);
     const constId = parseInt(req.params.idconst);
     const employee = await getEmployeeFromDB(employeeId);
     if (employee === null) {
@@ -124,8 +127,8 @@ router.put('/:id/customersList/add/:idconst', async (req, res) => {
     res.send("Customer added");
 });
 
-router.put('/:id/customersList/remove/:idconst', async (req, res) => {
-    const employeeId = parseInt(req.params.id);
+router.put('/customersList/remove/:idconst', async (req, res) => {
+    const employeeId = await getIdFromRequest(req);
     const constumerId = parseInt(req.params.idconst);
     const employee = await getEmployeeFromDB(employeeId);
     if (employee === null) {
