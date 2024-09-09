@@ -155,7 +155,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
-              <img :src="require(`@/assets/${slotProps.data.image}`)" :alt="slotProps.data.name" class="w-full border-round" />
+              <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
             </div>
           </div>
         </template>
@@ -167,7 +167,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
-              <img :src="require(`@/assets/${slotProps.data.image}`)" :alt="slotProps.data.name" class="w-full border-round" />
+              <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
             </div>
           </div>
         </template>
@@ -178,7 +178,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
-              <img :src="require(`@/assets/${slotProps.data.image}`)" :alt="slotProps.data.name" class="w-full border-round" />
+              <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
             </div>
           </div>
         </template>
@@ -189,7 +189,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
         <template #item="slotProps">
           <div class="carousel-item-container">
             <div class="border-1 surface-border border-round m-2 p-2">
-              <img :src="require(`@/assets/${slotProps.data.image}`)" :alt="slotProps.data.name" class="w-full border-round" />
+              <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full border-round" />
             </div>
           </div>
         </template>
