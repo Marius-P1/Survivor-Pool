@@ -13,6 +13,7 @@ import Avatar from "primevue/avatar";
 import Panel from "primevue/panel";
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import Chart from 'primevue/chart';
 
 
 // Import css
@@ -43,5 +44,6 @@ app.component('InputText', InputText);
 app.component('PrimePassword', PrimePassword);
 app.component('PrimeAvatar', Avatar);
 app.component('PrimePanel', Panel);
+app.component(Chart.name, Chart);
 
 app.mount('#app')
