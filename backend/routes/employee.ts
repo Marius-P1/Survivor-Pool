@@ -13,7 +13,7 @@ async function getEmployeeFromDB(employeeId: number) {
     return employee;
 }
 
-async function custumerIsInDB(constId: number) {
+async function customerIsInDB(constId: number) {
     const customer = await prisma.customers.findUnique({
         where: { id: constId }
     });
@@ -30,9 +30,9 @@ async function getEmployeeConstumerList(employee: any, res: any) {
         return null;
     }
     let customersDataList = [];
-    for (let i = 0; i < employee.constumerIds.length; i++) {
+    for (let i = 0; i < employee.customerIds.length; i++) {
         const customer = await prisma.customers.findUnique({
-            where: { id: employee.constumerIds[i] }
+            where: { id: employee.customerIds[i] }
         });
         if (customer === null) {
             res.status(404).send("Customer not found");
@@ -122,42 +122,42 @@ router.put('/:id/customerslist/add/:idconst', async (req, res) => {
         res.status(404).send("Employee not found");
         return;
     }
-    if (!await custumerIsInDB(constId)) {
+    if (!await customerIsInDB(constId)) {
         res.status(404).send("Customer not found");
         return;
     }
-    if (employee.constumerIds.includes(constId)) {
+    if (employee.customerIds.includes(constId)) {
         res.status(404).send("Customer already in team");
         return;
     }
-    const constumersList = employee.constumerIds;
-    constumersList.push(constId);
+    const customersList = employee.customerIds;
+    customersList.push(constId);
     await prisma.employee.update({
         where: { id: employeeId },
-        data: { constumerIds: { set: constumersList } }
+        data: { customerIds: { set: customersList } }
     });
     res.send("Customer added");
 });
 
 router.put('/:id/customerslist/remove/:idconst', async (req, res) => {
     const employeeId = parseInt(req.params.id);
-    const constumerId = parseInt(req.params.idconst);
+    const customerId = parseInt(req.params.idconst);
     const employee = await getEmployeeFromDB(employeeId);
     if (employee === null) {
         res.status(404).send("Employee not found");
         return;
     }
-    if (!await custumerIsInDB(constumerId)) {
+    if (!await customerIsInDB(customerId)) {
         res.status(404).send("Customer not found");
         return;
     }
-    const constumersList = employee.constumerIds;
-    const index = constumersList.indexOf(constumerId);
+    const customersList = employee.customerIds;
+    const index = customersList.indexOf(customerId);
     if (index > -1) {
-        constumersList.splice(index, 1);
+        customersList.splice(index, 1);
         await prisma.employee.update({
             where: { id: employeeId },
-            data: { constumerIds: { set: constumersList } }
+            data: { customerIds: { set: customersList } }
         });
         res.send("Customer removed");
     } else {
