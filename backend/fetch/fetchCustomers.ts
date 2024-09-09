@@ -27,14 +27,15 @@ async function checkIfPaymentsIdExists(id: number) {
     return true;
 }
 
-async function createPayments(id: number, customerId: number, date: string, amount: number, paymentMethod: string) {
+async function createPayments(id: number, customerId: number, date: string, amount: number, paymentMethod: string, comment: string) {
     await prisma.payments.create({
         data: {
             id: id,
             customer_id: customerId,
             date: date,
             amount: amount,
-            payment_method: paymentMethod
+            payment_method: paymentMethod,
+            comment: comment
         }
     });
 }
@@ -64,7 +65,7 @@ async function fetchPayments(token: string, customerId: number) {
             if (await checkIfPaymentsIdExists(payments[i].id)) {
                 continue;
             }
-            await createPayments(payments[i].id, customerId, payments[i].date, payments[i].amount, payments[i].payment_method);
+            await createPayments(payments[i].id, customerId, payments[i].date, payments[i].amount, payments[i].payment_method, payments[i].comment);
         }
         return;
     }

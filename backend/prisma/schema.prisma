@@ -113,4 +113,5 @@ model Payments {
   amount    Float
   date      String
   payment_method String
+  comment   String
 }
