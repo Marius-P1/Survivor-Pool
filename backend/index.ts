@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import employeeRouter from "./routes/employee";
+import eventRouter from "./routes/event";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ const fetchController = require("./fetch/fetch");
 const customerController = require("./controllers/customers");
 
 app.use("/employee", employeeRouter);
+app.use("/event", eventRouter);
 
 app.post("/login", userController.login);
 
