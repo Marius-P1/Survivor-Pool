@@ -4,8 +4,8 @@
     <!-- Circular customers Images -->
 
     <!-- PrimeDropdowns for Selecting Zodiac Signs -->
-    <div class="flex flex-row gap-2">
-      <div class="flex flex-column flex-1">
+    <div class="flex md:flex-row flex-column gap-2">
+      <div class="flex flex-column align-items-stretch">
         <div class="mx-1">
           <div class="card">
             <PrimePanel toggleable>
@@ -37,7 +37,7 @@
             class=""
         />
       </div>
-      <div class="flex flex-column flex-1">
+      <div class="flex flex-column align-items-stretch">
         <div class="">
           <div class="card">
             <PrimePanel toggleable>
@@ -117,6 +117,7 @@ export default {
     async getCustomerImage(customer, infoProp) {
       if(!customer) {
         this[infoProp] = defaultAvatar;
+        return;
       }
       try {
         const response = await axios.get(`http://localhost:3000/customers/${customer.id}/image`, {
