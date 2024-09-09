@@ -27,7 +27,9 @@ router.get('/', async (req, res) => {
             id: employee.id,
             name: employee.name,
             surname: employee.surname,
-            birthdate: employee.birthdate
+            birthdate: employee.birthdate,
+            lastLogin: employee.lastLogin,
+            work: employee.work
         }
     });
     res.send(employeesWithoutImage);
@@ -46,6 +48,7 @@ router.get('/:id', async (req, res) => {
         name: employee.name,
         surname: employee.surname,
         birthdate: employee.birthdate,
+        lastLogin: employee.lastLogin,
         gender: employee.gender,
         work: employee.work
     }
