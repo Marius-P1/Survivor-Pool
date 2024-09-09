@@ -6,7 +6,7 @@ import { ref, onMounted } from "vue";
 import { ProductService } from './service/ProductService.js';
 
 const selectedCustomer = ref();
-  ProductService.getProductsSmall().then((data) => (products.value = data.slice(0, 9)));
+const selectedCustomerImage = ref("");
 const customers = ref([]);
 const customerClothes = ref({
   hat: [],
@@ -162,7 +162,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
       </template>
     </Dropdown>
   </div>
-  <div class="container2">
+  <div v-if="selectedCustomer" class="container2">
     <div class="card-carousel">
       <Carousel :value="customerClothes.hat" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
