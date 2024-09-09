@@ -15,37 +15,56 @@ const customerClothes = ref({
   shoes: [],
 });
 
-  { name: 'France', code: 'FR' },
-  { name: 'Germany', code: 'DE' },
-  { name: 'India', code: 'IN' },
-  { name: 'Japan', code: 'JP' },
-  { name: 'Spain', code: 'ES' },
-  { name: 'United States', code: 'US' }
-]);
-
-const products = ref();
-const responsiveOptions = ref([
-  {
-    breakpoint: '1400px',
-    numVisible: 1,
-    numScroll: 1,
-  },
+const GetCustomers = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/customers', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data.map(customer => ({
+      ...customer,
+      fullName: `${customer.name} ${customer.surname}`
+    }));
+  } catch (error) {
+    console.error('Error fetching customers:', error);
+  }
+};
   {
     breakpoint: '1199px',
-    numVisible: 1,
-    numScroll: 1,
-  },
-  {
-    breakpoint: '767px',
-    numVisible: 1,
-    numScroll: 1,
-  },
-  {
-    breakpoint: '575px',
-    numVisible: 1,
-    numScroll: 1,
+const GetCustomerClothes = async () => {
+  try {
+    if (!selectedCustomer.value) {
+      return;
+    }
+    const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/clothes', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const clothes = {
+      hat: [],
+      top: [],
+      bottom: [],
+      shoes: []
+    };
+    for (const clothe of response.data) {
+      clothe.image = "data:image/png;base64," + clothe.image;
+      if (clothe.type === 'hat/cap') {
+        clothes.hat.push(clothe);
+      } else if (clothe.type === 'top') {
+        clothes.top.push(clothe);
+      } else if (clothe.type === 'bottom') {
+        clothes.bottom.push(clothe);
+      } else if (clothe.type === 'shoes') {
+        clothes.shoes.push(clothe);
+      }
+    }
+    customerClothes.value = clothes;
+  } catch (error) {
+    console.error('Error fetching clothes:', error);
   }
-]);
+};
 
 </script>
 
