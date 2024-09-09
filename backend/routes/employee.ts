@@ -59,9 +59,11 @@ router.get('/:id/image', async (req, res) => {
         res.status(404).send("Employee not found");
         return;
     }
-    // @ts-ignore
-    const image = Buffer.from(employee.image, 'base64').toString('utf-8');
-    res.send(image);
+    if (employee.image === null) {
+        res.status(404).send("Employee image not found");
+        return;
+    }
+    res.status(200).type('image/png').send(employee.image);
 });
 
 router.get('/:id/customersList', async (req, res) => {
