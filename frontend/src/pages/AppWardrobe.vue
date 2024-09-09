@@ -2,8 +2,8 @@
 
 import Carousel from 'primevue/carousel';
 import Dropdown from 'primevue/dropdown';
-import { ref, onMounted } from "vue";
-import { ProductService } from './service/ProductService.js';
+import { ref, onMounted, watch } from "vue";
+import axios from 'axios';
 
 const selectedCustomer = ref();
 const selectedCustomerImage = ref("");
