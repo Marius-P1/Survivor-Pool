@@ -12,7 +12,7 @@ const customerClothes = ref({
   hat: [],
   top: [],
   bottom: [],
-  shoes: [],
+  shoes: []
 });
 
 const GetCustomers = async () => {
