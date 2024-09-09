@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-import { promisify } from 'util';
+import {PrismaClient} from '@prisma/client';
+import {promisify} from 'util';
 import dotenv from "dotenv";
 import express from 'express';
+const fetch = require('node-fetch');
 
 const request = require('request');
 const prisma = new PrismaClient();
@@ -81,23 +82,21 @@ async function fetchEmployeeDetails(token: string, employeeId: number) {
 }
 
 async function fetchEmployeeImage(token: string, employeeId: number): Promise<string | null> {
-    const requestPromise = promisify(request);
     try {
-        const response = await requestPromise({
-            url: `${API_URL}/employees/${employeeId}/image`,
+        const response = await fetch(`${API_URL}/employees/${employeeId}/image`, {
             method: 'GET',
             headers: {
-                'accept': 'application/json',
+                'accept': 'image/png',
                 'Authorization': 'Bearer ' + token,
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
-        if (response.statusCode !== 200) {
+        if (!response.ok) {
             console.log("Error: Could not fetch image for employee id: ", employeeId);
             return null;
         }
-        return Buffer.from(response.body).toString('base64');
+        const imageBuffer = await response.buffer();
+        return imageBuffer.toString('base64');
     } catch (error) {
         console.log("Error: ", error);
         return null;

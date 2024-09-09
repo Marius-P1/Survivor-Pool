@@ -35,6 +35,7 @@ async function createPayments(id: number, customerId: number, date: string, amou
             date: date,
             amount: amount,
             payment_method: paymentMethod,
+            // @ts-ignore
             comment: comment
         }
     });
