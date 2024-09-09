@@ -80,7 +80,7 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
 </script>
 
 <style>
-  html, body, #app {
+  html, body {
     font-size: 14px;
     height: 100%;
     margin: 5px;
