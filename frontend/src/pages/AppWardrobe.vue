@@ -63,14 +63,16 @@ const GetCustomerClothes = async () => {
     };
     for (const clothe of response.data) {
       clothe.image = "data:image/png;base64," + clothe.image;
-      if (clothe.type === 'hat/cap') {
-        clothes.hat.push(clothe);
-      } else if (clothe.type === 'top') {
-        clothes.top.push(clothe);
-      } else if (clothe.type === 'bottom') {
-        clothes.bottom.push(clothe);
-      } else if (clothe.type === 'shoes') {
-        clothes.shoes.push(clothe);
+      const typeToCategory = {
+        'hat/cap': 'hat',
+        'top': 'top',
+        'bottom': 'bottom',
+        'shoes': 'shoes'
+      };
+
+      const category = typeToCategory[clothe.type];
+      if (category) {
+        clothes[category].push(clothe);
       }
     }
     customerClothes.value = clothes;
