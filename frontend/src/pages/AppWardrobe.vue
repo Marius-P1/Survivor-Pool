@@ -30,8 +30,21 @@ const GetCustomers = async () => {
     console.error('Error fetching customers:', error);
   }
 };
-  {
-    breakpoint: '1199px',
+
+const GetCustomerImage = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/image', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response.data);
+    selectedCustomerImage.value = "data:image/png;base64," + response.data;
+  } catch (error) {
+    console.error('Error fetching customers:', error);
+  }
+};
+
 const GetCustomerClothes = async () => {
   try {
     if (!selectedCustomer.value) {
@@ -162,7 +175,9 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
       </Carousel>
     </div>
     <div class="card-carousel">
-      <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" :circular="true" :showIndicators="false" >
+      <img v-if="selectedCustomerImage" :src="selectedCustomerImage" alt="Customer Image" class="w-full border-round" />
+    </div>
+    <div class="card-carousel">
       <Carousel :value="customerClothes.top" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
           <div class="carousel-item-container">
