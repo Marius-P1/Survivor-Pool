@@ -32,8 +32,6 @@ router.post('/', async (req, res) => {
         data: {
             id: newId,
             title: title,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             tip: description
         }
     });
@@ -49,7 +47,6 @@ router.put('/:id', async (req, res) => {
         },
         data: {
             title: title,
-            updatedAt: new Date(),
             tip: description
         }
     });
