@@ -166,6 +166,11 @@ const search = async (event) => {
     <h1>Wardrobe</h1>
   </div>
   <hr />
+  <div v-if="!isACustomerSelected" class="px-1 md:px-6 w-full justify-content-center">
+    <div class="flex justify-content-center flex-wrap">
+      <h2>Search for a customer</h2>
+    </div>
+  </div>
   <div class="card flex justify-content-center">
     <AutoComplete v-model="selectedCustomer" forceSelection dropdown :suggestions="items" optionLabel="fullName" @complete="search" @change="handleCustomerChange"/>
   </div>
