@@ -19,7 +19,7 @@
               <template v-if="selectedCustomer1" #footer>
                 <div class="flex flex-wrap align-items-center justify-content-between gap-3">
                   <div class="flex align-items-center gap-2">
-                    <PrimeButton icon="pi pi-search" rounded text></PrimeButton>
+                    <PrimeButton icon="pi pi-search" rounded text @click="openWikipedia(customerInfo1)"></PrimeButton>
                   </div>
                   <span class="p-text-secondary" v-if="selectedCustomer1" >Zodiac: {{customerInfo1.astrological_sign}} </span>
                 </div>
@@ -51,7 +51,7 @@
               <template v-if="selectedCustomer2" #footer>
                 <div class="flex flex-wrap align-items-center justify-content-between gap-3">
                   <div class="flex align-items-center gap-2">
-                    <PrimeButton icon="pi pi-search" rounded text></PrimeButton>
+                    <PrimeButton icon="pi pi-search" rounded text @click="openWikipedia(customerInfo2)"></PrimeButton>
                   </div>
                   <span class="p-text-secondary" v-if="selectedCustomer2">Zodiac: {{customerInfo2.astrological_sign}} </span>
                 </div>
@@ -143,6 +143,11 @@ export default {
       } catch (error) {
         console.error('Error fetching customer image:', error);
       }
+    },
+    openWikipedia(customerInfo) {
+      const sign = customerInfo.astrological_sign;
+      const url = `https://en.wikipedia.org/wiki/${sign}_(astrology)`;
+      window.open(url, '_blank');
     },
     async getCustomerInfo(id, infoProp) {
       try {
