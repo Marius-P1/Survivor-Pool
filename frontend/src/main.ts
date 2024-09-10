@@ -7,13 +7,20 @@ import Menubar from 'primevue/menubar';
 import Ripple from "primevue/ripple";
 import StyleClass from 'primevue/styleclass';
 import Image from 'primevue/image';
+import Dropdown from 'primevue/dropdown';
+import PrimePassword from 'primevue/password';
+import Avatar from "primevue/avatar";
+import Panel from "primevue/panel";
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+import Card from 'primevue/card';
+import ProgressSpinner from 'primevue/progressspinner';
 import AutoComplete from 'primevue/autocomplete';
-import Avatar from 'primevue/avatar';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Checkbox from 'primevue/checkbox';
-
+import Knob from 'primevue/knob';
 
 // Import css
 import './assets/main.css'
@@ -29,21 +36,27 @@ const app = createApp(App);
 
 app.use(PrimeVue, {ripple: true});
 app.use(router);
+app.use(ToastService);
 
 app.directive('ripple', Ripple);
 app.directive('styleclass', StyleClass);
 
+app.component('PrimeDropdown', Dropdown);
 app.component('PrimeImage', Image);
 app.component('AppSidebar', AppSidebar);
 app.component('PrimeMenubar', Menubar);
 app.component('PrimeButton', Button);
 app.component('InputText', InputText);
-app.component('AutoComplete', AutoComplete);
+app.component('PrimePassword', PrimePassword);
 app.component('PrimeAvatar', Avatar);
+app.component('PrimePanel', Panel);
+app.component('PrimeCard', Card);
+app.component('ProgressSpinner', ProgressSpinner);
+app.component('AutoComplete', AutoComplete);
 app.component('PrimeDataTable', DataTable);
 app.component('PrimeColumn', Column);
 app.component('PrimeDialog', Dialog);
 app.component('PrimeCheckbox', Checkbox);
-
+app.component('PrimeKnob', Knob);
 
 app.mount('#app')
