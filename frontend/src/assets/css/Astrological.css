@@ -7,7 +7,7 @@
 }
 
 html {
-    font-size: 20px;
+    font-size: 20px !important;
 }
 
 body {
@@ -25,7 +25,7 @@ body {
         padding: 0;
     }
     html{
-        font-size: 17px;
+        font-size: 17px !important;
     }
     .zodiac-parent {
         margin: 0;
