@@ -54,3 +54,20 @@ export async function getEmployeeIdFromToken(token: string) {
     }
     return employee.id;
 }
+
+export async function getEmployeeFromToken(token: string) {
+    const user = await prisma.token.findUnique({
+        where: {
+            token: token
+        }
+    });
+    if (user === null) {
+        return null;
+    }
+    const employee = await prisma.employee.findUnique({
+        where: {
+            email: user.email
+        }
+    });
+    return employee;
+}

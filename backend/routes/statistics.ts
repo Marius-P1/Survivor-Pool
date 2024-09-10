@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from "dotenv";
 import express from 'express';
+import { checkIfTokenIsValid, isManager, getEmployeeIdFromToken } from '../controllers/tokenCheck';
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -9,6 +10,16 @@ dotenv.config();
 // Route to get the total number of customers
 router.get('/totalcustomers', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const totalCustomers = await prisma.customers.count();
         res.send({ totalCustomers });
     } catch (error) {
@@ -20,6 +31,16 @@ router.get('/totalcustomers', async (req, res) => {
 // Route to get the total revenue
 router.get('/totalrevenue', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const totalRevenue = await prisma.payments.aggregate({
             _sum: {
                 amount: true
@@ -35,6 +56,16 @@ router.get('/totalrevenue', async (req, res) => {
 // Route to get the number of events
 router.get('/totalevents', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const totalEvents = await prisma.events.count();
         res.send({ totalEvents });
     } catch (error) {
@@ -46,6 +77,16 @@ router.get('/totalevents', async (req, res) => {
 // Route to get the average rating of encounters
 router.get('/averagerating', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const averageRating = await prisma.enconters.aggregate({
             _avg: {
                 rating: true
@@ -61,6 +102,16 @@ router.get('/averagerating', async (req, res) => {
 // Route to get the total number of employees
 router.get('/totalemployees', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const totalEmployees = await prisma.employee.count();
         res.send({ totalEmployees });
     } catch (error) {
@@ -72,6 +123,16 @@ router.get('/totalemployees', async (req, res) => {
 // Route to get the total number of encounters
 router.get('/encountersbysource', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const encounters = await prisma.enconters.groupBy({
             by: ['source'],
             _avg: {
@@ -99,6 +160,16 @@ router.get('/encountersbysource', async (req, res) => {
 // Route to get the total number of encounters
 router.get('/totalencounters', async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send("Authorization header missing");
+            return;
+        }
+        const token = authHeader.split(" ")[1];
+        if (!await checkIfTokenIsValid(token)) {
+            res.status(401).send("Invalid token");
+            return;
+        }
         const totalEncounters = await prisma.enconters.count();
         res.send({ totalEncounters });
     } catch (error) {
