@@ -100,7 +100,6 @@ const search = async (event) => {
   const query = event.query;
   items.value = customers.value.filter((customer) => {
     const fullName = customer.fullName || '';
-    console.log("fullName: " + fullName + "end");
     return fullName.toLowerCase().includes(query.toLowerCase());
   });
   for (let customer of items.value) {
