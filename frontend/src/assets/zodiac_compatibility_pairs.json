@@ -1,0 +1,722 @@
+[
+  {
+    "Zodiacs": "Aries & Aries",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Aries & Taurus",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Aries & Gemini",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Aries & Cancer",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Aries & Leo",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Aries & Virgo",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Aries & Libra",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Aries & Scorpio",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Aries & Sagittarius",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Aries & Capricorn",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Aries & Aquarius",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Aries & Pisces",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Taurus & Aries",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Taurus & Taurus",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Taurus & Gemini",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Taurus & Cancer",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Taurus & Leo",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Taurus & Virgo",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Taurus & Libra",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Taurus & Scorpio",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Taurus & Sagittarius",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Taurus & Capricorn",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Taurus & Aquarius",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Taurus & Pisces",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Gemini & Aries",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Gemini & Taurus",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Gemini & Gemini",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Gemini & Cancer",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Gemini & Leo",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Gemini & Virgo",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Gemini & Libra",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Gemini & Scorpio",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Gemini & Sagittarius",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Gemini & Capricorn",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Gemini & Aquarius",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Gemini & Pisces",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Cancer & Aries",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Cancer & Taurus",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Cancer & Gemini",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Cancer & Cancer",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Cancer & Leo",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Cancer & Virgo",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Cancer & Libra",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Cancer & Scorpio",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Cancer & Sagittarius",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Cancer & Capricorn",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Cancer & Aquarius",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Cancer & Pisces",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Leo & Aries",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Leo & Taurus",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Leo & Gemini",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Leo & Cancer",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Leo & Leo",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Leo & Virgo",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Leo & Libra",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Leo & Scorpio",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Leo & Sagittarius",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Leo & Capricorn",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Leo & Aquarius",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Leo & Pisces",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Virgo & Aries",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Virgo & Taurus",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Virgo & Gemini",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Virgo & Cancer",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Virgo & Leo",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Virgo & Virgo",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Virgo & Libra",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Virgo & Scorpio",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Virgo & Sagittarius",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Virgo & Capricorn",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Virgo & Aquarius",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Virgo & Pisces",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Libra & Aries",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Libra & Taurus",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Libra & Gemini",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Libra & Cancer",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Libra & Leo",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Libra & Virgo",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Libra & Libra",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Libra & Scorpio",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Libra & Sagittarius",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Libra & Capricorn",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Libra & Aquarius",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Libra & Pisces",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Scorpio & Aries",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Scorpio & Taurus",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Scorpio & Gemini",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Scorpio & Cancer",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Scorpio & Leo",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Scorpio & Virgo",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Scorpio & Libra",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Scorpio & Scorpio",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Scorpio & Sagittarius",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Scorpio & Capricorn",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Scorpio & Aquarius",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Scorpio & Pisces",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Sagittarius & Aries",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Sagittarius & Taurus",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Sagittarius & Gemini",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Sagittarius & Cancer",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Sagittarius & Leo",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Sagittarius & Virgo",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Sagittarius & Libra",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Sagittarius & Scorpio",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Sagittarius & Sagittarius",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Sagittarius & Capricorn",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Sagittarius & Aquarius",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Sagittarius & Pisces",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Capricorn & Aries",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Capricorn & Taurus",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Capricorn & Gemini",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Capricorn & Cancer",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Capricorn & Leo",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Capricorn & Virgo",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Capricorn & Libra",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Capricorn & Scorpio",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Capricorn & Sagittarius",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Capricorn & Capricorn",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Capricorn & Aquarius",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Capricorn & Pisces",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Aquarius & Aries",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  },
+  {
+    "Zodiacs": "Aquarius & Taurus",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Aquarius & Gemini",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Aquarius & Cancer",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Aquarius & Leo",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Aquarius & Virgo",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Aquarius & Libra",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Aquarius & Scorpio",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Aquarius & Sagittarius",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Aquarius & Capricorn",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Aquarius & Aquarius",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Aquarius & Pisces",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Pisces & Aries",
+    "Percentage": "55%",
+    "Description": "This relationship is marked by mutual respect and excitement, but they need to embrace their differences."
+  },
+  {
+    "Zodiacs": "Pisces & Taurus",
+    "Percentage": "90%",
+    "Description": "This pairing is full of energy, passion, and strong will. They need to learn to balance their independence."
+  },
+  {
+    "Zodiacs": "Pisces & Gemini",
+    "Percentage": "80%",
+    "Description": "These signs bring excitement and stability to the table, but they need compromise to make it work."
+  },
+  {
+    "Zodiacs": "Pisces & Cancer",
+    "Percentage": "70%",
+    "Description": "Their love for adventure and intellectual stimulation keeps things exciting, but unpredictability can be a challenge."
+  },
+  {
+    "Zodiacs": "Pisces & Leo",
+    "Percentage": "60%",
+    "Description": "One is emotional, while the other is impulsive. Communication is key to bridging the gap."
+  },
+  {
+    "Zodiacs": "Pisces & Virgo",
+    "Percentage": "50%",
+    "Description": "Their chemistry is undeniable, and they can form a strong bond if they respect each other's needs."
+  },
+  {
+    "Zodiacs": "Pisces & Libra",
+    "Percentage": "40%",
+    "Description": "They share a love for harmony, but power struggles can arise if they fail to communicate effectively."
+  },
+  {
+    "Zodiacs": "Pisces & Scorpio",
+    "Percentage": "75%",
+    "Description": "These signs complement each other well, creating a dynamic and vibrant relationship."
+  },
+  {
+    "Zodiacs": "Pisces & Sagittarius",
+    "Percentage": "65%",
+    "Description": "This relationship is marked by loyalty and commitment, though stubbornness may cause some tension."
+  },
+  {
+    "Zodiacs": "Pisces & Capricorn",
+    "Percentage": "85%",
+    "Description": "Together, they create a harmonious balance of stability, emotion, and creativity."
+  },
+  {
+    "Zodiacs": "Pisces & Aquarius",
+    "Percentage": "45%",
+    "Description": "Both are practical and grounded, making for a long-lasting partnership, if they work on their differences."
+  },
+  {
+    "Zodiacs": "Pisces & Pisces",
+    "Percentage": "35%",
+    "Description": "A passionate pairing with both loyalty and intensity, but power struggles can arise from their strong personalities."
+  }
+]
