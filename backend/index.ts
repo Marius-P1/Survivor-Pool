@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import employeeRouter from "./routes/employee";
 import tipsRouter from "./routes/tips";
 import eventRouter from "./routes/event";
+import statRouter from "./routes/statistics";
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/employee", employeeRouter);
 app.use("/events", eventRouter);
 app.use("/tips", tipsRouter);
+app.use("/statistics", statRouter);
+
 
 app.post("/login", userController.login);
 
