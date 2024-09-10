@@ -17,6 +17,7 @@ const fetchTips = require("./fetchTips");
 const fetchEncounters = require("./fetchEncounters");
 const fetchEvents = require("./fetchEvents");
 const fetchCustomers = require("./fetchCustomers");
+const fetchEmployees = require("./fetchEmployees");
 
 async function getEmployeeAPI(email: string, password: string) : Promise<string | null> {
 	const requestPromise = promisify(request);
@@ -33,6 +34,9 @@ async function getEmployeeAPI(email: string, password: string) : Promise<string 
 		});
 
 		if (respons.statusCode !== 200) {
+			console.log("Error: Could not get token from API");
+			console.log("Status code: ", respons.statusCode);
+			console.log("Body: ", respons.body);
 			return null;
 		}
 		const tokenAPI = JSON.parse(respons.body)["access_token"];
@@ -60,5 +64,6 @@ module.exports = async () => {
     await fetchEncounters(token);
     await fetchEvents(token);
     await fetchCustomers(token);
+	await fetchEmployees(token);
     console.log("Data fetched from API");
 }
