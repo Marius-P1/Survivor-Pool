@@ -1,28 +1,13 @@
-.zodiac-image {
-    width: 20vw;
-    height: 20vw;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #000;
-}
-
-.zodiacs-block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
 .zodiac-parent {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 1rem;
+    margin: 2rem;
 }
 
 html {
-    font-size: 14px;
+    font-size: 20px !important;
 }
 
 body {
@@ -35,6 +20,22 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+@media (max-width: 600px) {
+    body{
+        padding: 0;
+    }
+    html{
+        font-size: 17px !important;
+    }
+    .zodiac-parent {
+        margin: 0;
+    }
+    .card {
+        border-radius: 0px;
+        padding: 0;
+        margin: 0;
+    }
+}
 .card {
     background: var(--surface-card);
     padding: 2rem;
@@ -44,4 +45,8 @@ body {
 
 p {
     line-height: 1.75;
+}
+
+.p-progressbar-value {
+    background: #c084fc
 }
