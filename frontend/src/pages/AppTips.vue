@@ -27,69 +27,67 @@ onMounted(() => {
 
 <style scoped>
 
-.card-tips {
-  display: grid;
-  border-radius: 30px;
-  width: 100%;
-  margin: 10px;
-  padding: 0;
-}
-
-.cards-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.card-content {
-  overflow: auto;
-  width: 100%;
-}
-
-.p-card-body {
-  height: 100%;
-  position: relative;
-}
-
-.p-card-footer {
-  padding: 0;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-.card-footer {
-  text-align: right;
-}
-
-.card-date {
-  margin: 5px;
-}
-
-@media (min-width: 600px) {
-  .card-tips {
-    width: 45%;
+  .p-card {
+    height: 100%;
   }
-}
 
-@media (min-width: 900px) {
   .card-tips {
-    width: 30%;
+    display: grid;
+    border-radius: 30px;
+    width: 100%;
+    margin: 10px;
+    padding: 0;
   }
-}
 
-@media (min-width: 1200px) {
-  .card-tips {
-    width: 22%;
+  .cards-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-}
 
-@media (min-width: 1500px) {
-  .card-tips {
-    width: 18%;
+  .card-content {
+    overflow: auto;
+    width: 100%;
+    position: relative;
   }
-}
+
+  .card-footer {
+    text-align: right;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .card-date {
+    margin: 5px;
+  }
+
+
+  @media (min-width: 600px) {
+    .card-tips {
+      width: 45%;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .card-tips {
+      width: 30%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .card-tips {
+      width: 22%;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .card-tips {
+      width: 18%;
+    }
+  }
 </style>
 
 <template>
