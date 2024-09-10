@@ -8,6 +8,7 @@ import astrological from "@/pages/AppAstrological.vue";
 import wardrobe from "@/pages/AppWardrobe.vue";
 import employees from "@/pages/AppEmployees.vue";
 import customers from "@/pages/AppCustomers.vue";
+import tips from "@/pages/AppTips.vue";
 
 
 const routes = [
@@ -50,6 +51,11 @@ const routes = [
         name: 'Customers',
         path: '/customers',
         component: customers
+    },
+    {
+        name: 'Tips',
+        path: '/tips',
+        component: tips,
     }
 ];
 
