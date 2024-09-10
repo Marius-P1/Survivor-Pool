@@ -7,80 +7,118 @@ const prisma = new PrismaClient();
 dotenv.config();
 
 async function getEventFromDB(eventId: number) {
-    const event = await prisma.event.findUnique({
-        where: { id: eventId }
-    });
-    return event;
+    try {
+        const event = await prisma.events.findUnique({
+            where: { id: eventId }
+        });
+        return event;
+    } catch (error) {
+        console.error("Error fetching event:", error);
+        return null;
+    }
 }
 
 router.get('/', async (req, res) => {
-    const events = await prisma.event.findMany();
-    res.send(events);
+    try {
+        const events = await prisma.events.findMany();
+        res.send(events);
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 router.get('/:id', async (req, res) => {
-    const event = await getEventFromDB(parseInt(req.params.id));
-    if (event === null) {
-        res.status(404).send("Event not found");
-        return;
+    try {
+        const event = await getEventFromDB(parseInt(req.params.id));
+        if (event === null) {
+            res.status(404).send("Event not found");
+            return;
+        }
+        res.send(event);
+    } catch (error) {
+        console.error("Error fetching event:", error);
+        res.status(500).send("Internal Server Error");
     }
-    res.send(event);
 });
 
 router.post('/', async (req, res) => {
     const { name, date, max_participants, location_x, location_y,
-    type, employee_id, location_name, duration } = req.body;
-    //const employee id is get from the token
-    await prisma.event.create({
-        data: {
-            name: name,
-            date: date,
-            max_participants: max_participants,
-            location_x: location_x,
-            location_y: location_y,
-            type: type,
-            employee_id: employee_id,
-            location_name: location_name,
-            duration: duration
-        }
-    });
-    res.send("Event created");
+        type, employee_id, location_name, duration } = req.body;
+    try {
+        const maxId = await prisma.events.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        });
+        await prisma.events.create({
+            data: {
+                id: maxId ? maxId.id + 1 : 1,
+                name: name,
+                date: date,
+                max_participants: max_participants,
+                location_x: location_x,
+                location_y: location_y,
+                type: type,
+                employee_id: employee_id,
+                location_name: location_name,
+                duration: duration
+            }
+        });
+        res.send("Event created");
+    } catch (error) {
+        console.error("Error creating event:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 router.put('/:id', async (req, res) => {
-    const event = await getEventFromDB(parseInt(req.params.id));
-    if (event === null) {
-        res.status(404).send("Event not found");
-        return;
-    }
-    const { name, date, max_participants, location_x, location_y,
-        type, location_name, duration } = req.body;
-    await prisma.event.update({
-        where: { id: parseInt(req.params.id) },
-        data: {
-            name: name,
-            date: date,
-            max_participants: max_participants,
-            location_x: location_x,
-            location_y: location_y,
-            type: type,
-            location_name: location_name,
-            duration: duration
+    try {
+        const event = await getEventFromDB(parseInt(req.params.id));
+        if (event === null) {
+            res.status(404).send("Event not found");
+            return;
         }
-    });
-    res.send("Event updated");
+        const { name, date, max_participants, location_x, location_y,
+            type, location_name, duration } = req.body;
+        await prisma.events.update({
+            where: { id: parseInt(req.params.id) },
+            data: {
+                name: name,
+                date: date,
+                max_participants: max_participants,
+                location_x: location_x,
+                location_y: location_y,
+                type: type,
+                location_name: location_name,
+                duration: duration
+            }
+        });
+        res.send("Event updated");
+    } catch (error) {
+        console.error("Error updating event:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 router.delete('/:id', async (req, res) => {
-    const event = await getEventFromDB(parseInt(req.params.id));
-    if (event === null) {
-        res.status(404).send("Event not found");
-        return;
+    try {
+        const event = await getEventFromDB(parseInt(req.params.id));
+        if (event === null) {
+            res.status(404).send("Event not found");
+            return;
+        }
+        await prisma.events.delete({
+            where: { id: parseInt(req.params.id) }
+        });
+        res.send("Event deleted");
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        res.status(500).send("Internal Server Error");
     }
-    await prisma.event.delete({
-        where: { id: parseInt(req.params.id) }
-    });
-    res.send("Event deleted");
 });
 
 export default router;
