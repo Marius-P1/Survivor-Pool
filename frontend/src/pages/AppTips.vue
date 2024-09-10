@@ -52,12 +52,19 @@ onMounted(() => {
   position: relative;
 }
 
-.card-footer {
-  padding: 10px;
-  text-align: right;
+.p-card-footer {
+  padding: 0;
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+.card-footer {
+  text-align: right;
+}
+
+.card-date {
+  margin: 5px;
 }
 
 @media (min-width: 600px) {
@@ -99,7 +106,7 @@ onMounted(() => {
         </template>
         <template #footer>
           <div class="card-footer">
-            <div>{{ tip.updatedAt.split("T")[0] }}</div>
+            <p class="card-date">{{ tip.updatedAt.split("T")[0] }}</p>
           </div>
         </template>
       </Card>
