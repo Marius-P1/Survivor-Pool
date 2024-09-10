@@ -162,6 +162,10 @@ const search = async (event) => {
 </style>
 
 <template>
+  <div class="px-1 md:px-6">
+    <h1>Wardrobe</h1>
+  </div>
+  <hr />
   <div class="card flex justify-content-center">
     <AutoComplete v-model="selectedCustomer" forceSelection dropdown :suggestions="items" optionLabel="fullName" @complete="search" @change="handleCustomerChange"/>
   </div>
