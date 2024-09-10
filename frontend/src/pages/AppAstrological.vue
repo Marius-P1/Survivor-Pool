@@ -4,18 +4,18 @@
     <!-- Circular customers Images -->
 
     <!-- PrimeDropdowns for Selecting Zodiac Signs -->
-    <div class="flex md:flex-row flex-column justify-content-center align-items-stretch gap-6 md:gap-4 w-full">
-      <div class="flex flex-column align-items-stretch w-12 md:w-4 gap-1 md:gap-3">
-        <div class="mx-1 h-full">
+    <div class="flex lg:flex-row flex-column justify-content-center align-items-stretch sm:gap-6 lg:gap-4 w-full">
+      <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 gap-1">
+        <div class="sm:mx-1 h-full">
           <div class="card h-full">
             <PrimePanel toggleable>
               <template #header>
-                <div class="flex align-items-center gap-2">
+                <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar v-if="customerImage1" :image="customerImage1" size="large" shape="circle" />
-                  <span class="font-bold">{{ selectedCustomer1 ? selectedCustomer1.fullName : 'Customer Name' }}</span>
+                  <span class="font-bold">{{ selectedCustomer1 ? selectedCustomer1.fullName : 'Select a customer' }}</span>
                 </div>
               </template>
-              <template #footer>
+              <template v-if="selectedCustomer1" #footer>
                 <div class="flex flex-wrap align-items-center justify-content-between gap-3">
                   <div class="flex align-items-center gap-2">
                     <PrimeButton icon="pi pi-search" rounded text></PrimeButton>
@@ -37,17 +37,17 @@
             class=""
         />
       </div>
-      <div class="flex flex-column align-items-stretch w-12 md:w-4 gap-1 md:gap-3">
+      <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 sm:mt-0 mt-4">
         <div class="mx-1 h-full">
           <div class="card h-full">
             <PrimePanel toggleable>
               <template #header>
-                <div class="flex align-items-center gap-2">
+                <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar :image="customerImage2" size="large" shape="circle" />
-                  <span class="font-bold">{{ selectedCustomer2 ? selectedCustomer2.fullName : 'Customer Name' }}</span>
+                  <span class="font-bold">{{ selectedCustomer2 ? selectedCustomer2.fullName : 'Select a customer' }}</span>
                 </div>
               </template>
-              <template #footer>
+              <template v-if="selectedCustomer2" #footer>
                 <div class="flex flex-wrap align-items-center justify-content-between gap-3">
                   <div class="flex align-items-center gap-2">
                     <PrimeButton icon="pi pi-search" rounded text></PrimeButton>
@@ -69,7 +69,7 @@
         />
       </div>
     </div>
-    <PrimeButton label="Check Compatibility" class="mt-4" @click="this.calculateCompatibility()"/>
+    <PrimeButton  severity="help" label="Check Compatibility" class="mt-4" @click="this.calculateCompatibility()"/>
 
     <!-- Compatibility Percentage -->
     <div v-if="selectedCustomer1 && selectedCustomer2" class="mt-4">
