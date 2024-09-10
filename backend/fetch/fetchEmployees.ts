@@ -12,13 +12,6 @@ const app = express();
 const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
 
-enum Role {
-    CLIENT,
-    COACH,
-    MANAGER,
-    OTHER
-}
-
 async function checkIfEmployeeIdExists(id: number) {
     const employee = await prisma.employee.findUnique({
         where: { id: id }
