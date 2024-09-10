@@ -85,7 +85,7 @@
         <h4>{{ zodiacCompatibilityDescription }}</h4>
       </div>
       <div class="card ">
-        <ProgressBar class="" :value="compatibilityPercentage" showValue="true" />
+        <ProgressBar  severity="help" class="" :value="compatibilityPercentage" showValue="true" />
       </div>
     </div>
 
@@ -246,9 +246,5 @@ export default {
 
   p {
     line-height: 1.75;
-  }
-
-  .p-progressbar-value {
-    background: #c084fc
   }
 </style>

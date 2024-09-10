@@ -2,3 +2,7 @@
 @import 'primevue/resources/primevue.min.css';
 @import 'primeicons/primeicons.css';
 @import 'primeflex/primeflex.css';
+
+.p-progressbar-value {
+    background: #c084fc
+}
