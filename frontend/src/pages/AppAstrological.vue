@@ -73,8 +73,17 @@
     <PrimeButton  severity="help" label="Check Compatibility" class="mt-4" @click="this.calculateCompatibility()"/>
 
     <!-- Compatibility Percentage -->
-    <div v-if="selectedCustomer1 && selectedCustomer2" class="mt-4">
-      <h3>Compatibility: {{ compatibilityPercentage }}%</h3>
+
+    <div v-if="selectedCustomer1 && selectedCustomer2  && isClicked" class="sm:mt-8 mt-2 flex flex-column justify-content-center">
+      <div class="flex justify-content-center">
+        <h3>{{customerInfo1.astrological_sign}} & {{customerInfo2.astrological_sign}}</h3>
+      </div>
+      <div class="flex align-items-center justify-content-center">
+        <h4>{{ zodiacCompatibilityDescription }}</h4>
+      </div>
+      <div class="card ">
+        <ProgressBar  severity="help" class="" :value="compatibilityPercentage" showValue="true" />
+      </div>
     </div>
 
   </div>
@@ -85,6 +94,8 @@ import axios from "axios";
 import PrimePanel from "@/main";
 import PrimeAvatar from "@/main";
 import defaultAvatar from '@/assets/default-avatar.jpg';
+import zodiacCompatibilityPairs from '@/assets/zodiac_compatibility_pairs.json';
+
 
 export default {
   components: {PrimeAvatar, PrimePanel},
@@ -94,8 +105,9 @@ export default {
       selectedCustomer2: null,
       customerImage1: null,
       customerImage2: null,
+      zodiacCompatibilityDescription: null,
       compatibilityPercentage: 0,
-      CustomersList: [],
+      isClicked: false,
       CustomersList: null,
       customerInfo1: {},
       customerInfo2: {}
@@ -146,7 +158,15 @@ export default {
     },
     calculateCompatibility() {
       if (this.selectedCustomer1 && this.selectedCustomer2) {
-        this.compatibilityPercentage = Math.floor(Math.random() * 100) + 1;
+        const zodiacPair = `${this.customerInfo1.astrological_sign} & ${this.customerInfo2.astrological_sign}`;
+        const compatibility = zodiacCompatibilityPairs.find(pair => pair.Zodiacs === zodiacPair);
+        this.zodiacCompatibilityDescription = compatibility.Description;
+        this.isClicked = true;
+        if (compatibility) {
+          this.compatibilityPercentage = parseInt(compatibility.Percentage);
+        } else {
+          this.compatibilityPercentage = 0;
+        }
       } else {
         this.compatibilityPercentage = 0;
       }
