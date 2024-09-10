@@ -3,6 +3,7 @@
     <h2>Zodiac Compatibility Checker</h2>
     <!-- Circular customers Images -->
 
+    <ProgressSpinner v-if="CustomersList === null" />
     <!-- PrimeDropdowns for Selecting Zodiac Signs -->
     <div class="flex lg:flex-row flex-column justify-content-center align-items-stretch sm:gap-6 lg:gap-4 w-full">
       <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 gap-1">
@@ -95,6 +96,7 @@ export default {
       customerImage2: null,
       compatibilityPercentage: 0,
       CustomersList: [],
+      CustomersList: null,
       customerInfo1: {},
       customerInfo2: {}
     };
@@ -161,6 +163,7 @@ export default {
           fullName: `${customer.name} ${customer.surname}`
         }));
       } catch (error) {
+        this.CustomersList = null;
         console.error('Error fetching customers:', error);
       }
     }
