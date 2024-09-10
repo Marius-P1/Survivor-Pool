@@ -4,10 +4,10 @@
     <!-- Circular customers Images -->
 
     <!-- PrimeDropdowns for Selecting Zodiac Signs -->
-    <div class="flex md:flex-row flex-column gap-2">
-      <div class="flex flex-column align-items-stretch">
-        <div class="mx-1">
-          <div class="card">
+    <div class="flex md:flex-row flex-column justify-content-center align-items-stretch gap-6 md:gap-4 w-full">
+      <div class="flex flex-column align-items-stretch w-12 md:w-4 gap-1 md:gap-3">
+        <div class="mx-1 h-full">
+          <div class="card h-full">
             <PrimePanel toggleable>
               <template #header>
                 <div class="flex align-items-center gap-2">
@@ -37,9 +37,9 @@
             class=""
         />
       </div>
-      <div class="flex flex-column align-items-stretch">
-        <div class="">
-          <div class="card">
+      <div class="flex flex-column align-items-stretch w-12 md:w-4 gap-1 md:gap-3">
+        <div class="mx-1 h-full">
+          <div class="card h-full">
             <PrimePanel toggleable>
               <template #header>
                 <div class="flex align-items-center gap-2">
