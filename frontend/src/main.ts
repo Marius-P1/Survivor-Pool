@@ -59,7 +59,7 @@ app.component('PrimeDataTable', DataTable);
 app.component('PrimeColumn', Column);
 app.component('PrimeDialog', Dialog);
 app.component('PrimeCheckbox', Checkbox);
-app.component(Chart.name, Chart);
+app.component("PrimeChart", Chart);
 app.component('PrimeKnob', Knob);
 
 app.mount('#app')
