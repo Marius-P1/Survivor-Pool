@@ -13,6 +13,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Checkbox from 'primevue/checkbox';
+import Card from 'primevue/card';
 
 
 // Import css
@@ -44,6 +45,7 @@ app.component('PrimeDataTable', DataTable);
 app.component('PrimeColumn', Column);
 app.component('PrimeDialog', Dialog);
 app.component('PrimeCheckbox', Checkbox);
+app.component('PrimeCard', Card);
 
 
 app.mount('#app')
