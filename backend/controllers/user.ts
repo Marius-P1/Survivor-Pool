@@ -110,8 +110,12 @@ exports.login = (async (request: Request, response: Response) => {
 		}
 	}
 	await createToken(email as string, token);
+	await prisma.employee.update({
+		where: { email: email as string },
+		data: { lastLogin: new Date() }
+	});
 	response.status(200).json({ token });
-    if (isOldDBUser) {
-        console.log("User added to the database"); // TODO : Add the fetch of the db
-    }
+	if (isOldDBUser) {
+		console.log("User added to the database"); // TODO : Add the fetch of the db
+	}
 });
