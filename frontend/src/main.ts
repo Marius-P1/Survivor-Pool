@@ -13,7 +13,9 @@ import Avatar from "primevue/avatar";
 import Panel from "primevue/panel";
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
-
+import ProgressBar from 'primevue/progressbar';
+import card from 'primevue/card';
+import ProgressSpinner from 'primevue/progressspinner';
 
 // Import css
 import './assets/main.css'
@@ -43,5 +45,8 @@ app.component('InputText', InputText);
 app.component('PrimePassword', PrimePassword);
 app.component('PrimeAvatar', Avatar);
 app.component('PrimePanel', Panel);
+app.component('ProgressBar', ProgressBar);
+app.component('PrimeCard', card);
+app.component('ProgressSpinner', ProgressSpinner);
 
 app.mount('#app')
