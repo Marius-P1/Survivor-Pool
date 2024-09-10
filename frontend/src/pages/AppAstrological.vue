@@ -12,7 +12,7 @@
       <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 gap-1">
         <div class="sm:mx-1 h-full">
           <div class="card h-full">
-            <PrimePanel toggleable>
+            <PrimePanel toggleable class="h-full">
               <template #header>
                 <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar v-if="customerImage1" :image="customerImage1" size="large" shape="circle" />
@@ -44,7 +44,7 @@
       <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 sm:mt-0 mt-4">
         <div class="mx-1 h-full">
           <div class="card h-full">
-            <PrimePanel toggleable>
+            <PrimePanel toggleable class="h-full">
               <template #header>
                 <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar :image="customerImage2" size="large" shape="circle" />
@@ -77,15 +77,15 @@
 
     <!-- Compatibility Percentage -->
 
-    <div v-if="selectedCustomer1 && selectedCustomer2  && isClicked" class="sm:mt-8 mt-2 flex flex-column justify-content-center">
+    <div v-if="selectedCustomer1 && selectedCustomer2  && isClicked" class="sm:mt-8 mt-6 flex flex-column justify-content-center">
+      <div class="flex justify-content-center">
+        <PrimeKnob v-model="compatibilityPercentage" readonly :size="200" valueColor="pink" />
+      </div>
       <div class="flex justify-content-center">
         <h3>{{customerInfo1.astrological_sign}} & {{customerInfo2.astrological_sign}}</h3>
       </div>
-      <div class="flex align-items-center justify-content-center">
+      <div class="text-center flex align-items-center justify-content-center">
         <h4>{{ zodiacCompatibilityDescription }}</h4>
-      </div>
-      <div class="card ">
-        <ProgressBar  severity="help" class="" :value="compatibilityPercentage" showValue="true" />
       </div>
     </div>
 
