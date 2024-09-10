@@ -3,7 +3,7 @@
     <h1>Zodiac Compatibility Checker</h1>
   </div>
   <hr />
-  <div class="zodiac-parent">
+  <div class="zodiac-parent astro">
     <!-- Circular customers Images -->
 
     <ProgressSpinner v-if="CustomersList === null" />
@@ -85,7 +85,7 @@
         <h4>{{ zodiacCompatibilityDescription }}</h4>
       </div>
       <div class="card ">
-        <ProgressBar  severity="help" class="" :value="compatibilityPercentage" showValue="true" />
+        <ProgressBar class="" :value="compatibilityPercentage" showValue="true" />
       </div>
     </div>
 
@@ -204,6 +204,51 @@ export default {
 };
 </script>
 
-<style scoped>
-  @import "../assets/css/Astrological.css";
+  <style scoped>
+  .zodiac-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2rem;
+  }
+
+  .astro {
+    font-size: 20px !important;
+    font-weight: normal;
+    color: var(--text-color);
+    padding: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  @media (max-width: 600px) {
+    .astro {
+      padding: 0;
+      font-size: 17px !important;
+    }
+    .zodiac-parent {
+      margin: 0;
+    }
+    .card {
+      border-radius: 0px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    line-height: 1.75;
+  }
+
+  .p-progressbar-value {
+    background: #c084fc
+  }
 </style>
