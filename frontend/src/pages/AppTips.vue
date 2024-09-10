@@ -25,7 +25,7 @@ onMounted(() => {
 
 </script>
 
-<style>
+<style scoped>
 
 .card-tips {
   display: grid;
