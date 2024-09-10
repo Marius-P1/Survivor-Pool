@@ -5,43 +5,33 @@
 	const sales = ref(0);
 	const customers = ref(0);
 	const encounters = ref(0);
-	const meetings = [
-			{source: 'school', averageRating: 4.5, nbMeetings: 10},
-			{source: 'facebook', averageRating: 3.5, nbMeetings: 5},
-			{source: 'instagram', averageRating: 4.0, nbMeetings: 7},
-			{source: 'linkedin', averageRating: 4.2, nbMeetings: 8},
-			{source: 'twitter', averageRating: 3.0, nbMeetings: 3},
-			{source: 'facebook', averageRating: 3.5, nbMeetings: 5},
-			{source: 'instagram', averageRating: 4.0, nbMeetings: 7},
-			{source: 'linkedin', averageRating: 4.2, nbMeetings: 8},
-			{source: 'twitter', averageRating: 3.0, nbMeetings: 3},
-		];
+	const meetings = ref([]);
 
 	const getSales = async () => {
-		const response = await axios.get('http://localhost:3000/sales');
-		sales.value = response.data.length;
+		const response = await axios.get('http://localhost:3000/statistics/totalrevenue');
+		sales.value = response.data.totalRevenue.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 	};
 
 	const getCustomers = async () => {
-		const response = await axios.get('http://localhost:3000/customers');
-		customers.value = response.data.length;
+		const response = await axios.get('http://localhost:3000/statistics/totalcustomers');
+		customers.value = response.data.totalCustomers;
 	};
 
 	const getEncounters = async () => {
-		const response = await axios.get('http://localhost:3000/encounters');
-		encounters.value = response.data.length;
+		const response = await axios.get('http://localhost:3000/statistics/totalevents');
+		encounters.value = response.data.totalEvents;
 	};
 
 	const getMeetings = async () => {
-		const response = await axios.get('http://localhost:3000/meetings');
+		const response = await axios.get('http://localhost:3000/statistics/encountersbysource');
 		meetings.value = response.data;
 	};
 
 	onMounted(async () => {
-		// await getSales();
-		// await getCustomers();
-		// await getEncounters();
-		// await getMeetings();
+		await getSales();
+		await getCustomers();
+		await getEncounters();
+		await getMeetings();
 	});
 
 
@@ -59,7 +49,7 @@
 			<PrimeCard class="flex justify-content-center md:w-6">
 				<template #title>
 					<h1 class="flex justify-content-center align-items-center m-0">
-						{{ sales }}
+						{{ sales }} €
 					</h1>
 				</template>
 				<template #content>
@@ -90,7 +80,7 @@
 				</template>
 				<template #content>
 					<h1 class="flex justify-content-center align-items-center m-0 pb-1">
-						ENCOUNTERS
+						EVENTS
 					</h1>
 				</template>
 			</PrimeCard>
@@ -101,8 +91,8 @@
 			<h2 class="flex justify-content-center font-bold text-2xl md:text-4xl m-3">Our Customers Meetings</h2>
 			<PrimeDataTable :value="meetings" showGridlines scrollable scrollHeight="400px" class="text-base md:text-xl">
 				<PrimeColumn field="source" header="Source" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
-				<PrimeColumn field="averageRating" header="Average Encounters Rating" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
-				<PrimeColumn field="nbMeetings" header="Number of Encounters" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
+				<PrimeColumn field="avgRating" header="Average Encounters Rating" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
+				<PrimeColumn field="numberOfEncounters" header="Number of Encounters" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
 			</PrimeDataTable>
 		</div>
 	</div>
