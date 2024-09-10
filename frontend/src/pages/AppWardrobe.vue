@@ -1,13 +1,15 @@
 <script setup lang="ts">
 
 import Carousel from 'primevue/carousel';
-import Dropdown from 'primevue/dropdown';
-import { ref, onMounted, watch } from "vue";
+import AutoComplete from 'primevue/autocomplete';
+import { ref, onMounted } from "vue";
 import axios from 'axios';
 
 const selectedCustomer = ref();
 const selectedCustomerImage = ref("");
 const customers = ref([]);
+const isACustomerSelected = ref(false);
+const items = ref([]);
 const customerClothes = ref({
   hat: [],
   top: [],
@@ -38,10 +40,11 @@ const GetCustomerImage = async () => {
         'Content-Type': 'application/json'
       }
     });
-    console.log(response.data);
+    isACustomerSelected.value = true;
     selectedCustomerImage.value = "data:image/png;base64," + response.data;
   } catch (error) {
     console.error('Error fetching customers:', error);
+    isACustomerSelected.value = false;
   }
 };
 
@@ -55,6 +58,7 @@ const GetCustomerClothes = async () => {
         'Content-Type': 'application/json'
       }
     });
+    isACustomerSelected.value = true;
     const clothes = {
       hat: [],
       top: [],
@@ -77,6 +81,7 @@ const GetCustomerClothes = async () => {
     }
     customerClothes.value = clothes;
   } catch (error) {
+    isACustomerSelected.value = false;
     console.error('Error fetching clothes:', error);
   }
 };
@@ -86,11 +91,22 @@ onMounted(async () => {
   await GetCustomerClothes();
 })
 
-watch(selectedCustomer, async (newCustomer, oldCustomer) => {
-  console.log(`Customer changed from ${oldCustomer} to ${newCustomer.name} with id ${newCustomer.id}`);
+const handleCustomerChange = async () => {
   await GetCustomerClothes();
   await GetCustomerImage();
-});
+};
+
+const search = async (event) => {
+  const query = event.query;
+  items.value = customers.value.filter((customer) => {
+    const fullName = customer.fullName || '';
+    console.log("fullName: " + fullName + "end");
+    return fullName.toLowerCase().includes(query.toLowerCase());
+  });
+  for (let customer of items.value) {
+    console.log(customer.fullName);
+  }
+};
 
 </script>
 
@@ -148,23 +164,9 @@ watch(selectedCustomer, async (newCustomer, oldCustomer) => {
 
 <template>
   <div class="card flex justify-content-center">
-    <Dropdown v-model="selectedCustomer" :options="customers" optionLabel="fullName" placeholder="Select a Customer" class="w-full md:w-14rem">
-      <template #value="slotProps">
-        <div v-if="slotProps.value" class="flex align-items-center">
-          <div>{{ slotProps.value.fullName }}</div>
-        </div>
-        <span v-else>
-                    {{ slotProps.placeholder }}
-                </span>
-      </template>
-      <template #option="slotProps">
-        <div class="flex align-items-center">
-          <div>{{ slotProps.option.fullName }}</div>
-        </div>
-      </template>
-    </Dropdown>
+    <AutoComplete v-model="selectedCustomer" forceSelection dropdown :suggestions="items" optionLabel="fullName" @complete="search" @change="handleCustomerChange"/>
   </div>
-  <div v-if="selectedCustomer" class="container">
+  <div v-if="isACustomerSelected" class="container">
     <div class="card-carousel">
       <Carousel :value="customerClothes.hat" :numVisible="1" :numScroll="1" :circular="true" :showIndicators="false" >
         <template #item="slotProps">
