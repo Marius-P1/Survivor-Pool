@@ -20,7 +20,7 @@ async function checkIfEmployeeIdExists(id: number) {
 }
 
 async function createEmployee(id: number, email: string, name: string | null, surname: string | null,
-      birthdate: string | null, gender: string | null, work: string | null, image: string | null, customerIdsList: number[]) {
+    birthdate: string | null, gender: string | null, work: string | null, image: string | null, customerIdsList: number[]) {
     await prisma.employee.create({
         data: {
             id: id,
@@ -32,7 +32,7 @@ async function createEmployee(id: number, email: string, name: string | null, su
             work: work,
             image: image,
             // @ts-ignore
-            role: (work === "coach") ? "coach" : "manager",
+            role: (work === "Coach") ? "COACH" : "MANAGER",
             customerIds: customerIdsList
         }
     });
@@ -65,6 +65,8 @@ async function fetchEmployeeDetails(token: string, employeeId: number) {
 
         if (response.statusCode !== 200) {
             console.log("Error: Could not fetch data for employee id: ", employeeId);
+            console.log("Status code: ", response.statusCode);
+            console.log("Body: ", response.body);
             return null;
         }
         return JSON.parse(response.body);
@@ -86,10 +88,13 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
         });
         if (!response.ok) {
             console.log("Error: Could not fetch image for employee id: ", employeeId);
+            console.log("Status code: ", response.status);
+            console.log("Body: ", response.body);
             return null;
         }
-        const imageBuffer = await response.buffer();
-        return imageBuffer.toString('base64');
+        const employeeImage = await response.buffer();
+        const employeeImageStr = employeeImage.toString('base64');
+        return employeeImageStr;
     } catch (error) {
         console.log("Error: ", error);
         return null;
@@ -127,6 +132,8 @@ module.exports = async function fetchEmployees(token: string) {
 
         if (response.statusCode !== 200) {
             console.log("Error: Could not fetch data from employees");
+            console.log("Status code: ", response.statusCode);
+            console.log("Body: ", response.body);
             return;
         }
         const employees = JSON.parse(response.body);

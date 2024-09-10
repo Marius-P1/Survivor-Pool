@@ -6,6 +6,8 @@ import login from "@/pages/master/AppLogin.vue";
 import profile from "@/pages/AppProfile.vue";
 import astrological from "@/pages/AppAstrological.vue";
 import wardrobe from "@/pages/AppWardrobe.vue";
+import employees from "@/pages/AppEmployees.vue";
+import customers from "@/pages/AppCustomers.vue";
 
 
 const routes = [
@@ -38,6 +40,16 @@ const routes = [
         name: 'Wardrobe',
         path: '/wardrobe',
         component: wardrobe
+    },
+    {
+        name: 'Employees',
+        path: '/employees',
+        component: employees
+    },
+    {
+        name: 'Customers',
+        path: '/customers',
+        component: customers
     }
 ];
 
