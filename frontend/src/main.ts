@@ -15,13 +15,14 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Chart from 'primevue/chart';
 import ProgressBar from 'primevue/progressbar';
-import card from 'primevue/card';
+import Card from 'primevue/card';
 import ProgressSpinner from 'primevue/progressspinner';
 import AutoComplete from 'primevue/autocomplete';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Checkbox from 'primevue/checkbox';
+import Knob from 'primevue/knob';
 
 // Import css
 import './assets/main.css'
@@ -51,8 +52,7 @@ app.component('InputText', InputText);
 app.component('PrimePassword', PrimePassword);
 app.component('PrimeAvatar', Avatar);
 app.component('PrimePanel', Panel);
-app.component('ProgressBar', ProgressBar);
-app.component('PrimeCard', card);
+app.component('PrimeCard', Card);
 app.component('ProgressSpinner', ProgressSpinner);
 app.component('AutoComplete', AutoComplete);
 app.component('PrimeDataTable', DataTable);
@@ -60,5 +60,6 @@ app.component('PrimeColumn', Column);
 app.component('PrimeDialog', Dialog);
 app.component('PrimeCheckbox', Checkbox);
 app.component(Chart.name, Chart);
+app.component('PrimeKnob', Knob);
 
 app.mount('#app')

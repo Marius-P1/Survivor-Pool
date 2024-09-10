@@ -1,6 +1,9 @@
 <template>
-  <div class="zodiac-parent">
-    <h2>Zodiac Compatibility Checker</h2>
+  <div class="px-1 md:px-6">
+    <h1>Zodiac Compatibility Checker</h1>
+  </div>
+  <hr />
+  <div class="zodiac-parent astro">
     <!-- Circular customers Images -->
 
     <ProgressSpinner v-if="CustomersList === null" />
@@ -9,7 +12,7 @@
       <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 gap-1">
         <div class="sm:mx-1 h-full">
           <div class="card h-full">
-            <PrimePanel toggleable>
+            <PrimePanel toggleable class="h-full">
               <template #header>
                 <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar v-if="customerImage1" :image="customerImage1" size="large" shape="circle" />
@@ -41,7 +44,7 @@
       <div class="flex flex-column align-items-stretch w-12 lg:w-4 gap-1 lg:gap-3 sm:mt-0 mt-4">
         <div class="mx-1 h-full">
           <div class="card h-full">
-            <PrimePanel toggleable>
+            <PrimePanel toggleable class="h-full">
               <template #header>
                 <div class="flex flex-wrap align-items-center gap-2">
                   <PrimeAvatar :image="customerImage2" size="large" shape="circle" />
@@ -74,15 +77,15 @@
 
     <!-- Compatibility Percentage -->
 
-    <div v-if="selectedCustomer1 && selectedCustomer2  && isClicked" class="sm:mt-8 mt-2 flex flex-column justify-content-center">
+    <div v-if="selectedCustomer1 && selectedCustomer2  && isClicked" class="sm:mt-8 mt-6 flex flex-column justify-content-center">
+      <div class="flex justify-content-center">
+        <PrimeKnob v-model="compatibilityPercentage" readonly :size="200" valueColor="pink" />
+      </div>
       <div class="flex justify-content-center">
         <h3>{{customerInfo1.astrological_sign}} & {{customerInfo2.astrological_sign}}</h3>
       </div>
-      <div class="flex align-items-center justify-content-center">
+      <div class="text-center flex align-items-center justify-content-center">
         <h4>{{ zodiacCompatibilityDescription }}</h4>
-      </div>
-      <div class="card ">
-        <ProgressBar  severity="help" class="" :value="compatibilityPercentage" showValue="true" />
       </div>
     </div>
 
@@ -201,6 +204,47 @@ export default {
 };
 </script>
 
-<style scoped>
-  @import "../assets/css/Astrological.css";
+  <style scoped>
+  .zodiac-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2rem;
+  }
+
+  .astro {
+    font-size: 20px !important;
+    font-weight: normal;
+    color: var(--text-color);
+    padding: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  @media (max-width: 600px) {
+    .astro {
+      padding: 0;
+      font-size: 17px !important;
+    }
+    .zodiac-parent {
+      margin: 0;
+    }
+    .card {
+      border-radius: 0px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    line-height: 1.75;
+  }
 </style>
