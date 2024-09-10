@@ -26,45 +26,52 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { title, description } = req.body;
-    const newId = await prisma.tips.count();
-    const tip = await prisma.tips.create({
-        data: {
-            id: newId,
-            title: title,
-            tip: description
+    const maxId = await prisma.tips.findFirst({
+        select: {
+            id: true
+        },
+        orderBy: {
+            id: 'desc'
         }
     });
-    res.send(tip);
+    const { title, tip } = req.body;
+    const newTip = await prisma.tips.create({
+        data: {
+            id: maxId ? maxId.id + 1 : 1,
+            title: title,
+            tip: tip
+        }
+    });
+    res.send(newTip);
 });
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { title, description } = req.body;
-    const tip = await prisma.tips.update({
+    const { newTitle, newTip } = req.body;
+    const updatedTip = await prisma.tips.update({
         where: {
             id: parseInt(id)
         },
         data: {
-            title: title,
-            tip: description
+            title: newTitle,
+            tip: newTip
         }
     });
-    if (!tip) {
+    if (!updatedTip) {
         res.status(404).send('Tip not found');
         return;
     }
-    res.send(tip);
+    res.send(updatedTip);
 });
 
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    const tip = await prisma.tips.delete({
+    const deletedTip = await prisma.tips.delete({
         where: {
             id: parseInt(id)
         }
     });
-    if (!tip) {
+    if (!deletedTip) {
         res.status(404).send('Tip not found');
         return;
     }
