@@ -12,13 +12,6 @@ const app = express();
 const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
 
-enum Role {
-    CLIENT,
-    COACH,
-    MANAGER,
-    OTHER
-}
-
 async function checkIfEmployeeIdExists(id: number) {
     const employee = await prisma.employee.findUnique({
         where: { id: id }
@@ -27,7 +20,7 @@ async function checkIfEmployeeIdExists(id: number) {
 }
 
 async function createEmployee(id: number, email: string, name: string | null, surname: string | null,
-    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null, customerIdsList: number[]) {
+      birthdate: string | null, gender: string | null, work: string | null, image: string | null, customerIdsList: number[]) {
     await prisma.employee.create({
         data: {
             id: id,
@@ -39,7 +32,7 @@ async function createEmployee(id: number, email: string, name: string | null, su
             work: work,
             image: image,
             // @ts-ignore
-            role: (work === "coach") ? Role.COACH : Role.MANAGER,
+            role: (work === "coach") ? "coach" : "manager",
             customerIds: customerIdsList
         }
     });
@@ -112,8 +105,8 @@ async function getEmployeeDetails(token: string, employeeId: number) {
     if (await checkIfEmployeeIdExists(employeeId)) {
         await updateEmployeeImageIfNull(employeeId, employeeImage);
     } else {
-        await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birthdate,
-            employee.gender, employee.work, employeeImage, employee.role, customerIdsList);
+        await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birth_date,
+            employee.gender, employee.work, employeeImage, customerIdsList);
     }
 }
 

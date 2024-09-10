@@ -13,13 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  CLIENT
-  COACH
-  MANAGER
-  OTHER
-}
-
 model Credentials {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -45,7 +38,7 @@ model Employee {
   gender    String?
   work      String?
   image     String?
-  role      Role     @default(OTHER)
+  role      String?
   customerIds Int[]
   lastLogin DateTime @default(now())
 }
