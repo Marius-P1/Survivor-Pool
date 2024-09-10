@@ -16,6 +16,11 @@ import ToastService from 'primevue/toastservice';
 import ProgressBar from 'primevue/progressbar';
 import card from 'primevue/card';
 import ProgressSpinner from 'primevue/progressspinner';
+import AutoComplete from 'primevue/autocomplete';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Dialog from 'primevue/dialog';
+import Checkbox from 'primevue/checkbox';
 
 // Import css
 import './assets/main.css'
@@ -48,5 +53,10 @@ app.component('PrimePanel', Panel);
 app.component('ProgressBar', ProgressBar);
 app.component('PrimeCard', card);
 app.component('ProgressSpinner', ProgressSpinner);
+app.component('AutoComplete', AutoComplete);
+app.component('PrimeDataTable', DataTable);
+app.component('PrimeColumn', Column);
+app.component('PrimeDialog', Dialog);
+app.component('PrimeCheckbox', Checkbox);
 
 app.mount('#app')

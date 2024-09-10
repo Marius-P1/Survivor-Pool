@@ -12,13 +12,6 @@ const app = express();
 const TEAMTOKEN = process.env.TEAMTOKEN;
 const API_URL = process.env.API_URL;
 
-enum Role {
-    CLIENT,
-    COACH,
-    MANAGER,
-    OTHER
-}
-
 async function checkIfEmployeeIdExists(id: number) {
     const employee = await prisma.employee.findUnique({
         where: { id: id }
@@ -27,7 +20,7 @@ async function checkIfEmployeeIdExists(id: number) {
 }
 
 async function createEmployee(id: number, email: string, name: string | null, surname: string | null,
-    birthdate: string | null, gender: string | null, work: string | null, image: string | null, role: string | null, constumerIdsList: number[]) {
+    birthdate: string | null, gender: string | null, work: string | null, image: string | null, customerIdsList: number[]) {
     await prisma.employee.create({
         data: {
             id: id,
@@ -39,8 +32,8 @@ async function createEmployee(id: number, email: string, name: string | null, su
             work: work,
             image: image,
             // @ts-ignore
-            role: (work === "coach") ? Role.COACH : Role.MANAGER,
-            constumerIds: constumerIdsList
+            role: (work === "Coach") ? "COACH" : "MANAGER",
+            customerIds: customerIdsList
         }
     });
 }
@@ -72,6 +65,8 @@ async function fetchEmployeeDetails(token: string, employeeId: number) {
 
         if (response.statusCode !== 200) {
             console.log("Error: Could not fetch data for employee id: ", employeeId);
+            console.log("Status code: ", response.statusCode);
+            console.log("Body: ", response.body);
             return null;
         }
         return JSON.parse(response.body);
@@ -93,10 +88,13 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
         });
         if (!response.ok) {
             console.log("Error: Could not fetch image for employee id: ", employeeId);
+            console.log("Status code: ", response.status);
+            console.log("Body: ", response.body);
             return null;
         }
-        const imageBuffer = await response.buffer();
-        return imageBuffer.toString('base64');
+        const employeeImage = await response.buffer();
+        const employeeImageStr = employeeImage.toString('base64');
+        return employeeImageStr;
     } catch (error) {
         console.log("Error: ", error);
         return null;
@@ -106,14 +104,14 @@ async function fetchEmployeeImage(token: string, employeeId: number): Promise<st
 async function getEmployeeDetails(token: string, employeeId: number) {
     const employee = await fetchEmployeeDetails(token, employeeId);
     const employeeImage = await fetchEmployeeImage(token, employeeId);
-    const constumerIdsList: number[] = [];
+    const customerIdsList: number[] = [];
 
     if (employee === null) return;
     if (await checkIfEmployeeIdExists(employeeId)) {
         await updateEmployeeImageIfNull(employeeId, employeeImage);
     } else {
-        await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birthdate,
-            employee.gender, employee.work, employeeImage, employee.role, constumerIdsList);
+        await createEmployee(employee.id, employee.email, employee.name, employee.surname, employee.birth_date,
+            employee.gender, employee.work, employeeImage, customerIdsList);
     }
 }
 
@@ -134,6 +132,8 @@ module.exports = async function fetchEmployees(token: string) {
 
         if (response.statusCode !== 200) {
             console.log("Error: Could not fetch data from employees");
+            console.log("Status code: ", response.statusCode);
+            console.log("Body: ", response.body);
             return;
         }
         const employees = JSON.parse(response.body);

@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import bodyParser from 'body-parser';
 import employeeRouter from "./routes/employee";
+import tipsRouter from "./routes/tips";
+import eventRouter from "./routes/event";
 
 dotenv.config();
 const app = express();
@@ -14,7 +17,12 @@ const authMiddleware = require("./middleware/auth");
 const fetchController = require("./fetch/fetch");
 const customerController = require("./controllers/customers");
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/employee", employeeRouter);
+app.use("/events", eventRouter);
+app.use("/tips", tipsRouter);
 
 
 app.post("/login", userController.login);
