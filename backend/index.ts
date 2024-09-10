@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from 'body-parser';
 import employeeRouter from "./routes/employee";
+import tipsRouter from "./routes/tips";
 import eventRouter from "./routes/event";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/employee", employeeRouter);
 app.use("/events", eventRouter);
+app.use("/tips", tipsRouter);
 
 app.post("/login", userController.login);
 
