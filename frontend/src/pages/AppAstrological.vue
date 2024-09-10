@@ -1,6 +1,9 @@
 <template>
+  <div class="px-1 md:px-6">
+    <h1>Zodiac Compatibility Checker</h1>
+  </div>
+  <hr />
   <div class="zodiac-parent">
-    <h2>Zodiac Compatibility Checker</h2>
     <!-- Circular customers Images -->
 
     <ProgressSpinner v-if="CustomersList === null" />
