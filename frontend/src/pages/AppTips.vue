@@ -91,6 +91,8 @@ onMounted(() => {
 </style>
 
 <template>
+  <AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Tips</h1>
   </div>

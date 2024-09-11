@@ -1,4 +1,6 @@
 <template>
+	<AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Zodiac Compatibility Checker</h1>
   </div>

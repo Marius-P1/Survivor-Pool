@@ -15,7 +15,7 @@
         clients.value = clientsResponse.data;
     });
     var visible = ref(false);
-    
+
     var selectedClients = ref([]);
     var oldSelectedClients = ref([]);
     var currentEmployeeId = ref(0);
@@ -57,50 +57,51 @@
 </script>
 
 <template>
-  <div>
-    <h1>Coaches</h1>
-    <hr />
-    <div class="p-7">
-        <PrimeDataTable :value="employeesData" showGridlines scrollable scrollHeight="700px">
-            <PrimeColumn field="id" sortable header="#"></PrimeColumn>
-            <PrimeColumn field="name" sortable header="Name"></PrimeColumn>
-            <PrimeColumn field="surname" sortable header="Surname"></PrimeColumn>
-            <PrimeColumn field="birthdate" sortable header="Birth Date"></PrimeColumn>
-            <PrimeColumn>
-                <template #header>
-                    <div>Customers</div>
-                </template>
-                <template #body="slotProps">
-                    <div v-if="slotProps.data.work !== 'Coach'">
-                        <span class="p-text-secondary">This employee is not a coach</span>
-                    </div>
+    <AppHeader />
 
-                    <div v-else>
-                        <PrimeButton icon="pi pi-pen-to-square" label="Edit coach customers" severity="info" rounded aria-label="User" @click="enterEdit(slotProps.data.id)"></PrimeButton>
+    <div>
+        <h1>Coaches</h1>
+        <hr />
+        <div class="p-7">
+            <PrimeDataTable :value="employeesData" showGridlines scrollable scrollHeight="700px">
+                <PrimeColumn field="id" sortable header="#"></PrimeColumn>
+                <PrimeColumn field="name" sortable header="Name"></PrimeColumn>
+                <PrimeColumn field="surname" sortable header="Surname"></PrimeColumn>
+                <PrimeColumn field="birthdate" sortable header="Birth Date"></PrimeColumn>
+                <PrimeColumn>
+                    <template #header>
+                        <div>Customers</div>
+                    </template>
+                    <template #body="slotProps">
+                        <div v-if="slotProps.data.work !== 'Coach'">
+                            <span class="p-text-secondary">This employee is not a coach</span>
+                        </div>
+                        <div v-else>
+                            <PrimeButton icon="pi pi-pen-to-square" label="Edit coach customers" severity="info" rounded aria-label="User" @click="enterEdit(slotProps.data.id)"></PrimeButton>
 
-                        <PrimeDialog v-model:visible="visible" modal header="Edit coach customers" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                            <span class="p-text-secondary block mb-5">Select the customers that you want to assign to this coach</span>
+                            <PrimeDialog v-model:visible="visible" modal header="Edit coach customers" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                                <span class="p-text-secondary block mb-5">Select the customers that you want to assign to this coach</span>
 
-                            <div class="flex flex-column gap-4 px-4 pb-4">
-                                <div v-for="client of clients" :key="client.id" class="flex items-center gap-2">
-                                    <PrimeCheckbox v-model="selectedClients" name="client" :value="client.id"></PrimeCheckbox>
-                                    <label :for="client.id">{{ client.name }} {{ client.surname }}</label>
+                                <div class="flex flex-column gap-4 px-4 pb-4">
+                                    <div v-for="client of clients" :key="client.id" class="flex items-center gap-2">
+                                        <PrimeCheckbox v-model="selectedClients" name="client" :value="client.id"></PrimeCheckbox>
+                                        <label :for="client.id">{{ client.name }} {{ client.surname }}</label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="flex justify-content-end gap-2">
-                                <PrimeButton type="button" label="Cancel" severity="secondary" @click="cancelEdit()"></PrimeButton>
-                                <PrimeButton type="button" label="Save" @click="updateEdit()"></PrimeButton>
-                            </div>
-                        </PrimeDialog>
-                    </div>
+                                <div class="flex justify-content-end gap-2">
+                                    <PrimeButton type="button" label="Cancel" severity="secondary" @click="cancelEdit()"></PrimeButton>
+                                    <PrimeButton type="button" label="Save" @click="updateEdit()"></PrimeButton>
+                                </div>
+                            </PrimeDialog>
+                        </div>
 
-                </template>
-            </PrimeColumn>
-            <PrimeColumn field="lastLogin" sortable header="Last connection"></PrimeColumn>
-        </PrimeDataTable>
+                    </template>
+                </PrimeColumn>
+                <PrimeColumn field="lastLogin" sortable header="Last connection"></PrimeColumn>
+            </PrimeDataTable>
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>

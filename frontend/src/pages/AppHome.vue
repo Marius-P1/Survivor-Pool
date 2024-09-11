@@ -38,6 +38,8 @@
 </script>
 
 <template>
+	<AppHeader />
+
 	<div>
 		<h1 class="flex justify-content-center font-bold text-4xl md:text-7xl lg:text-8xl m-0">SOUL CONNECTION</h1>
 		<h1 class="flex justify-content-center ont-medium text-3xl md:text-7xl m-0"> Dashboard</h1>
