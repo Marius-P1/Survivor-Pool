@@ -101,7 +101,6 @@ export default defineComponent({
       eventChartOptions.value = setEventChartOptions();
       paymentChartData.value = setPaymentChartData();
       paymentChartOptions.value = setPaymentChartOptions();
-
     });
 
     async function getCoachList() {
@@ -149,14 +148,6 @@ export default defineComponent({
       return {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'august', 'september', 'october', 'november', 'december'],
         datasets: [
-          {
-            label: 'Dataset 1',
-            fill: false,
-            borderColor: documentStyle.getPropertyValue('--cyan-500'),
-            yAxisID: 'y',
-            tension: 0.4,
-            data: [65, 59, 80, 81, 56, 55, 10]
-          },
           {
             label: 'Dataset 2',
             fill: false,
@@ -332,10 +323,4 @@ export default defineComponent({
 
 <style scoped>
 
-.card {
-  background: var(--surface-card);
-  padding: 2rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
 </style>
