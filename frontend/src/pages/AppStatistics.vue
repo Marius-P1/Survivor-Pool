@@ -73,7 +73,7 @@ export default defineComponent({
     const paymentChartOptions = ref();
     const coachList = ref<{ id: number, name: string, image: string, customer_nb: number, event_nb: number, meeting_nb: number}[]>([]);
     const eventsData = ref<any[]>([]);
-    const nbEventByCoach = ref(0);
+    const customerClientId = ref<any[]>([]);
 
     interface Event {
       id: number;
@@ -96,10 +96,10 @@ export default defineComponent({
 
       coachList.value.forEach(coach => {
         eventChartData.value[coach.id] = setEventChartData(coach);
+        paymentChartData.value = setPaymentChartData(coach);
       });
 
       eventChartOptions.value = setEventChartOptions();
-      paymentChartData.value = setPaymentChartData();
       paymentChartOptions.value = setPaymentChartOptions();
     });
 
@@ -115,12 +115,12 @@ export default defineComponent({
 
         for (const coach of coaches) {
           const image = await getEmployeeImage(coach.id);
-          const customerNb = await getCustomerNumberByCoach(coach.id);
+          await getCustomerIdByCoach(coach.id);
           coachList.value.push({
             id: coach.id,
             name: coach.name + ' ' + coach.surname,
             image: image,
-            customer_nb: customerNb,
+            customer_nb: customerClientId.value[coach.id] ? customerClientId.value[coach.id].length : 0,
             event_nb: 0,
             meeting_nb: 0
           });
@@ -131,14 +131,19 @@ export default defineComponent({
       }
     }
 
-    async function getCustomerNumberByCoach(employeeId: number) {
+    async function getCustomerIdByCoach(employeeId: number) {
       try {
         const response = await axios.get(`http://localhost:3000/employee/${employeeId}/customersList/`, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        return response.data.length;
+        for (const customer of response.data) {
+          if (!customerClientId.value[employeeId]) {
+            customerClientId.value[employeeId] = [];
+          }
+          customerClientId.value[employeeId].push(customer.id);
+        }
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
@@ -158,7 +163,8 @@ export default defineComponent({
       }
     }
 
-    const setPaymentChartData = () => {
+
+    const setPaymentChartData = (coach: { id: number; name: string }) => {
       const documentStyle = getComputedStyle(document.documentElement);
 
       return {
@@ -170,7 +176,7 @@ export default defineComponent({
             borderColor: documentStyle.getPropertyValue('--gray-500'),
             yAxisID: 'y1',
             tension: 0.4,
-            data: [10000, 500, 9000, 8999, 5556, 8789, 300]
+            data: [0]
           }
         ]
       };
@@ -276,6 +282,8 @@ export default defineComponent({
         console.error('Error fetching events:', error);
       }
     }
+
+
 
     const setEventChartData = (coach: { id: number; name: string }) => {
       const documentStyle = getComputedStyle(document.documentElement);
