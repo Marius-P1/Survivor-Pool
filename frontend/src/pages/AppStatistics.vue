@@ -33,10 +33,10 @@
               </h6>
             </template>
           </PrimeCard>
-          <PrimeCard class="bg-gray-300 flex justify-content-center w-6">
+          <PrimeCard :class="[getCardBgClass(coach.meeting_number), 'flex', 'justify-content-center', 'w-6']">
             <template #content>
               <h6 class="flex justify-content-center align-items-center m-0 pb-1">
-                Meetings
+                {{coach.meeting_nb}} Meetings
               </h6>
             </template>
           </PrimeCard>
@@ -120,9 +120,9 @@ export default defineComponent({
             id: coach.id,
             name: coach.name + ' ' + coach.surname,
             image: image,
-            client_nb: 0,
-            event_nb: 0
             customer_nb: customerNb,
+            event_nb: 0,
+            meeting_nb: 0
           });
           coachList.value.sort((a, b) => b.customer_nb - a.customer_nb);
         }
