@@ -12,7 +12,7 @@
           <PrimeAvatar :image="coach.image" size="large" shape="circle" />
           <span class=" font-bold">{{coach.name}} </span>
           <div class="flex justify-content-end gap-3 ml-auto">
-            <span class="p-text-secondary flex ">{{coach.client_nb}} customers</span>
+            <span class="p-text-secondary flex ">{{coach.customer_nb}} customers</span>
           </div>
         </div>
       </template>
@@ -71,7 +71,7 @@ export default defineComponent({
     const eventChartOptions = ref();
     const paymentChartData = ref();
     const paymentChartOptions = ref();
-    const coachList = ref<{ id: number, name: string, image: string, client_nb: number, event_nb: number}[]>([]);
+    const coachList = ref<{ id: number, name: string, image: string, customer_nb: number, event_nb: number, meeting_nb: number}[]>([]);
     const eventsData = ref<any[]>([]);
     const nbEventByCoach = ref(0);
 
@@ -115,16 +115,32 @@ export default defineComponent({
 
         for (const coach of coaches) {
           const image = await getEmployeeImage(coach.id);
+          const customerNb = await getCustomerNumberByCoach(coach.id);
           coachList.value.push({
             id: coach.id,
             name: coach.name + ' ' + coach.surname,
             image: image,
             client_nb: 0,
             event_nb: 0
+            customer_nb: customerNb,
           });
+          coachList.value.sort((a, b) => b.customer_nb - a.customer_nb);
         }
       } catch (error) {
         console.error('Error fetching employees:', error);
+      }
+    }
+
+    async function getCustomerNumberByCoach(employeeId: number) {
+      try {
+        const response = await axios.get(`http://localhost:3000/employee/${employeeId}/customersList/`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        return response.data.length;
+      } catch (error) {
+        console.error('Error fetching customers:', error);
       }
     }
 
