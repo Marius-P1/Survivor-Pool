@@ -318,7 +318,14 @@ export default defineComponent({
         }
       };
     };
-    return { eventChartData, eventChartOptions, paymentChartData, paymentChartOptions };
+
+    const getCardBgClass = (eventNb: number) => {
+      if (eventNb > 5) return 'bg-green-300';
+      if (eventNb > 2) return 'bg-yellow-300';
+      return 'bg-red-300';
+    };
+
+    return { eventChartData, eventChartOptions, paymentChartData, paymentChartOptions, coachList, getCardBgClass };
   }
 });
 </script>
