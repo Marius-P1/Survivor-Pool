@@ -161,8 +161,6 @@ const search = async (event) => {
 </style>
 
 <template>
-  <AppHeader />
-
   <div class="px-1 md:px-6">
     <h1>Wardrobe</h1>
   </div>

@@ -57,8 +57,6 @@
 </script>
 
 <template>
-    <AppHeader />
-
     <div>
         <h1>Coaches</h1>
         <hr />

@@ -71,8 +71,6 @@
 </script>
 
 <template>
-	<AppHeader />
-
     <div>
         <div class="px-1 md:px-6">
             <h1>Customers</h1>
