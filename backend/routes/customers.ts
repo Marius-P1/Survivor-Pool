@@ -227,3 +227,5 @@ router.get('/:id/payments', managerAuthMiddleware, async (request: Request, resp
 	});
 	response.status(200).send(payments);
 });
+
+export default router;
