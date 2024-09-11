@@ -1,47 +1,46 @@
-<template style="height:100%;">
+<template style="height:100%;" class="stats">
   <div class="px-1 md:px-6">
     <h1>Statistics</h1>
   </div>
   <hr />
-  <div class="flex md:flex-row align-items-stretch flex-column gap-2 h-full">
-    <PrimePanel class="w-6 h-full">
+  <div class="flex flex-row gap-2 flex-wrap justify-content-center">
+    <PrimePanel v-for="coach in coachList" :key="coach.id" class="w-6 md:w-4 xl:w-3 flex-grow-1 card h-full" style="box-shadow: 5px 5px 10px 2px rgb(0 0 0 / .2);">
+
       <!-- Header -->
       <template #header>
-        <div class="flex align-items-center gap-2">
-          <PrimeAvatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" size="large" shape="circle" />
-          <span class="font-bold">Amy Elsner</span>
+        <div class="flex w-full align-items-center flex-grow-1 gap-2">
+          <PrimeAvatar :image="coach.image" size="large" shape="circle" />
+          <span class=" font-bold">{{coach.name}} </span>
+          <div class="flex justify-content-end gap-3 ml-auto">
+            <span class="p-text-secondary flex ">{{coach.client_nb}} customers</span>
+          </div>
         </div>
       </template>
 
       <!-- Content -->
-      <div class="flex flex-column align-items-center justify-content-center">
+      <div class="flex flex-column align-items-center justify-content-center gap-0">
 
         <!-- Event type -->
-        <div class="w-full h-full flex align-items-center justify-content-center ">
-          <PrimeChart type="radar" :data="eventChartData" :options="eventChartOptions" class="h-20rem flex align-items-center" />
-        </div>
+        <div class="w-full h-full flex align-items-center justify-content-center pb-2 ">
+          <PrimeChart type="radar" :data="eventChartData[coach.id]" :options="eventChartOptions" :width="300" :height="210" class="flex align-items-center" />        </div>
 
         <!-- Statistics client nb/ meetings / events -->
-        <div class="flex flex-column justify-content-center md:flex-row gap-4 mb-5">
-          <PrimeCard class="bg-green-500 flex justify-content-center w-4">
-            <template #content>
-              <h5 class="flex justify-content-center align-items-center m-0 pb-1">
-                Number of clients
-              </h5>
-            </template>
-          </PrimeCard>
-          <PrimeCard class="bg-green-500 flex justify-content-center w-4">
+        <div class="flex px-3 justify-content-center md:flex-row gap-4 mb-5 w-full">
+          <PrimeCard :class="[getCardBgClass(coach.event_nb), 'flex', 'justify-content-center', 'w-6']">
             <template #content>
               <h5 class="flex justify-content-center align-items-center m-0 pb-1">
                 Events
               </h5>
+              <h6 class="flex justify-content-center align-items-center m-0 pb-1">
+                {{coach.event_nb}} Events
+              </h6>
             </template>
           </PrimeCard>
-          <PrimeCard class="bg-green-500 flex justify-content-center w-4">
+          <PrimeCard class="bg-gray-300 flex justify-content-center w-6">
             <template #content>
-              <h5 class="flex justify-content-center align-items-center m-0 pb-1">
+              <h6 class="flex justify-content-center align-items-center m-0 pb-1">
                 Meetings
-              </h5>
+              </h6>
             </template>
           </PrimeCard>
         </div>
