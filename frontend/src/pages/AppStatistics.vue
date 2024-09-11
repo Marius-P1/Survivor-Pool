@@ -220,32 +220,73 @@ export default defineComponent({
           }
         }
       };
+    };
+
+    async function getEventsData() {
+      try {
+        const response = await axios.get('http://localhost:3000/events', {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const events: Event[] = response.data;
+
+        // Group events by employee and count occurrences of each event type
+        const employeeEvents: { [key: number]: { [key: string]: number } } = {};
+
+        events.forEach((event: Event) => {
+          coachList.value.forEach(coach => {
+            if (coach.id === event.employee_id) {
+              coach.event_nb++;
+            }
+          });
+          if (!employeeEvents[event.employee_id]) {
+            employeeEvents[event.employee_id] = {};
+          }
+          if (!employeeEvents[event.employee_id][event.type]) {
+            employeeEvents[event.employee_id][event.type] = 0;
+          }
+          employeeEvents[event.employee_id][event.type]++;
+        });
+
+        // Format the result
+        const result = Object.keys(employeeEvents).map(employeeId => {
+          const types = Object.keys(employeeEvents[parseInt(employeeId)]).map(type => ({
+            type,
+            count: employeeEvents[parseInt(employeeId)][type]
+          }));
+
+          return {
+            employee_id: parseInt(employeeId),
+            types
+          };
+        });
+
+        eventsData.value = result; // Store the result in the reactive variable
+        return result;
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
     }
 
-    const setEventChartData = () => {
+    const setEventChartData = (coach: { id: number; name: string }) => {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
 
+      const coachEvents = eventsData.value.find(event => event.employee_id === coach.id);
+
       return {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+        labels: coachEvents ? coachEvents.types.map((event: { type: string; count: number }) => event.type) : [],
         datasets: [
           {
-            label: 'My First dataset',
-            borderColor: documentStyle.getPropertyValue('--bluegray-400'),
-            pointBackgroundColor: documentStyle.getPropertyValue('--bluegray-400'),
-            pointBorderColor: documentStyle.getPropertyValue('--bluegray-400'),
-            pointHoverBackgroundColor: textColor,
-            pointHoverBorderColor: documentStyle.getPropertyValue('--bluegray-400'),
-            data: [65, 59, 90, 81, 56, 55, 40]
-          },
-          {
-            label: 'My Second dataset',
-            borderColor: documentStyle.getPropertyValue('--pink-400'),
+            label: '',
+            borderColor: documentStyle.getPropertyValue('--pink-300'),
             pointBackgroundColor: documentStyle.getPropertyValue('--pink-400'),
-            pointBorderColor: documentStyle.getPropertyValue('--pink-400'),
+            pointBorderColor: documentStyle.getPropertyValue('--pink-500'),
             pointHoverBackgroundColor: textColor,
-            pointHoverBorderColor: documentStyle.getPropertyValue('--pink-400'),
-            data: [28, 48, 40, 19, 96, 27, 100]
+            pointHoverBorderColor: documentStyle.getPropertyValue('--pink-600'),
+            data: coachEvents ? coachEvents.types.map((event: { type: string; count: number }) => event.count) : []
           }
         ]
       };
