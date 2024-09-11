@@ -115,8 +115,33 @@ export default {
 
 <style>
 
-  .vuecal__title-bar {background-color: white;}
-  .vuecal__event.test {background-color: rgb(25, 128, 230);border: 1px solid rgb(20, 102, 184);color: #f8f8f8;}
+  .vuecal__title-bar {
+    background-color: white;
+  }
+
+  .vuecal__event.test {
+    background-color: rgb(25, 128, 230);
+    border: 1px solid rgb(20, 102, 184);
+    color: #f8f8f8;
+  }
+
+  .vuecal__cell-content {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+  }
+
+  .vuecal__cell-date {
+    align-self: flex-start;
+    position: absolute;
+    top: 0;
+    margin: 5px;
+  }
+
+  .vuecal__cell-events {
+    margin-top: 20px;
+  }
 
 </style>
 
