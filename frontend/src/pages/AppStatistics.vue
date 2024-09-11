@@ -28,9 +28,6 @@
         <div class="flex px-3 justify-content-center md:flex-row gap-4 mb-5 w-full">
           <PrimeCard :class="[getCardBgClass(coach.event_nb), 'flex', 'justify-content-center', 'w-6']">
             <template #content>
-              <h5 class="flex justify-content-center align-items-center m-0 pb-1">
-                Events
-              </h5>
               <h6 class="flex justify-content-center align-items-center m-0 pb-1">
                 {{coach.event_nb}} Events
               </h6>
@@ -65,28 +62,92 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, defineComponent } from "vue";
+import { ref, onMounted, defineComponent, computed} from "vue";
+import axios from "axios";
 
 export default defineComponent({
   setup() {
-    const eventChartData = ref();
+    const eventChartData = ref<{ [key: number]: any }>({});
     const eventChartOptions = ref();
     const paymentChartData = ref();
     const paymentChartOptions = ref();
+    const coachList = ref<{ id: number, name: string, image: string, client_nb: number, event_nb: number}[]>([]);
+    const eventsData = ref<any[]>([]);
+    const nbEventByCoach = ref(0);
 
-    onMounted(() => {
-      eventChartData.value = setEventChartData();
+    interface Event {
+      id: number;
+      createdAt: string;
+      updatedAt: string;
+      name: string;
+      date: string;
+      max_participants: number;
+      location_x: string;
+      location_y: string;
+      type: string;
+      employee_id: number;
+      location_name: string;
+      duration: number;
+    }
+
+    onMounted(async () => {
+      await getCoachList();
+      await getEventsData();
+
+      coachList.value.forEach(coach => {
+        eventChartData.value[coach.id] = setEventChartData(coach);
+      });
+
       eventChartOptions.value = setEventChartOptions();
       paymentChartData.value = setPaymentChartData();
       paymentChartOptions.value = setPaymentChartOptions();
 
     });
 
+    async function getCoachList() {
+      try {
+        const response = await axios.get('http://localhost:3000/employee', {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const coaches = response.data.filter((employee: { work: string }) => employee.work === 'Coach');
+
+        for (const coach of coaches) {
+          const image = await getEmployeeImage(coach.id);
+          coachList.value.push({
+            id: coach.id,
+            name: coach.name + ' ' + coach.surname,
+            image: image,
+            client_nb: 0,
+            event_nb: 0
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    }
+
+    async function getEmployeeImage(employeeId: number): Promise<string> {
+      try {
+        const response = await axios.get(`http://localhost:3000/employee/${employeeId}/image`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        return "data:image/png;base64," + response.data;
+      } catch (error) {
+        console.error('Error fetching employee image:', error);
+        return ''; // Return an empty string or a default image URL in case of an error
+      }
+    }
+
     const setPaymentChartData = () => {
       const documentStyle = getComputedStyle(document.documentElement);
 
       return {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'august', 'september', 'october', 'november', 'december'],
         datasets: [
           {
             label: 'Dataset 1',
@@ -102,11 +163,12 @@ export default defineComponent({
             borderColor: documentStyle.getPropertyValue('--gray-500'),
             yAxisID: 'y1',
             tension: 0.4,
-            data: [28, 48, 40, 19, 86, 27, 90]
+            data: [10000, 500, 9000, 8999, 5556, 8789, 300]
           }
         ]
       };
     };
+
     const setPaymentChartOptions = () => {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
