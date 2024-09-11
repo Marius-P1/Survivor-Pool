@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import dashboard from "@/pages/master/AppDashboard.vue";
 import home from "@/pages/AppHome.vue";
 import login from "@/pages/master/AppLogin.vue";
 import profile from "@/pages/AppProfile.vue";
@@ -12,11 +11,6 @@ import tips from "@/pages/AppTips.vue";
 
 
 const routes = [
-    {
-        name: 'Dashboard',
-        path: '/dashboard',
-        component: dashboard
-    },
     {
         name: 'Login',
         path: '/',
