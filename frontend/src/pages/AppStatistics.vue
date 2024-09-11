@@ -298,8 +298,11 @@ export default defineComponent({
       const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
 
       return {
+        responsive: false,
         plugins: {
+          datalabels: false,
           legend: {
+            display: false,
             labels: {
               color: textColor
             }
@@ -307,6 +310,7 @@ export default defineComponent({
         },
         scales: {
           r: {
+            suggestedMin: 0,
             grid: {
               color: textColorSecondary
             }
