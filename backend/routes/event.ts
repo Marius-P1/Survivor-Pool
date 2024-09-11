@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from "dotenv";
 import express from 'express';
-import { checkIfTokenIsValid, isManager, getEmployeeIdFromToken, getEmployeeFromToken } from '../controllers/tokenCheck';
 
 const router = express.Router();
 const prisma = new PrismaClient();
+const authMiddleware = require("../middleware/auth");
+const managerAuthMiddleware = require("../middleware/managerAuth");
 dotenv.config();
 
 async function getEventFromDB(eventId: number) {
@@ -19,19 +20,9 @@ async function getEventFromDB(eventId: number) {
     }
 }
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        const employee = await getEmployeeFromToken(token);
+        const employee = res.locals.employeeId;
         if (employee === null) {
             res.status(401).send("Employee not found");
             return;
@@ -55,18 +46,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return
-        }
         if (req.params.id === null) {
             res.status(400).send("Missing parameter");
             return;
@@ -87,17 +68,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        res.status(401).send("Authorization header missing");
-        return;
-    }
-    const token = authHeader.split(" ")[1];
-    if (!await isManager(token)) {
-        res.status(401).send("Unauthorized");
-        return
-    }
+router.post('/', managerAuthMiddleware, async (req, res) => {
     if (req.body === null) {
         res.status(400).send("Missing body");
         return;
@@ -138,18 +109,8 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return
-        }
         if (req.body === null) {
             res.status(400).send("Missing body");
             return;
@@ -193,18 +154,8 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return
-        }
         if (req.params.id === null) {
             res.status(400).send("Missing parameter");
             return;

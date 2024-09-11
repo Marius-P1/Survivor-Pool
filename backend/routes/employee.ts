@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from "dotenv";
 import express from 'express';
-import { checkIfTokenIsValid, isManager, getEmployeeIdFromToken } from '../controllers/tokenCheck';
 
 const router = express.Router();
 const prisma = new PrismaClient();
+const authMiddleware = require("../middleware/auth");
+const managerAuthMiddleware = require("../middleware/managerAuth");
 dotenv.config();
 
 async function getEmployeeFromDB(employeeId: number) {
@@ -64,19 +65,9 @@ async function getEmployeeConstumerList(employee: any, res: any) {
     }
 }
 
-router.get('/me', async (req, res) => {
+router.get('/me', authMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        const employeeId = await getEmployeeIdFromToken(token);
+        const employeeId = res.locals.employeeId;
         if (employeeId === null) {
             res.status(404).send("Employee not found");
             return;
@@ -101,19 +92,9 @@ router.get('/me', async (req, res) => {
     }
 });
 
-router.get('/me/image', async (req, res) => {
+router.get('/me/image', authMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        const employeeId = await getEmployeeIdFromToken(token);
+        const employeeId = res.locals.employeeId;
         if (employeeId === null) {
             res.status(404).send("Employee not found");
             return;
@@ -135,23 +116,13 @@ router.get('/me/image', async (req, res) => {
 });
 
 // All managers request for info about employees
-router.get('/', async (req, res) => {
+router.get('/', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         const employees = await prisma.employee.findMany();
+        if (employees === null) {
+            res.status(404).send("Employees not found");
+            return;
+        }
         const employeesWithoutImage = employees.map(employee => {
             return {
                 id: employee.id,
@@ -169,22 +140,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         if (req.params.id === null || isNaN(parseInt(req.params.id))) {
             res.status(404).send("Wrong employee id");
             return;
@@ -212,22 +169,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/:id/image', async (req, res) => {
+router.get('/:id/image', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         if (req.params.id === null || isNaN(parseInt(req.params.id))) {
             res.status(404).send("Wrong employee id");
             return;
@@ -250,19 +193,9 @@ router.get('/:id/image', async (req, res) => {
 });
 
 //Employee's request for his customers list
-router.get('/customerslist', async (req, res) => {
+router.get('/customerslist', authMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        const employeeId = await getEmployeeIdFromToken(token);
+        const employeeId = res.locals.employeeId;
         if (employeeId === null) {
             res.status(404).send("Employee not found");
             return;
@@ -276,22 +209,8 @@ router.get('/customerslist', async (req, res) => {
 });
 
 //Managers request for the customers list of one employee
-router.get('/:id/customerslist', async (req, res) => {
+router.get('/:id/customerslist', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         if (req.params.id === null || isNaN(parseInt(req.params.id))) {
             res.status(404).send("Wrong employee id");
             return;
@@ -305,22 +224,8 @@ router.get('/:id/customerslist', async (req, res) => {
     }
 });
 
-router.put('/:id/customerslist/add/:idconst', async (req, res) => {
+router.put('/:id/customerslist/add/:idconst', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         if (req.params.id === null || req.params.idconst === null) {
             res.status(404).send("Wrong employee id or customer id");
             return;
@@ -357,22 +262,8 @@ router.put('/:id/customerslist/add/:idconst', async (req, res) => {
     }
 });
 
-router.put('/:id/customerslist/remove/:idconst', async (req, res) => {
+router.put('/:id/customerslist/remove/:idconst', managerAuthMiddleware, async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.status(401).send("Authorization header missing");
-            return;
-        }
-        const token = authHeader.split(" ")[1];
-        if (!await checkIfTokenIsValid(token)) {
-            res.status(401).send("Invalid token");
-            return;
-        }
-        if (!await isManager(token)) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
         if (req.params.id === null || req.params.idconst === null) {
             res.status(404).send("Wrong employee id or customer id");
             return;
