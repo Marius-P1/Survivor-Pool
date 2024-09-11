@@ -109,10 +109,9 @@ const search = async (event) => {
 
 </script>
 
-<style>
+<style scoped>
   html, body {
     font-size: 14px;
-    height: 100%;
     margin: 5px;
     padding: 0;
   }
