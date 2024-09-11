@@ -50,6 +50,11 @@ const routes = [
         name: 'Tips',
         path: '/tips',
         component: tips,
+    },
+    {
+        name: 'NotFound',
+        path: '/:pathMatch(.*)*',
+        redirect: { name: 'Home' }
     }
 ];
 
