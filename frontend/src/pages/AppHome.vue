@@ -1,33 +1,57 @@
 <script setup lang="ts">
 	import axios from 'axios';
 	import { ref, onMounted } from 'vue';
+	import router from '../router/index';
+
 
 	const sales = ref(0);
 	const customers = ref(0);
 	const encounters = ref(0);
 	const meetings = ref([]);
+	const token = ref();
 
 	const getSales = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalrevenue');
+		const response = await axios.get('http://localhost:3000/statistics/totalrevenue', {
+			headers : {
+				Authorization: `Bearer ${token.value}`
+			}
+		});
 		sales.value = response.data.totalRevenue.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 	};
 
 	const getCustomers = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalcustomers');
+		const response = await axios.get('http://localhost:3000/statistics/totalcustomers', {
+				headers : {
+					Authorization: `Bearer ${token.value}`
+				}
+			});
 		customers.value = response.data.totalCustomers;
 	};
 
 	const getEncounters = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalevents');
+		const response = await axios.get('http://localhost:3000/statistics/totalevents', {
+			headers : {
+				Authorization: `Bearer ${token.value}`
+			}
+		});
 		encounters.value = response.data.totalEvents;
 	};
 
 	const getMeetings = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/encountersbysource');
+		const response = await axios.get('http://localhost:3000/statistics/encountersbysource', {
+			headers : {
+				Authorization: `Bearer ${token.value}`
+			}
+		});
 		meetings.value = response.data;
 	};
 
 	onMounted(async () => {
+		token.value = localStorage.getItem('token');
+		if (!token.value) {
+			router.push('/');
+			return;
+		}
 		await getSales();
 		await getCustomers();
 		await getEncounters();
@@ -38,6 +62,8 @@
 </script>
 
 <template>
+	<AppHeader />
+
 	<div>
 		<h1 class="flex justify-content-center font-bold text-4xl md:text-7xl lg:text-8xl m-0">SOUL CONNECTION</h1>
 		<h1 class="flex justify-content-center ont-medium text-3xl md:text-7xl m-0"> Dashboard</h1>

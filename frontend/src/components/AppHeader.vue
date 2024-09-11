@@ -4,6 +4,7 @@
 	import { useConfirm } from "primevue/useconfirm";
 	import { useToast } from "primevue/usetoast";
 	import Badge from 'primevue/badge';
+	import router from '@/router';
 
 	const confirm = useConfirm();
 	const toast = useToast();
@@ -20,7 +21,9 @@
 		{ label: 'Events', icon: 'pi pi-fw pi-map', route: '/events' }
 	]);
 	const username = ref("John Doe");
-
+	const email = ref("");
+	const customerData = ref([]);
+	const image = ref("a");
 
 	const toggle = (event: any) => {
 		op.value.toggle(event);
@@ -37,12 +40,37 @@
 			acceptLabel: 'Confirm',
 			accept: () => {
 				toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have been logout', life: 3000 });
+				localStorage.removeItem('token');
+				router.push('/login');
 			},
 			reject: () => {
 				toast.add({ severity: 'error', summary: 'Rejected', detail: 'You are still logged in', life: 3000 });
 			}
 		});
 	};
+
+	onMounted(async () => {
+		const token = localStorage.getItem('token');
+		if (!token) {
+			router.push('/login');
+			return;
+		}
+		console.log(token);
+		const response = await axios.get('http://localhost:3000/employee/me', {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		customerData.value = response.data;
+		username.value = customerData.value.name + ' ' + customerData.value.surname || 'John Doe';
+		email.value = customerData.value.email || 'email';
+		const responseImage = await axios.get('http://localhost:3000/employee/me/image', {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		image.value = "data:image/png;base64," + responseImage.data;
+	});
 </script>
 
 <template>
@@ -74,10 +102,10 @@
 				<PrimeOverlayPanel ref="op">
 					<div class="flex flex-column justify-content-center gap-3 w-25rem">
 						<div class="flex flex-row gap-2 justify-content-around">
-							<PrimeAvatar image="a" shape="circle" size="xlarge" class="" />
+							<PrimeAvatar :image=image shape="circle" size="xlarge" class="" />
 							<div class="flex flex-column justify-content-center">
 								<span class="font-medium text-900 block mb-2 flex align-items-center justify-content-center">{{ username }}</span>
-								<span class="font-light text-900 block mb-2 font-italic flex align-items-center justify-content-center">email</span>
+								<span class="font-light text-900 block mb-2 font-italic flex align-items-center justify-content-center">{{ email }}</span>
 								<PrimeToast />
 								<PrimeConfirmDialog></PrimeConfirmDialog>
 								<PrimeButton label="Logout" icon="pi pi-sign-out" class="p-button-danger" @click="logout($event)" />

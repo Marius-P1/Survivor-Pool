@@ -4,6 +4,7 @@ import Carousel from 'primevue/carousel';
 import AutoComplete from 'primevue/autocomplete';
 import { ref, onMounted } from "vue";
 import axios from 'axios';
+import router from '../router/index';
 
 const selectedCustomer = ref();
 const selectedCustomerImage = ref("");
@@ -16,12 +17,14 @@ const customerClothes = ref({
   bottom: [],
   shoes: []
 });
+const token = ref();
 
 const GetCustomers = async () => {
   try {
     const response = await axios.get('http://localhost:3000/customers', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     return response.data.map(customer => ({
@@ -37,7 +40,8 @@ const GetCustomerImage = async () => {
   try {
     const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/image', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     isACustomerSelected.value = true;
@@ -55,7 +59,8 @@ const GetCustomerClothes = async () => {
     }
     const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/clothes', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     isACustomerSelected.value = true;
@@ -87,6 +92,11 @@ const GetCustomerClothes = async () => {
 };
 
 onMounted(async () => {
+  token.value = localStorage.getItem('token');
+  if (!token.value) {
+    router.push('/');
+    return;
+  }
   customers.value = await GetCustomers();
   await GetCustomerClothes();
 })
@@ -161,6 +171,8 @@ const search = async (event) => {
 </style>
 
 <template>
+	<AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Wardrobe</h1>
   </div>

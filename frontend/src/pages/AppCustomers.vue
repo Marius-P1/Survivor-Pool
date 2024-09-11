@@ -1,15 +1,27 @@
 <script setup lang="ts">
     import axios from 'axios';
     import { ref, onMounted } from 'vue';
+    import router from '../router/index';
 
     const value = ref("");
     const items = ref([]);
     const customersData = ref([]);
     const customersList : string[] = [];
     const isACustomertSelected = ref(false);
+    const token = ref();
 
     onMounted(async () => {
-        const response = await axios.get('http://localhost:3000/customers');
+        token.value = localStorage.getItem('token');
+        if (!token.value) {
+            router.push('/');
+            return;
+        }
+        const response = await axios.get('http://localhost:3000/customers', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        });
         customersData.value = response.data;
 
         for (let customer of customersData.value) {
@@ -37,7 +49,12 @@
             return;
         }
         try {
-            var customerInfo = await axios.get('http://localhost:3000/customers/' + customer.id);
+            var customerInfo = await axios.get('http://localhost:3000/customers/' + customer.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                }
+            });
             name.value = customerInfo.data.name;
             surname.value = customerInfo.data.surname;
             birthdate.value = customerInfo.data.birthdate;
@@ -47,20 +64,35 @@
             console.error(error);
         }
         try {
-            var customerImage = await axios.get('http://localhost:3000/customers/' + customer.id + '/image');
+            var customerImage = await axios.get('http://localhost:3000/customers/' + customer.id + '/image', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                }
+            });
             image.value = "data:image/png;base64," + customerImage.data;
         } catch (error) {
             error.response.status === 404 ? image.value = "" : console.error(error);
         }
         try {
-            var customerPayments = await axios.get('http://localhost:3000/customers/' + customer.id + '/payments');
+            var customerPayments = await axios.get('http://localhost:3000/customers/' + customer.id + '/payments', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                }
+            });
             payments.value = customerPayments.data;
             console.log(payments.value);
         } catch (error) {
             error.response.status === 404 ? payments.value = [] : console.error(error);
         }
         try {
-            var customerMeetings = await axios.get('http://localhost:3000/customers/' + customer.id + '/encounters');
+            var customerMeetings = await axios.get('http://localhost:3000/customers/' + customer.id + '/encounters', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                }
+            });
             meetings.value = customerMeetings.data;
             console.log(meetings.value);
         } catch (error) {
@@ -71,6 +103,8 @@
 </script>
 
 <template>
+	<AppHeader />
+
     <div>
         <div class="px-1 md:px-6">
             <h1>Customers</h1>

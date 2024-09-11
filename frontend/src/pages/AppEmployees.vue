@@ -1,17 +1,33 @@
 <script setup lang="ts">
     import axios from 'axios';
     import { ref, onMounted } from 'vue';
+    import router from '../router/index';
 
     var employeesData = ref([]);
     const clients = ref([]);
+    const token = ref();
 
     onMounted(async () => {
-        const response = await axios.get('http://localhost:3000/employee');
+        token.value = localStorage.getItem('token');
+        if (!token.value) {
+            router.push('/');
+            return;
+        }
+        const response = await axios.get('http://localhost:3000/employee', {
+                headers: {
+                    Authorization: `Bearer ${token.value}`
+                }
+            });
         employeesData.value = response.data.sort((a, b) => a.id - b.id);
         employeesData.value.forEach(employee => {
                 employee.lastLogin = new Date(employee.lastLogin).toLocaleDateString();
         });
-        const clientsResponse = await axios.get('http://localhost:3000/customers');
+        const clientsResponse = await axios.get('http://localhost:3000/customers', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        });
         clients.value = clientsResponse.data;
     });
     var visible = ref(false);
@@ -21,7 +37,12 @@
     var currentEmployeeId = ref(0);
 
     const enterEdit = async (id : number) => {
-        const customersListResponse = await axios.get('http://localhost:3000/employee/' + id + '/customerslist');
+        const customersListResponse = await axios.get('http://localhost:3000/employee/' + id + '/customerslist', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        });
         selectedClients.value = customersListResponse.data.map(client => client.id);
         oldSelectedClients.value = customersListResponse.data.map(client => client.id);
         visible.value = true;
@@ -40,13 +61,23 @@
         for (let selectedClient of selectedClients.value) {
             if (!oldSelectedClients.value.includes(selectedClient)) {
                 console.log('Client Added id ' + selectedClient);
-                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/add/' + selectedClient);
+                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/add/' + selectedClient, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token.value}`
+                    }
+                });
             }
         }
         for (let oldSelectedClient of oldSelectedClients.value) {
             if (!selectedClients.value.includes(oldSelectedClient)) {
                 console.log('Client Removed id ' + oldSelectedClient);
-                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/remove/' + oldSelectedClient);
+                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/remove/' + oldSelectedClient, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token.value}`
+                    }
+                });
             }
         }
         selectedClients.value = [];
@@ -57,6 +88,8 @@
 </script>
 
 <template>
+	<AppHeader />
+
     <div>
         <h1>Coaches</h1>
         <hr />
