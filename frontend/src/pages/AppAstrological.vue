@@ -4,7 +4,6 @@
   <div class="px-1 md:px-6">
     <h1>Zodiac Compatibility Checker</h1>
   </div>
-  <hr />
   <div class="zodiac-parent astro">
     <!-- Circular customers Images -->
 
