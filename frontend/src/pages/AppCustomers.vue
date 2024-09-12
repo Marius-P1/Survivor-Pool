@@ -126,10 +126,10 @@
       <div class="flex justify-content-center flex-wrap">
         <h2>Search for a customer</h2>
       </div>
-      <div class="flex justify-content-center flex-wrap">
+    </div>
+      <div class="flex justify-content-center flex-wrap pb-4">
         <AutoComplete v-model="value" forceSelection dropdown :suggestions="items" @complete="search" @change="getCustomer" class=""/>
       </div>
-    </div>
   <div v-if="isACustomertSelected" class="flex md:flex-row flex-column mx-3">
     <div class="customer-card flex flex-column md:w-3 w-full">
       <div class=" customer-card-content w-full h-full flex flex-column align-items-center justify-content-center pb-2">
