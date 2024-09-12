@@ -236,7 +236,7 @@ export default defineComponent({
             label: 'Dataset 2',
             fill: false,
             borderColor: documentStyle.getPropertyValue('--gray-500'),
-            yAxisID: 'y1',
+            yAxisID: 'y',
             tension: 0.4,
             data: data
           }
