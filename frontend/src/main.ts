@@ -12,7 +12,6 @@ import PrimePassword from 'primevue/password';
 import Avatar from "primevue/avatar";
 import Panel from "primevue/panel";
 import ToastService from 'primevue/toastservice';
-import Chart from 'primevue/chart';
 import ProgressBar from 'primevue/progressbar';
 import Card from 'primevue/card';
 import ProgressSpinner from 'primevue/progressspinner';
