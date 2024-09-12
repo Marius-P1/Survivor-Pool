@@ -10,6 +10,7 @@
 	const encounters = ref(0);
 	const meetings = ref([]);
 	const token = ref();
+  const meetingSum = ref(0);
 
 	const getSales = async () => {
 		const response = await axios.get(API_URL + '/statistics/totalrevenue', {
@@ -47,6 +48,14 @@
 		meetings.value = response.data;
 	};
 
+  const getMeetingsSum = async () => {
+    let sum = 0;
+    meetings.value.forEach(meeting => {
+      sum += meeting.numberOfEncounters;
+    });
+    return sum;
+  }
+
 	onMounted(async () => {
 		if (!await checkToken()) {
 			router.push('/');
@@ -57,23 +66,95 @@
 		await getCustomers();
 		await getEncounters();
 		await getMeetings();
-	});
+    radarData.value = setRadarData();
+    radarOptions.value = setRadarOptions();
+    meetingSum.value = await getMeetingsSum();
+  });
 
+  const radarData = ref();
+  const radarOptions = ref(null);
+
+  const setRadarData = () => {
+
+    return {
+      labels: meetings.value.map(meeting => meeting.source),
+      datasets: [
+        {
+          data: meetings.value.map(meeting => meeting.numberOfEncounters),
+        }
+      ]
+    };
+  };
+
+  const setRadarOptions = () => {
+    return {
+      plugins: {
+        legend: false,
+      }
+    };
+  };
 
 </script>
+
+
+<style scoped>
+  .p-card {
+    background-color: #00be82;
+  }
+
+  .header {
+    align-items: end;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 0;
+  }
+
+  .dashboard-title {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .dashboard-btn {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .report-btn {
+    border: none;
+    background-color: #007ad9;
+  }
+
+  .last-days-btn {
+    background-color: #ffffff;
+    color: #1b1c37;
+  }
+
+  .dashboard-info-boxes {
+    background-color: #007ad9;
+    color: #ffffff;
+  }
+
+  .meetings-chart {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+  }
+
+</style>
+
 
 <template>
 	<AppHeader />
 
 	<div>
-		<h1 class="flex justify-content-center font-bold text-4xl md:text-7xl lg:text-8xl m-0">SOUL CONNECTION</h1>
-		<h1 class="flex justify-content-center ont-medium text-3xl md:text-7xl m-0"> Dashboard</h1>
+		<h1 class="dashboard-title"> Dashboard</h1>
+    <div class="header">
+      <h4> Welcome !</h4>
+    </div>
 	</div>
-	<hr />
-
 	<div class="flex flex-column md:gap-4 px-3 lg:px-5 pt-3 lg:pt-5">
 		<div class="flex flex-column justify-content-center md:flex-row gap-4 p-2 lg:px-8">
-			<PrimeCard class="flex justify-content-center md:w-6">
+			<PrimeCard class="dashboard-info-boxes flex justify-content-center md:w-6">
 				<template #title>
 					<h1 class="flex justify-content-center align-items-center m-0">
 						{{ sales }} €
@@ -86,7 +167,7 @@
 				</template>
 			</PrimeCard>
 
-			<PrimeCard class="flex justify-content-center md:w-6">
+			<PrimeCard class="dashboard-info-boxes flex justify-content-center md:w-6">
 				<template #title>
 					<h1 class="flex justify-content-center align-items-center m-0">
 						{{ customers }}
@@ -99,7 +180,20 @@
 				</template>
 			</PrimeCard>
 
-			<PrimeCard class="flex justify-content-center md:w-6">
+      <PrimeCard class="dashboard-info-boxes flex justify-content-center md:w-6">
+        <template #title>
+          <h1 class="flex justify-content-center align-items-center m-0">
+            {{ meetingSum }}
+          </h1>
+        </template>
+        <template #content>
+          <h1 class="flex justify-content-center align-items-center m-0 pb-1">
+            MEETINGS
+          </h1>
+        </template>
+      </PrimeCard>
+
+			<PrimeCard class="dashboard-info-boxes flex justify-content-center md:w-6">
 				<template #title>
 					<h1 class="flex justify-content-center align-items-center m-0">
 						{{ encounters }}
@@ -113,20 +207,11 @@
 			</PrimeCard>
 		</div>
 
-
-		<div class="pb-5 lg:pb-0">
-			<h2 class="flex justify-content-center font-bold text-2xl md:text-4xl m-3">Our Customers Meetings</h2>
-			<PrimeDataTable :value="meetings" showGridlines scrollable scrollHeight="400px" class="text-base md:text-xl">
-				<PrimeColumn field="source" header="Source" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
-				<PrimeColumn field="avgRating" header="Average Encounters Rating" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
-				<PrimeColumn field="numberOfEncounters" header="Number of Encounters" headerStyle="background-color: #3e5468" headerClass="text-lg md:text-2xl"></PrimeColumn>
-			</PrimeDataTable>
-		</div>
+    <div class="meetings-chart">
+      <h2 class="flex justify-content-center font-bold text-2xl md:text-4xl m-3">Meetings by Source</h2>
+      <div class="card flex justify-content-center">
+        <PrimeChart type="radar" :data="radarData" :options="radarOptions" class="w-full md:w-30rem" />
+      </div>
+    </div>
 	</div>
 </template>
-
-<style scoped>
-	.p-card {
-		background-color: #00be82;
-	}
-</style>
