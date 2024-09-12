@@ -128,7 +128,7 @@ router.get('/', authMiddleware, async (req, res) => {
             res.status(404).send("Employee not found");
             return;
         }
-        if (employee.work !== "MANAGER") {
+        if (employee.role !== "MANAGER") {
             const employeeData = await prisma.employee.findUnique({
                 where: { id: employeeId }
             });
