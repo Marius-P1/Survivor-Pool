@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const checkToken = async () => {
-    console.log('Checking token');
     try {
         const token = localStorage.getItem('token');
         if (!token) {
