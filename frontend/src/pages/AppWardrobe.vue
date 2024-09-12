@@ -4,7 +4,10 @@ import Carousel from 'primevue/carousel';
 import AutoComplete from 'primevue/autocomplete';
 import { ref, onMounted } from "vue";
 import axios from 'axios';
+import router from '../router/index';
+import checkToken from '../services/TokenService';
 
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 const selectedCustomer = ref();
 const selectedCustomerImage = ref("");
 const customers = ref([]);
@@ -16,12 +19,14 @@ const customerClothes = ref({
   bottom: [],
   shoes: []
 });
+const token = ref();
 
 const GetCustomers = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/customers', {
+    const response = await axios.get(API_URL + '/customers', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     return response.data.map(customer => ({
@@ -35,9 +40,10 @@ const GetCustomers = async () => {
 
 const GetCustomerImage = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/image', {
+    const response = await axios.get(API_URL + '/customers/' + selectedCustomer.value.id + '/image', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     isACustomerSelected.value = true;
@@ -53,9 +59,10 @@ const GetCustomerClothes = async () => {
     if (!selectedCustomer.value) {
       return;
     }
-    const response = await axios.get('http://localhost:3000/customers/' + selectedCustomer.value.id + '/clothes', {
+    const response = await axios.get(API_URL + '/customers/' + selectedCustomer.value.id + '/clothes', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     isACustomerSelected.value = true;
@@ -87,6 +94,11 @@ const GetCustomerClothes = async () => {
 };
 
 onMounted(async () => {
+  if (!await checkToken()) {
+    router.push('/');
+    return;
+  }
+  token.value = localStorage.getItem('token');
   customers.value = await GetCustomers();
   await GetCustomerClothes();
 })
@@ -161,6 +173,8 @@ const search = async (event) => {
 </style>
 
 <template>
+	<AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Wardrobe</h1>
   </div>

@@ -4,10 +4,12 @@ import express from 'express';
 
 const router = express.Router();
 const prisma = new PrismaClient();
+const authMiddleware = require("../middleware/auth");
+const managerAuthMiddleware = require("../middleware/managerAuth");
 dotenv.config();
 
 // Route to get the total number of customers
-router.get('/totalcustomers', async (req, res) => {
+router.get('/totalcustomers', authMiddleware, async (req, res) => {
     try {
         const totalCustomers = await prisma.customers.count();
         res.send({ totalCustomers });
@@ -18,7 +20,7 @@ router.get('/totalcustomers', async (req, res) => {
 });
 
 // Route to get the total revenue
-router.get('/totalrevenue', async (req, res) => {
+router.get('/totalrevenue', authMiddleware, async (req, res) => {
     try {
         const totalRevenue = await prisma.payments.aggregate({
             _sum: {
@@ -33,7 +35,7 @@ router.get('/totalrevenue', async (req, res) => {
 });
 
 // Route to get the number of events
-router.get('/totalevents', async (req, res) => {
+router.get('/totalevents', authMiddleware, async (req, res) => {
     try {
         const totalEvents = await prisma.events.count();
         res.send({ totalEvents });
@@ -44,7 +46,7 @@ router.get('/totalevents', async (req, res) => {
 });
 
 // Route to get the average rating of encounters
-router.get('/averagerating', async (req, res) => {
+router.get('/averagerating', authMiddleware, async (req, res) => {
     try {
         const averageRating = await prisma.enconters.aggregate({
             _avg: {
@@ -59,7 +61,7 @@ router.get('/averagerating', async (req, res) => {
 });
 
 // Route to get the total number of employees
-router.get('/totalemployees', async (req, res) => {
+router.get('/totalemployees', authMiddleware, async (req, res) => {
     try {
         const totalEmployees = await prisma.employee.count();
         res.send({ totalEmployees });
@@ -70,7 +72,7 @@ router.get('/totalemployees', async (req, res) => {
 });
 
 // Route to get the total number of encounters
-router.get('/encountersbysource', async (req, res) => {
+router.get('/encountersbysource', authMiddleware, async (req, res) => {
     try {
         const encounters = await prisma.enconters.groupBy({
             by: ['source'],
@@ -97,7 +99,7 @@ router.get('/encountersbysource', async (req, res) => {
 });
 
 // Route to get the total number of encounters
-router.get('/totalencounters', async (req, res) => {
+router.get('/totalencounters', authMiddleware, async (req, res) => {
     try {
         const totalEncounters = await prisma.enconters.count();
         res.send({ totalEncounters });
