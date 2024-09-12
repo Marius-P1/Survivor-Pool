@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+const API_URL = process.env.VUE_APP_BACKEND_URL;
+
 const checkToken = async () => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
             return false;
         }
-        const valid = await axios.get('http://localhost:3000/token/isvalid', {
+        const valid = await axios.get(API_URL + '/token/isvalid', {
             headers : {
             Authorization: `Bearer ${token}`
             }
