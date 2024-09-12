@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Frontend Dependencies
         working-directory: ./frontend
@@ -43,13 +43,13 @@ jobs:
           prerelease: false
 
       - name: Upload Frontend Build to Release
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: frontend-build
           path: ./frontend/dist
 
       - name: Upload Backend Build to Release
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: backend-build
           path: ./backend/dist
