@@ -4,6 +4,7 @@
     import router from '../router/index';
     import checkToken from '../services/TokenService';
 
+	const API_URL = process.env.VUE_APP_BACKEND_URL;
     var employeesData = ref([]);
     const clients = ref([]);
     const token = ref();
@@ -14,7 +15,7 @@
 			return;
 		}
         token.value = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/employee', {
+        const response = await axios.get(API_URL + '/employee', {
                 headers: {
                     Authorization: `Bearer ${token.value}`
                 }
@@ -23,7 +24,7 @@
         employeesData.value.forEach(employee => {
                 employee.lastLogin = new Date(employee.lastLogin).toLocaleDateString();
         });
-        const clientsResponse = await axios.get('http://localhost:3000/customers', {
+        const clientsResponse = await axios.get(API_URL + '/customers', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token.value}`
@@ -38,7 +39,7 @@
     var currentEmployeeId = ref(0);
 
     const enterEdit = async (id : number) => {
-        const customersListResponse = await axios.get('http://localhost:3000/employee/' + id + '/customerslist', {
+        const customersListResponse = await axios.get(API_URL + '/employee/' + id + '/customerslist', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token.value}`
@@ -62,7 +63,7 @@
         for (let selectedClient of selectedClients.value) {
             if (!oldSelectedClients.value.includes(selectedClient)) {
                 console.log('Client Added id ' + selectedClient);
-                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/add/' + selectedClient, {
+                await axios.put(API_URL + '/employee/' + id + '/customerslist/add/' + selectedClient, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token.value}`
@@ -73,7 +74,7 @@
         for (let oldSelectedClient of oldSelectedClients.value) {
             if (!selectedClients.value.includes(oldSelectedClient)) {
                 console.log('Client Removed id ' + oldSelectedClient);
-                await axios.put('http://localhost:3000/employee/' + id + '/customerslist/remove/' + oldSelectedClient, {
+                await axios.put(API_URL + '/employee/' + id + '/customerslist/remove/' + oldSelectedClient, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token.value}`

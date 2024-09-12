@@ -6,12 +6,13 @@ import { ref, onMounted } from 'vue';
 import router from '../router/index';
 import checkToken from '../services/TokenService';
 
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 const tips = ref([]);
 const token = ref();
 
 const GetTips = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/tips', {
+    const response = await axios.get(API_URL + '/tips', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token.value}`

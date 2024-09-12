@@ -7,6 +7,7 @@
 	import router from '@/router';
 	import checkToken from '../services/TokenService';
 
+	const API_URL = process.env.VUE_APP_BACKEND_URL;
 	const confirm = useConfirm();
 	const toast = useToast();
 	const op = ref();
@@ -56,7 +57,7 @@
 			return;
 		}
 		const token = localStorage.getItem('token');
-		const response = await axios.get('http://localhost:3000/employee/me', {
+		const response = await axios.get(API_URL + '/employee/me', {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -64,7 +65,7 @@
 		customerData.value = response.data;
 		username.value = customerData.value.name + ' ' + customerData.value.surname || 'John Doe';
 		email.value = customerData.value.email || 'email';
-		const responseImage = await axios.get('http://localhost:3000/employee/me/image', {
+		const responseImage = await axios.get(API_URL + '/employee/me/image', {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}

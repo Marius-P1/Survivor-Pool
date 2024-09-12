@@ -4,6 +4,7 @@
 	import router from '../router/index';
 	import checkToken from '../services/TokenService';
 
+	const API_URL = process.env.VUE_APP_BACKEND_URL;
 	const sales = ref(0);
 	const customers = ref(0);
 	const encounters = ref(0);
@@ -11,7 +12,7 @@
 	const token = ref();
 
 	const getSales = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalrevenue', {
+		const response = await axios.get(API_URL + '/statistics/totalrevenue', {
 			headers : {
 				Authorization: `Bearer ${token.value}`
 			}
@@ -20,7 +21,7 @@
 	};
 
 	const getCustomers = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalcustomers', {
+		const response = await axios.get(API_URL + '/statistics/totalcustomers', {
 				headers : {
 					Authorization: `Bearer ${token.value}`
 				}
@@ -29,7 +30,7 @@
 	};
 
 	const getEncounters = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/totalevents', {
+		const response = await axios.get(API_URL + '/statistics/totalevents', {
 			headers : {
 				Authorization: `Bearer ${token.value}`
 			}
@@ -38,7 +39,7 @@
 	};
 
 	const getMeetings = async () => {
-		const response = await axios.get('http://localhost:3000/statistics/encountersbysource', {
+		const response = await axios.get(API_URL + '/statistics/encountersbysource', {
 			headers : {
 				Authorization: `Bearer ${token.value}`
 			}

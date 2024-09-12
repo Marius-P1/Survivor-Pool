@@ -105,6 +105,7 @@ import router from "../router/index";
 import checkToken from '../services/TokenService';
 
 const token = ref()
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 
 export default {
   components: {PrimeAvatar, PrimePanel},
@@ -143,7 +144,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:3000/customers/${customer.id}/image`, {
+        const response = await axios.get(API_URL + `/customers/${customer.id}/image`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token.value}`
@@ -161,7 +162,7 @@ export default {
     },
     async getCustomerInfo(id, infoProp) {
       try {
-        const response = await axios.get(`http://localhost:3000/customers/${id}`, {
+        const response = await axios.get(API_URL + `/customers/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token.value}`
@@ -189,7 +190,7 @@ export default {
     },
     async GetCustomers() {
       try {
-        const response = await axios.get('http://localhost:3000/customers', {
+        const response = await axios.get(API_URL + '/customers', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token.value}`

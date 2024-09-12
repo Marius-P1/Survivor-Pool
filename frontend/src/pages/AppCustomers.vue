@@ -4,6 +4,7 @@
     import router from '../router/index';
     import checkToken from '../services/TokenService';
 
+	const API_URL = process.env.VUE_APP_BACKEND_URL;
     const value = ref("");
     const items = ref([]);
     const customersData = ref([]);
@@ -17,7 +18,7 @@
 			return;
 		}
         token.value = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/customers', {
+        const response = await axios.get(API_URL + '/customers', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token.value}`
@@ -50,7 +51,7 @@
             return;
         }
         try {
-            var customerInfo = await axios.get('http://localhost:3000/customers/' + customer.id, {
+            var customerInfo = await axios.get(API_URL + '/customers/' + customer.id, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.value}`
@@ -65,7 +66,7 @@
             console.error(error);
         }
         try {
-            var customerImage = await axios.get('http://localhost:3000/customers/' + customer.id + '/image', {
+            var customerImage = await axios.get(API_URL + '/customers/' + customer.id + '/image', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.value}`
@@ -76,7 +77,7 @@
             error.response.status === 404 ? image.value = "" : console.error(error);
         }
         try {
-            var customerPayments = await axios.get('http://localhost:3000/customers/' + customer.id + '/payments', {
+            var customerPayments = await axios.get(API_URL + '/customers/' + customer.id + '/payments', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.value}`
@@ -88,7 +89,7 @@
             error.response.status === 404 ? payments.value = [] : console.error(error);
         }
         try {
-            var customerMeetings = await axios.get('http://localhost:3000/customers/' + customer.id + '/encounters', {
+            var customerMeetings = await axios.get(API_URL + '/customers/' + customer.id + '/encounters', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.value}`
