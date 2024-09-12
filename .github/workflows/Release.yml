@@ -31,7 +31,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
-          npm install -g typescript
+          npm install typescript
           npx tsc --init
           npm run build
 
