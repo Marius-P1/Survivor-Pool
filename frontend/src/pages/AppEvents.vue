@@ -4,12 +4,19 @@ import axios from 'axios';
 import 'primeicons/primeicons.css';
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
+import router from '../router/index';
+import checkToken from '../services/TokenService';
+import {onMounted, ref} from "vue";
+
+const API_URL = process.env.VUE_APP_BACKEND_URL;
+const token = ref();
 
 const GetEvents = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/events', {
+    const response = await axios.get(API_URL + '/events', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     return response.data.map(event => ({
@@ -23,6 +30,14 @@ const GetEvents = async () => {
     console.error('Error fetching events:', error);
   }
 };
+
+onMounted(async () => {
+  if (!await checkToken()) {
+    router.push('/');
+    return;
+  }
+  token.value = localStorage.getItem('token');
+})
 
 const events = await GetEvents();
 
