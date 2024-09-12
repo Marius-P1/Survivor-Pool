@@ -42,7 +42,11 @@ async function getDetailsEvents(id: number, token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying... 1 + id:" + id);
+            await new Promise(r => setTimeout(r, 5000));
+            return await getDetailsEvents(id, token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from events id: ", id);
             return;
@@ -82,7 +86,11 @@ module.exports = async function fetchEvents(token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying... 1");
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchEvents(token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from events");
             return;

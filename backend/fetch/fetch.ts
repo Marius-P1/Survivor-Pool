@@ -64,6 +64,6 @@ module.exports = async () => {
     await fetchEncounters(token);
     await fetchEvents(token);
     await fetchCustomers(token);
-	await fetchEmployees(token);
+	//await fetchEmployees(token);
     console.log("Data fetched from API");
 }

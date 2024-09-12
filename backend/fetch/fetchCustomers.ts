@@ -53,7 +53,11 @@ async function fetchPayments(token: string, customerId: number) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...4 + constid:" + customerId);
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchPayments(token, customerId);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from payments of customer id: ", customerId);
             console.log("Status code: ", respons.statusCode);
@@ -98,7 +102,11 @@ async function getCustomersClothesIds(token: string, customerId: number) : Promi
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...5 + constid:" + customerId);
+            await new Promise(r => setTimeout(r, 5000));
+            return await getCustomersClothesIds(token, customerId);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from customer clothes id: ", customerId);
             console.log("Status code: ", respons.statusCode);
@@ -129,6 +137,11 @@ async function fetchCustomersImage(token: string, customerId: number) : Promise<
                 'X-Group-Authorization': TEAMTOKEN!
             }
         });
+        if (avatar.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...6 + constid:" + customerId);
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchCustomersImage(token, customerId);
+        }
         if (!avatar.ok) {
             console.log("Error: Could not fetch data from customer image id: ", customerId);
             console.log("Status code: ", avatar.status);
@@ -219,7 +232,11 @@ async function getDetailsCustomer(token: string, customerId: number) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...7 + constid:" + customerId);
+            await new Promise(r => setTimeout(r, 5000));
+            return await getDetailsCustomer(token, customerId);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from customers id: ", customerId);
             return;
@@ -246,13 +263,17 @@ module.exports = async function fetchCustomers(token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...8");
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchCustomers(token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from customers");
             return;
         }
         const customers = JSON.parse(respons.body);
-        for (let i = 0; i < customers.length; i++) {
+        for (let i = 0; i < 10; i++) {
             await getDetailsCustomer(token, customers[i].id);
             await new Promise(r => setTimeout(r, 200)); // 5 requests per second else the API will fail some operations
         }

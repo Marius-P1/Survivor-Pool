@@ -51,6 +51,11 @@ module.exports = async function fetchClothes(token: string, id: number, recursiv
                 'X-Group-Authorization': TEAMTOKEN!
             }
         });
+        if (avatar.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...2 + id:" + id);
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchClothes(token, id, recursive);
+        }
         if (!avatar.ok) {
             console.log("Error: Could not fetch data from clothes id: ", id);
             console.log("Status code: ", avatar.status);

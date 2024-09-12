@@ -47,7 +47,11 @@ module.exports = async function fetchTips(token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...9");
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchTips(token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from tips");
             return;

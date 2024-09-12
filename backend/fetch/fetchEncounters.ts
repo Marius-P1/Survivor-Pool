@@ -38,7 +38,11 @@ async function getDetailsEncounter(id: number, token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...3 + id:" + id);
+            await new Promise(r => setTimeout(r, 5000));
+            return await getDetailsEncounter(id, token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from encounter id: ", id);
             return;
@@ -78,7 +82,11 @@ module.exports = async function fetchEncounters(token: string) {
                 'X-Group-Authorization': TEAMTOKEN
             }
         });
-
+        if (respons.status === 429) {
+            console.log("Received 429 Too Many Requests, waiting before retrying...5");
+            await new Promise(r => setTimeout(r, 5000));
+            return await fetchEncounters(token);
+        }
         if (respons.statusCode !== 200) {
             console.log("Error: Could not fetch data from enconters");
             return;
