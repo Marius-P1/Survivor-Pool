@@ -343,5 +343,73 @@ router.post('/', managerAuthMiddleware, async (req, res) => {
     }
 });
 
+router.get('/me/stats', authMiddleware, async (req, res) => {
+    try {
+        const employeeId = res.locals.employeeId;
+        if (employeeId === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const employee = await getEmployeeFromDB(employeeId);
+        if (employee === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const customerIdsList = employee.customerIds;
+        let allStats = [];
+        for (let i = 0; i < customerIdsList.length; i++) {
+            let paymentStatsByConstId = await prisma.payments.findMany({
+                where: { customer_id: customerIdsList[i] }
+            });
+            let stats = paymentStatsByConstId.map(payment => ({
+                amount: payment.amount,
+                date: payment.date,
+                month: payment.date.split('-')[1]
+            }));
+            console.log("Payment stats by month:" + paymentStatsByConstId);
+            allStats.push(stats);
+        }
+        console.log("Stats:", allStats.flat());
+        res.send(allStats.flat());
+    } catch (error) {
+        console.error("Error fetching stats:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get('/:id/stats', managerAuthMiddleware, async (req, res) => {
+    try {
+        if (req.params.id === null || isNaN(parseInt(req.params.id))) {
+            res.status(404).send("Wrong employee id");
+            return;
+        }
+        const employeeId = parseInt(req.params.id);
+        const employee = await getEmployeeFromDB(employeeId);
+        if (employee === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const customerIdsList = employee.customerIds;
+        console.log(customerIdsList);
+        let allStats = [];
+        for (let i = 0; i < customerIdsList.length; i++) {
+            let paymentStatsByConstId = await prisma.payments.findMany({
+                where: { customer_id: customerIdsList[i] }
+            });
+            let stats = paymentStatsByConstId.map(payment => ({
+                amount: payment.amount,
+                date: payment.date,
+                month: payment.date.split('-')[1]
+            }));
+            console.log("Payment stats by month:" + paymentStatsByConstId);
+            allStats.push(stats);
+        }
+        console.log("Stats:", allStats.flat());
+        res.send(allStats.flat());
+    } catch (error) {
+        console.error("Error fetching stats:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 export default router;
