@@ -4,6 +4,7 @@ import home from "@/pages/AppHome.vue";
 import login from "@/pages/master/AppLogin.vue";
 import astrological from "@/pages/AppAstrological.vue";
 import wardrobe from "@/pages/AppWardrobe.vue";
+import statistics from "@/pages/AppStatistics.vue";
 import employees from "@/pages/AppEmployees.vue";
 import customers from "@/pages/AppCustomers.vue";
 import tips from "@/pages/AppTips.vue";
@@ -40,6 +41,11 @@ const routes = [
         name: 'Customers',
         path: '/customers',
         component: customers
+    },
+    {
+        name: 'Statistics',
+        path: '/statistics',
+        component: statistics
     },
     {
         name: 'Tips',
