@@ -33,7 +33,7 @@ jobs:
           npm install
           npm install typescript
           npx tsc --init
-          npm run build
+          npx tsc
 
       - name: Create GitHub Release
         id: create_release
