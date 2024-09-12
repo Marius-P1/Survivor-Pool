@@ -1,5 +1,4 @@
 <script>
-
 import axios from 'axios';
 import 'primeicons/primeicons.css';
 import VueCal from 'vue-cal'
@@ -31,15 +30,7 @@ const GetEvents = async () => {
   }
 };
 
-onMounted(async () => {
-  if (!await checkToken()) {
-    router.push('/');
-    return;
-  }
-  token.value = localStorage.getItem('token');
-})
-
-const events = await GetEvents();
+var events = [];
 
 export default {
   components: { VueCal },
@@ -56,6 +47,14 @@ export default {
       }
     }
   },
+  async mounted() {
+    if (!await checkToken()) {
+      router.push('/');
+      return;
+    }
+    token.value = localStorage.getItem('token');
+    this.events = await GetEvents();
+  }
 };
 
 </script>
