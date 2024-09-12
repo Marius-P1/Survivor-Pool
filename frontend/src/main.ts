@@ -11,7 +11,6 @@ import Dropdown from 'primevue/dropdown';
 import PrimePassword from 'primevue/password';
 import Avatar from "primevue/avatar";
 import Panel from "primevue/panel";
-import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Chart from 'primevue/chart';
 import ProgressBar from 'primevue/progressbar';
@@ -23,6 +22,11 @@ import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Checkbox from 'primevue/checkbox';
 import Knob from 'primevue/knob';
+import TabMenu from 'primevue/tabmenu';
+import ConfirmPopup from 'primevue/confirmpopup';
+import ConfirmDialog from 'primevue/confirmdialog';
+import Toast from 'primevue/toast';
+import OverlayPanel from 'primevue/overlaypanel';
 
 // Import css
 import './assets/main.css'
@@ -31,7 +35,10 @@ import './assets/main.css'
 import router from './router'
 
 // Import components
-import AppSidebar from "@/components/AppSidebar.vue";
+import AppHeader from "@/components/AppHeader.vue";
+
+// Import services
+import ConfirmationService from 'primevue/confirmationservice';
 
 
 const app = createApp(App);
@@ -39,14 +46,15 @@ const app = createApp(App);
 app.use(PrimeVue, {ripple: true});
 app.use(router);
 app.use(ToastService);
+app.use(ConfirmationService);
 
 app.directive('ripple', Ripple);
 app.directive('styleclass', StyleClass);
 
 app.component('PrimeDropdown', Dropdown);
 app.component('PrimeImage', Image);
-app.component('AppSidebar', AppSidebar);
-app.component('PrimeMenubar', Menubar);
+app.component('AppHeader', AppHeader);
+app.component('PrimeMenuBar', Menubar);
 app.component('PrimeButton', Button);
 app.component('InputText', InputText);
 app.component('PrimePassword', PrimePassword);
@@ -61,5 +69,10 @@ app.component('PrimeDialog', Dialog);
 app.component('PrimeCheckbox', Checkbox);
 app.component("PrimeChart", Chart);
 app.component('PrimeKnob', Knob);
+app.component('PrimeTabMenu', TabMenu);
+app.component('PrimeConfirmPopup', ConfirmPopup);
+app.component('PrimeToast', Toast);
+app.component('PrimeOverlayPanel', OverlayPanel);
+app.component('PrimeConfirmDialog', ConfirmDialog);
 
 app.mount('#app')

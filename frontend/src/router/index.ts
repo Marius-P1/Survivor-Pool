@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import dashboard from "@/pages/master/AppDashboard.vue";
 import home from "@/pages/AppHome.vue";
 import login from "@/pages/master/AppLogin.vue";
 import profile from "@/pages/AppProfile.vue";
@@ -9,14 +8,11 @@ import wardrobe from "@/pages/AppWardrobe.vue";
 import statistics from "@/pages/AppStatistics.vue";
 import employees from "@/pages/AppEmployees.vue";
 import customers from "@/pages/AppCustomers.vue";
+import tips from "@/pages/AppTips.vue";
+import events from "@/pages/AppEvents.vue";
 
 
 const routes = [
-    {
-        name: 'Dashboard',
-        path: '/dashboard',
-        component: dashboard
-    },
     {
         name: 'Login',
         path: '/',
@@ -56,6 +52,21 @@ const routes = [
         name: 'Statistics',
         path: '/statistics',
         component: statistics
+    },
+    {
+        name: 'Tips',
+        path: '/tips',
+        component: tips,
+    },
+    {
+        name: 'Events',
+        path: '/events',
+        component: events,
+    },
+    {
+        name: 'NotFound',
+        path: '/:pathMatch(.*)*',
+        redirect: { name: 'Home' }
     }
 ];
 
