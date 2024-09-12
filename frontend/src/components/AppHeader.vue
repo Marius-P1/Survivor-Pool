@@ -12,16 +12,7 @@
 	const toast = useToast();
 	const op = ref();
 
-	const tabs = ref([
-		{ label: 'Dashboard', icon: 'pi pi-fw pi-home', route: '/home' },
-		{ label: 'Coaches', icon: 'pi pi-fw pi-users', route: '/employees' },
-		{ label: 'Customers', icon: 'pi pi-fw pi-users', route: '/customers' },
-		{ label: 'Wardrobe', icon: 'pi pi-fw pi-cog', route: '/wardrobe' },
-		{ label: 'Compatibility', icon: 'pi pi-fw pi-heart', route: '/astrological' },
-		{ label: 'Tips', icon: 'pi pi-fw pi-book', route: '/tips' },
-		{ label: 'Statistics', icon: 'pi pi-fw pi-chart-bar', route: '/statistics' },
-		{ label: 'Events', icon: 'pi pi-fw pi-map', route: '/events' }
-	]);
+	const tabs = ref([]);
 	const username = ref("John Doe");
 	const email = ref("");
 	const customerData = ref([]);
@@ -57,6 +48,33 @@
 			return;
 		}
 		const token = localStorage.getItem('token');
+		const isManager = await axios.get(API_URL + '/token/ismanager', {
+            headers : {
+            Authorization: `Bearer ${token}`
+            }
+        });
+        if (!isManager.data) {
+            tabs.value = [
+				{ label: 'Dashboard', icon: 'pi pi-fw pi-home', route: '/home' },
+				{ label: 'Customers', icon: 'pi pi-fw pi-users', route: '/customers' },
+				{ label: 'Wardrobe', icon: 'pi pi-fw pi-cog', route: '/wardrobe' },
+				{ label: 'Compatibility', icon: 'pi pi-fw pi-heart', route: '/astrological' },
+				{ label: 'Tips', icon: 'pi pi-fw pi-book', route: '/tips' },
+				{ label: 'Statistics', icon: 'pi pi-fw pi-chart-bar', route: '/statistics' },
+				{ label: 'Events', icon: 'pi pi-fw pi-map', route: '/events' }
+			];
+        } else {
+			tabs.value = [
+				{ label: 'Dashboard', icon: 'pi pi-fw pi-home', route: '/home' },
+				{ label: 'Coaches', icon: 'pi pi-fw pi-users', route: '/employees' },
+				{ label: 'Customers', icon: 'pi pi-fw pi-users', route: '/customers' },
+				{ label: 'Wardrobe', icon: 'pi pi-fw pi-cog', route: '/wardrobe' },
+				{ label: 'Compatibility', icon: 'pi pi-fw pi-heart', route: '/astrological' },
+				{ label: 'Tips', icon: 'pi pi-fw pi-book', route: '/tips' },
+				{ label: 'Statistics', icon: 'pi pi-fw pi-chart-bar', route: '/statistics' },
+				{ label: 'Events', icon: 'pi pi-fw pi-map', route: '/events' }
+			];
+		}
 		const response = await axios.get(API_URL + '/employee/me', {
 			headers: {
 				Authorization: `Bearer ${token}`
@@ -65,12 +83,16 @@
 		customerData.value = response.data;
 		username.value = customerData.value.name + ' ' + customerData.value.surname || 'John Doe';
 		email.value = customerData.value.email || 'email';
-		const responseImage = await axios.get(API_URL + '/employee/me/image', {
+		await axios.get(API_URL + '/employee/me/image', {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
+		}).then(responseImage => {
+			image.value = "data:image/png;base64," + responseImage.data;
+		}).catch(error => {
+			image.value = "https://i.ibb.co/bFTjbPq/User-icon-cp.png";
+			console.error('Error fetching image:', error);
 		});
-		image.value = "data:image/png;base64," + responseImage.data;
 	});
 </script>
 
@@ -102,7 +124,7 @@
 
 				<PrimeOverlayPanel ref="op">
 					<div class="flex flex-column justify-content-center gap-3 w-25rem">
-						<div class="flex flex-row gap-2 justify-content-around">
+						<div class="flex flex-row gap-2 justify-content-around align-items-center">
 							<PrimeAvatar :image=image shape="circle" size="xlarge" class="" />
 							<div class="flex flex-column justify-content-center">
 								<span class="font-medium text-900 block mb-2 flex align-items-center justify-content-center">{{ username }}</span>

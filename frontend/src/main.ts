@@ -27,6 +27,9 @@ import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Toast from 'primevue/toast';
 import OverlayPanel from 'primevue/overlaypanel';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Chart from 'primevue/chart';
 
 // Import css
 import './assets/main.css'
@@ -74,5 +77,8 @@ app.component('PrimeConfirmPopup', ConfirmPopup);
 app.component('PrimeToast', Toast);
 app.component('PrimeOverlayPanel', OverlayPanel);
 app.component('PrimeConfirmDialog', ConfirmDialog);
+app.component('PrimeAccordion', Accordion);
+app.component('PrimeAccordionTab', AccordionTab);
+app.component('PrimeChart', Chart);
 
 app.mount('#app')

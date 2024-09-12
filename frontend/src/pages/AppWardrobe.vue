@@ -6,6 +6,7 @@ import { ref, onMounted } from "vue";
 import axios from 'axios';
 import router from '../router/index';
 import checkToken from '../services/TokenService';
+import { useToast } from 'primevue/usetoast';
 
 const API_URL = process.env.VUE_APP_BACKEND_URL;
 const selectedCustomer = ref();
@@ -20,6 +21,7 @@ const customerClothes = ref({
   shoes: []
 });
 const token = ref();
+const toast = useToast();
 
 const GetCustomers = async () => {
   try {
@@ -108,7 +110,14 @@ const handleCustomerChange = async () => {
   await GetCustomerImage();
 };
 
+const hasNoCustomers = async () => {
+  if (customers.value.length === 0) {
+    toast.add({ severity: 'error', summary: 'No customers found', detail: 'No customers assigned to you !\n(Contact your manager so that he can assign you some)', life: 5000 });
+  }
+};
+
 const search = async (event) => {
+  hasNoCustomers();
   const query = event.query;
   items.value = customers.value.filter((customer) => {
     const fullName = customer.fullName || '';
@@ -178,12 +187,12 @@ const search = async (event) => {
   <div class="px-1 md:px-6">
     <h1>Wardrobe</h1>
   </div>
-  <hr />
   <div v-if="!isACustomerSelected" class="px-1 md:px-6 w-full justify-content-center">
     <div class="flex justify-content-center flex-wrap">
       <h2>Search for a customer</h2>
     </div>
   </div>
+  <PrimeToast />
   <div class="card flex justify-content-center">
     <AutoComplete v-model="selectedCustomer" forceSelection dropdown :suggestions="items" optionLabel="fullName" @complete="search" @change="handleCustomerChange"/>
   </div>

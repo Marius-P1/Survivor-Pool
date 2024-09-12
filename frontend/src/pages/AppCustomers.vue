@@ -3,6 +3,7 @@
     import { ref, onMounted } from 'vue';
     import router from '../router/index';
     import checkToken from '../services/TokenService';
+    import { useToast } from 'primevue/usetoast';
 
 	const API_URL = process.env.VUE_APP_BACKEND_URL;
     const value = ref("");
@@ -11,6 +12,7 @@
     const customersList : string[] = [];
     const isACustomertSelected = ref(false);
     const token = ref();
+    const toast = useToast();
 
     onMounted(async () => {
 		if (!await checkToken()) {
@@ -31,7 +33,14 @@
         }
     });
 
+    const hasNoCustomers = async () => {
+        if (customersList.length === 0) {
+            toast.add({ severity: 'error', summary: 'No customers found', detail: 'No customers assigned to you !\n(Contact your manager so that he can assign you some)', life: 5000 });
+        }
+    };
+
     const search = async (event : any) => {
+        hasNoCustomers();
         const query = event.query;
         items.value = customersList.filter((customer) => customer.toLowerCase().includes(query.toLowerCase()));
     };
@@ -144,7 +153,6 @@
           <span class="font-bold">20</span>
           <span class="sub-text-info">Positive</span>
         </div>
-
         <div class="flex flex-column w-3 align-items-center justify-content-center text-center flex-grow-1 gap-5">
           <span class="font-bold">20</span>
           <span class="sub-text-info">In progress</span>

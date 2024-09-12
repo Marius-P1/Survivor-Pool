@@ -2,7 +2,6 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 import home from "@/pages/AppHome.vue";
 import login from "@/pages/master/AppLogin.vue";
-import profile from "@/pages/AppProfile.vue";
 import astrological from "@/pages/AppAstrological.vue";
 import wardrobe from "@/pages/AppWardrobe.vue";
 import statistics from "@/pages/AppStatistics.vue";
@@ -22,11 +21,6 @@ const routes = [
         name: 'Home',
         path: '/home',
         component: home
-    },
-    {
-        name: 'profile',
-        path: '/profile',
-        component: profile
     },
     {
         name: 'Astrological',
