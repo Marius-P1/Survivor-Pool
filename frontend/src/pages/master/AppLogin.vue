@@ -3,6 +3,8 @@ import { ref, defineComponent } from 'vue';
 import axios from 'axios';
 import {useRouter} from "vue-router";
 
+const API_URL = process.env.VUE_APP_BACKEND_URL;
+
 export default defineComponent({
   setup() {
     const useremail = ref('');
@@ -19,7 +21,7 @@ export default defineComponent({
       };
 
       try {
-        const responseLogin = await axios.post('http://localhost:3000/login', body, {
+        const responseLogin = await axios.post(API_URL + '/login', body, {
           headers: {
             'Content-Type': 'application/json'
           },

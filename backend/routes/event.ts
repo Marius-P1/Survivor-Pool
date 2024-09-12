@@ -4,6 +4,8 @@ import express from 'express';
 
 const router = express.Router();
 const prisma = new PrismaClient();
+const authMiddleware = require("../middleware/auth");
+const managerAuthMiddleware = require("../middleware/managerAuth");
 dotenv.config();
 
 async function getEventFromDB(eventId: number) {
@@ -18,18 +20,42 @@ async function getEventFromDB(eventId: number) {
     }
 }
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
-        const events = await prisma.events.findMany();
-        res.send(events);
+        const employee = res.locals.employeeId;
+        if (employee === null) {
+            res.status(401).send("Employee not found");
+            return;
+        }
+        if (employee.role == "MANAGER") {
+            const events = await prisma.events.findMany();
+            res.send(events);
+            return;
+        } else {
+            const events = await prisma.events.findMany({
+                where: {
+                    employee_id: employee.id
+                }
+            });
+            res.send(events);
+            return;
+        }
     } catch (error) {
         console.error("Error fetching events:", error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', managerAuthMiddleware, async (req, res) => {
     try {
+        if (req.params.id === null) {
+            res.status(400).send("Missing parameter");
+            return;
+        }
+        if (isNaN(parseInt(req.params.id))) {
+            res.status(400).send("Invalid ID");
+            return;
+        }
         const event = await getEventFromDB(parseInt(req.params.id));
         if (event === null) {
             res.status(404).send("Event not found");
@@ -42,7 +68,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', managerAuthMiddleware, async (req, res) => {
+    if (req.body === null) {
+        res.status(400).send("Missing body");
+        return;
+    } else if (!req.body.name || !req.body.date || !req.body.max_participants || !req.body.location_x || !req.body.location_y ||
+        !req.body.type || !req.body.employee_id || !req.body.location_name || !req.body.duration) {
+        res.status(400).send("Missing parameters");
+        return;
+    }
     const { name, date, max_participants, location_x, location_y,
         type, employee_id, location_name, duration } = req.body;
     try {
@@ -75,8 +109,24 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', managerAuthMiddleware, async (req, res) => {
     try {
+        if (req.body === null) {
+            res.status(400).send("Missing body");
+            return;
+        } else if (!req.body.name || !req.body.date || !req.body.max_participants || !req.body.location_x || !req.body.location_y ||
+            !req.body.type || !req.body.location_name || !req.body.duration) {
+            res.status(400).send("Missing parameters");
+            return;
+        }
+        if (req.params.id === null) {
+            res.status(400).send("Missing parameter");
+            return;
+        }
+        if (isNaN(parseInt(req.params.id))) {
+            res.status(400).send("Invalid ID");
+            return;
+        }
         const event = await getEventFromDB(parseInt(req.params.id));
         if (event === null) {
             res.status(404).send("Event not found");
@@ -104,8 +154,16 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', managerAuthMiddleware, async (req, res) => {
     try {
+        if (req.params.id === null) {
+            res.status(400).send("Missing parameter");
+            return;
+        }
+        if (isNaN(parseInt(req.params.id))) {
+            res.status(400).send("Invalid ID");
+            return;
+        }
         const event = await getEventFromDB(parseInt(req.params.id));
         if (event === null) {
             res.status(404).send("Event not found");
