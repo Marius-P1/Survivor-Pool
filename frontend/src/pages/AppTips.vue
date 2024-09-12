@@ -30,7 +30,7 @@ onMounted(async () => {
     return;
   }
   token.value = localStorage.getItem('token');
-  GetTips();
+  await GetTips();
 });
 
 </script>
@@ -74,10 +74,32 @@ onMounted(async () => {
     margin: 5px;
   }
 
+  .left-padding {
+    padding-left: 3rem;
+  }
+
+  .right-padding {
+    padding-right: 3rem;
+  }
 
   @media (min-width: 600px) {
     .card-tips {
       width: 45%;
+    }
+    .left-padding {
+      padding-left: 2rem;
+    }
+    .right-padding {
+      padding-right: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .left-padding {
+      padding-left: 1rem;
+    }
+    .right-padding {
+      padding-right: 1rem;
     }
   }
 
@@ -91,35 +113,59 @@ onMounted(async () => {
     .card-tips {
       width: 22%;
     }
+
   }
 
   @media (min-width: 1500px) {
     .card-tips {
       width: 18%;
     }
+    .left-padding {
+      padding-left: 3rem;
+    }
+    .right-padding {
+      padding-right: 3rem;
+    }
   }
+
+  .tip-content {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10px;
+  }
+
+  .p {
+    margin: 0;
+    padding: 0;
+    box-sizing: unset;
+  }
+
+</style>
+
+<style>
+
+  .p-accordion-content {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+
 </style>
 
 <template>
 	<AppHeader />
 
-  <div class="px-1 md:px-6">
-    <h1>Tips</h1>
+  <div class="left-padding">
+    <h1>Tips for Coaches</h1>
   </div>
-  <hr />
-  <div class="cards-container">
-    <div v-for="tip in tips" :key="tip.id" class="card-tips">
-      <Card class="card-content">
-        <template #title> {{ tip.title }}</template>
-        <template #content>
-          <p class="m-0"> {{ tip.tip }} </p>
-        </template>
-        <template #footer>
-          <div class="card-footer">
-            <p class="card-date">{{ tip.updatedAt.split("T")[0] }}</p>
-          </div>
-        </template>
-      </Card>
-    </div>
+  <div class="left-padding right-padding">
+    <PrimeAccordion :multiple="true">
+      <PrimeAccordionTab v-for="tip in tips" :key="tip.id" :header="tip.title">
+        <span>
+          {{ tip.tip }}
+        </span>
+      </PrimeAccordionTab>
+    </PrimeAccordion>
   </div>
 </template>
