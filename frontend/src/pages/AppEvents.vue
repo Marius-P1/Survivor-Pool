@@ -146,6 +146,7 @@ export default {
 </style>
 
 <template>
+  <AppHeader />
   <div class="header-bar left-padding">
     <h1>Events</h1>
     <!-- Add Event Button (commented since the "AddEvent" function isn't completed) -->
