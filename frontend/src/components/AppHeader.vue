@@ -88,7 +88,7 @@
 				Authorization: `Bearer ${token}`
 			}
 		}).then(responseImage => {
-			image.value = responseImage.data;
+			image.value = "data:image/png;base64," + responseImage.data;
 		}).catch(error => {
 			image.value = "https://i.ibb.co/bFTjbPq/User-icon-cp.png";
 			console.error('Error fetching image:', error);
