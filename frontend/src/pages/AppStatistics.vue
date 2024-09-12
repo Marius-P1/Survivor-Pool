@@ -64,6 +64,11 @@
 <script lang="ts">
 import { ref, onMounted, defineComponent, computed} from "vue";
 import axios from "axios";
+import checkToken from "@/services/TokenService";
+import router from "@/router";
+
+const API_URL = process.env.VUE_APP_BACKEND_URL;
+const token = ref('');
 
 export default defineComponent({
   setup() {
@@ -91,6 +96,11 @@ export default defineComponent({
     }
 
     onMounted(async () => {
+      if (!await checkToken()) {
+        router.push('/');
+        return;
+      }
+      token.value = localStorage.getItem('token') || '';
       await getCoachList();
       await getEventsData();
 
@@ -105,9 +115,10 @@ export default defineComponent({
 
     async function getCoachList() {
       try {
-        const response = await axios.get('http://localhost:3000/employee', {
+        const response = await axios.get(`${API_URL}/employee`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
           }
         });
 
@@ -133,9 +144,10 @@ export default defineComponent({
 
     async function getCustomerIdByCoach(employeeId: number) {
       try {
-        const response = await axios.get(`http://localhost:3000/employee/${employeeId}/customersList/`, {
+        const response = await axios.get(`${API_URL}/employee/${employeeId}/customersList/`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
           }
         });
         for (const customer of response.data) {
@@ -151,9 +163,10 @@ export default defineComponent({
 
     async function getEmployeeImage(employeeId: number): Promise<string> {
       try {
-        const response = await axios.get(`http://localhost:3000/employee/${employeeId}/image`, {
+        const response = await axios.get(`${API_URL}/employee/${employeeId}/image`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
           }
         });
         return "data:image/png;base64," + response.data;
@@ -237,9 +250,10 @@ export default defineComponent({
 
     async function getEventsData() {
       try {
-        const response = await axios.get('http://localhost:3000/events', {
+        const response = await axios.get(`${API_URL}/events`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
           }
         });
 
