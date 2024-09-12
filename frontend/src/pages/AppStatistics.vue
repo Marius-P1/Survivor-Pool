@@ -1,8 +1,8 @@
 <template style="height:100%;" class="stats">
+  <AppHeader></AppHeader>
   <div class="px-1 md:px-6">
     <h1>Statistics</h1>
   </div>
-  <hr />
   <div class="flex flex-row gap-2 flex-wrap justify-content-center">
     <PrimePanel v-for="coach in coachList" :key="coach.id" class="w-6 md:w-4 xl:w-3 flex-grow-1 card h-full" style="box-shadow: 5px 5px 10px 2px rgb(0 0 0 / .2);">
 
@@ -22,7 +22,8 @@
 
         <!-- Event type -->
         <div class="w-full h-full flex align-items-center justify-content-center pb-2 ">
-          <PrimeChart type="radar" :data="eventChartData[coach.id]" :options="eventChartOptions" :width="300" :height="210" class="flex align-items-center" />        </div>
+          <PrimeChart type="radar" :data="eventChartData[coach.id]" :options="eventChartOptions" :width="300" :height="210" class="flex align-items-center" />
+        </div>
 
         <!-- Statistics client nb/ meetings / events -->
         <div class="flex px-3 justify-content-center md:flex-row gap-4 mb-5 w-full">
@@ -33,7 +34,7 @@
               </h6>
             </template>
           </PrimeCard>
-          <PrimeCard :class="[getCardBgClass(coach.meeting_number), 'flex', 'justify-content-center', 'w-6']">
+          <PrimeCard :class="[getCardBgClass(coach.meeting_nb), 'flex', 'justify-content-center', 'w-6']">
             <template #content>
               <h6 class="flex justify-content-center align-items-center m-0 pb-1">
                 {{coach.meeting_nb}} Meetings
@@ -44,7 +45,7 @@
 
         <!-- Statistics of the payment realised by the coach by month -->
         <div class=" w-full h-full flex align-items-center ">
-          <PrimeChart type="line" :data="paymentChartData" :options="paymentChartOptions" class="h-10rem w-full" />
+          <PrimeChart type="line" :data="paymentChartData[coach.id]" :options="paymentChartOptions" class="h-10rem w-full" />
         </div>
       </div>
 
@@ -66,18 +67,21 @@ import { ref, onMounted, defineComponent, computed} from "vue";
 import axios from "axios";
 import checkToken from "@/services/TokenService";
 import router from "@/router";
+import AppHeader from "@/components/AppHeader.vue";
 
 const API_URL = process.env.VUE_APP_BACKEND_URL;
 const token = ref('');
 
 export default defineComponent({
+  components: {AppHeader},
   setup() {
     const eventChartData = ref<{ [key: number]: any }>({});
     const eventChartOptions = ref();
-    const paymentChartData = ref();
+    const paymentChartData = ref<{ [key: number]: any }>({});
     const paymentChartOptions = ref();
     const coachList = ref<{ id: number, name: string, image: string, customer_nb: number, event_nb: number, meeting_nb: number}[]>([]);
     const eventsData = ref<any[]>([]);
+    const paymentData = ref<any[]>([]);
     const customerClientId = ref<any[]>([]);
 
     interface Event {
@@ -104,10 +108,10 @@ export default defineComponent({
       await getCoachList();
       await getEventsData();
 
-      coachList.value.forEach(coach => {
+      await Promise.all(coachList.value.map(async (coach) => {
         eventChartData.value[coach.id] = setEventChartData(coach);
-        paymentChartData.value = setPaymentChartData(coach);
-      });
+        paymentChartData.value[coach.id] = await setPaymentChartData(coach);
+      }));
 
       eventChartOptions.value = setEventChartOptions();
       paymentChartOptions.value = setPaymentChartOptions();
@@ -122,23 +126,42 @@ export default defineComponent({
           }
         });
 
-        const coaches = response.data.filter((employee: { work: string }) => employee.work === 'Coach');
+        // Ensure response.data is always an array
+        const employees = Array.isArray(response.data) ? response.data : [response.data];
+        const coaches = employees.filter((employee: { work: string }) => employee.work === 'Coach');
 
         for (const coach of coaches) {
           const image = await getEmployeeImage(coach.id);
           await getCustomerIdByCoach(coach.id);
+          const meeting = await getMeetingNumberByCoach(coach.id);
           coachList.value.push({
             id: coach.id,
             name: coach.name + ' ' + coach.surname,
             image: image,
             customer_nb: customerClientId.value[coach.id] ? customerClientId.value[coach.id].length : 0,
             event_nb: 0,
-            meeting_nb: 0
+            meeting_nb: meeting
           });
           coachList.value.sort((a, b) => b.customer_nb - a.customer_nb);
         }
       } catch (error) {
         console.error('Error fetching employees:', error);
+      }
+    }
+
+    async function getMeetingNumberByCoach(employeeId: number) {
+      try {
+        const response = await axios.get(`${API_URL}/employee/${employeeId}/encounter/`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
+          }
+        });
+        console.log(response.data)
+        return response.data.encounters;
+      } catch (error) {
+        console.error('Error fetching meetings:', error);
+        return 0;
       }
     }
 
@@ -176,9 +199,35 @@ export default defineComponent({
       }
     }
 
+    async function getPaymentData(employeeId: number) {
+      try {
+        const response = await axios.get(`${API_URL}/employee/${employeeId}/stats`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`
+          }
+        });
 
-    const setPaymentChartData = (coach: { id: number; name: string }) => {
+        const payments = response.data;
+        const monthlySums = new Array(12).fill(0);
+
+        payments.forEach((payment: { amount: number; date: string }) => {
+          const monthIndex = new Date(payment.date).getMonth();
+          monthlySums[monthIndex] += payment.amount;
+        });
+
+        return monthlySums;
+      } catch (error) {
+        console.error('Error fetching payment data:', error);
+        return new Array(12).fill(0);
+      }
+    }
+
+    const setPaymentChartData = async (coach: { id: number; name: string }) => {
       const documentStyle = getComputedStyle(document.documentElement);
+
+      const data = await getPaymentData(coach.id);
+      console.log(data)
 
       return {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'august', 'september', 'october', 'november', 'december'],
@@ -189,7 +238,7 @@ export default defineComponent({
             borderColor: documentStyle.getPropertyValue('--gray-500'),
             yAxisID: 'y1',
             tension: 0.4,
-            data: [0]
+            data: data
           }
         ]
       };
@@ -234,7 +283,7 @@ export default defineComponent({
           },
           y1: {
             type: 'linear',
-            display: true,
+            display: false,
             position: 'right',
             ticks: {
               color: textColorSecondary
