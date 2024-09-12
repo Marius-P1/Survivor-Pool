@@ -116,8 +116,38 @@ router.get('/me/image', authMiddleware, async (req, res) => {
 });
 
 // All managers request for info about employees
-router.get('/', managerAuthMiddleware, async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
+        const employeeId = res.locals.employeeId;
+        if (employeeId === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const employee = await getEmployeeFromDB(employeeId);
+        if (employee === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        if (employee.role !== "MANAGER") {
+            const employeeData = await prisma.employee.findUnique({
+                where: { id: employeeId }
+            });
+            if (employeeData === null) {
+                res.status(404).send("Employee not found");
+                return;
+            }
+            const employeeWithoutImage = {
+                id: employeeData.id,
+                email: employeeData.email,
+                name: employeeData.name,
+                surname: employeeData.surname,
+                birthdate: employeeData.birthdate,
+                lastLogin: employeeData.lastLogin,
+                work: employeeData.work
+            }
+            res.send(employeeWithoutImage);
+            return;
+        }
         const employees = await prisma.employee.findMany();
         if (employees === null) {
             res.status(404).send("Employees not found");
@@ -408,6 +438,62 @@ router.get('/:id/stats', managerAuthMiddleware, async (req, res) => {
         res.send(allStats.flat());
     } catch (error) {
         console.error("Error fetching stats:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get('/me/encounter/', authMiddleware, async (req, res) => {
+    try {
+        const employeeId = res.locals.employeeId;
+        if (employeeId === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const employee = await getEmployeeFromDB(employeeId);
+        if (employee === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const customerIdsList = employee.customerIds;
+        let encounterNbr = 0;
+        for (let i = 0; i < customerIdsList.length; i++) {
+            let constId = customerIdsList[i];
+            let allEncountersByConstId = await prisma.enconters.findMany({
+                where: { customer_id: constId }
+            });
+            encounterNbr += allEncountersByConstId.length;
+        }
+        res.send({ encounters: encounterNbr });
+    } catch (error) {
+        console.error("Error fetching encounters:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get('/:id/encounter/', managerAuthMiddleware, async (req, res) => {
+    try {
+        if (req.params.id === null || isNaN(parseInt(req.params.id))) {
+            res.status(404).send("Wrong employee id");
+            return;
+        }
+        const employeeId = parseInt(req.params.id);
+        const employee = await getEmployeeFromDB(employeeId);
+        if (employee === null) {
+            res.status(404).send("Employee not found");
+            return;
+        }
+        const customerIdsList = employee.customerIds;
+        let encounterNbr = 0;
+        for (let i = 0; i < customerIdsList.length; i++) {
+            let constId = customerIdsList[i];
+            let allEncountersByConstId = await prisma.enconters.findMany({
+                where: { customer_id: constId }
+            });
+            encounterNbr += allEncountersByConstId.length;
+        }
+        res.send({ encounters: encounterNbr });
+    } catch (error) {
+        console.error("Error fetching encounters:", error);
         res.status(500).send("Internal Server Error");
     }
 });
