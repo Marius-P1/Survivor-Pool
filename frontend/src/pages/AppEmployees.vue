@@ -15,6 +15,15 @@
 			return;
 		}
         token.value = localStorage.getItem('token');
+        const isManager = await axios.get(API_URL + '/token/ismanager', {
+            headers : {
+            Authorization: `Bearer ${token.value}`
+            }
+        });
+        if (!isManager.data) {
+            router.push('/home');
+            return;
+        }
         const response = await axios.get(API_URL + '/employee', {
                 headers: {
                     Authorization: `Bearer ${token.value}`
