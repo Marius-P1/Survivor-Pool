@@ -14,26 +14,30 @@ module.exports = async (req : any, res : any, next : any) => {
             res.status(401).send("Token missing");
             return;
         }
-        const user = await prisma.token.findUnique({
+        const userToken = await prisma.token.findUnique({
             where: {
                 token: token
             }
         });
-        if (user === null) {
+        if (userToken === null) {
             res.status(401).json({ error: "Invalid token" });
             return;
         }
-        if (user !== null && user.validUntil < new Date()) {
+        if (userToken !== null && userToken.validUntil < new Date()) {
             res.status(401).json({ error: "Token expired" });
             return;
         }
         const employee = await prisma.employee.findUnique({
             where: {
-                email: user.email
+                email: userToken.email
             }
         });
         if (employee === null) {
-            res.status(404).json({ error: "Employee not found" });
+            res.status(401).json({ error: "Employee not found" });
+            return;
+        }
+        if (employee.role !== "MANAGER") {
+            res.status(401).json({ error: "Not an admin" });
             return;
         }
         res.locals.employeeId = employee.id;
