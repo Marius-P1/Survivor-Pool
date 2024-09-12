@@ -74,5 +74,8 @@ app.component('PrimeConfirmPopup', ConfirmPopup);
 app.component('PrimeToast', Toast);
 app.component('PrimeOverlayPanel', OverlayPanel);
 app.component('PrimeConfirmDialog', ConfirmDialog);
+app.component('PrimeAccordion', Accordion);
+app.component('PrimeAccordionTab', AccordionTab);
+app.component('PrimeChart', Chart);
 
 app.mount('#app')
