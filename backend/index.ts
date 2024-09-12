@@ -6,6 +6,7 @@ import tipsRouter from "./routes/tips";
 import eventRouter from "./routes/event";
 import statRouter from "./routes/statistics";
 import customersRouter from "./routes/customers";
+import tokenRouter from "./routes/token";
 
 dotenv.config();
 const app = express();
@@ -27,6 +28,7 @@ app.use("/events", eventRouter);
 app.use("/tips", tipsRouter);
 app.use("/statistics", statRouter);
 app.use("/customers", customersRouter);
+app.use("/token", tokenRouter);
 
 app.post("/login", userController.login);
 
