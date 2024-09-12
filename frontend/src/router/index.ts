@@ -8,6 +8,7 @@ import wardrobe from "@/pages/AppWardrobe.vue";
 import employees from "@/pages/AppEmployees.vue";
 import customers from "@/pages/AppCustomers.vue";
 import tips from "@/pages/AppTips.vue";
+import events from "@/pages/AppEvents.vue";
 
 
 const routes = [
@@ -50,6 +51,11 @@ const routes = [
         name: 'Tips',
         path: '/tips',
         component: tips,
+    },
+    {
+        name: 'Events',
+        path: '/events',
+        component: events,
     },
     {
         name: 'NotFound',
