@@ -83,12 +83,16 @@
 		customerData.value = response.data;
 		username.value = customerData.value.name + ' ' + customerData.value.surname || 'John Doe';
 		email.value = customerData.value.email || 'email';
-		const responseImage = await axios.get(API_URL + '/employee/me/image', {
+		await axios.get(API_URL + '/employee/me/image', {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
+		}).then(responseImage => {
+			image.value = responseImage.data;
+		}).catch(error => {
+			image.value = "https://i.ibb.co/bFTjbPq/User-icon-cp.png";
+			console.error('Error fetching image:', error);
 		});
-		image.value = "data:image/png;base64," + responseImage.data;
 	});
 </script>
 
@@ -120,7 +124,7 @@
 
 				<PrimeOverlayPanel ref="op">
 					<div class="flex flex-column justify-content-center gap-3 w-25rem">
-						<div class="flex flex-row gap-2 justify-content-around">
+						<div class="flex flex-row gap-2 justify-content-around align-items-center">
 							<PrimeAvatar :image=image shape="circle" size="xlarge" class="" />
 							<div class="flex flex-column justify-content-center">
 								<span class="font-medium text-900 block mb-2 flex align-items-center justify-content-center">{{ username }}</span>
