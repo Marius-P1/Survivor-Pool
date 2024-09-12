@@ -5,6 +5,7 @@
 	import { useToast } from "primevue/usetoast";
 	import Badge from 'primevue/badge';
 	import router from '@/router';
+	import checkToken from '../services/TokenService';
 
 	const confirm = useConfirm();
 	const toast = useToast();
@@ -41,7 +42,7 @@
 			accept: () => {
 				toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have been logout', life: 3000 });
 				localStorage.removeItem('token');
-				router.push('/login');
+				router.push('/');
 			},
 			reject: () => {
 				toast.add({ severity: 'error', summary: 'Rejected', detail: 'You are still logged in', life: 3000 });
@@ -50,12 +51,11 @@
 	};
 
 	onMounted(async () => {
-		const token = localStorage.getItem('token');
-		if (!token) {
-			router.push('/login');
+		if (!await checkToken()) {
+			router.push('/');
 			return;
 		}
-		console.log(token);
+		const token = localStorage.getItem('token');
 		const response = await axios.get('http://localhost:3000/employee/me', {
 			headers: {
 				Authorization: `Bearer ${token}`

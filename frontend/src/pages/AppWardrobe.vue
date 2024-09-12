@@ -5,6 +5,7 @@ import AutoComplete from 'primevue/autocomplete';
 import { ref, onMounted } from "vue";
 import axios from 'axios';
 import router from '../router/index';
+import checkToken from '../services/TokenService';
 
 const selectedCustomer = ref();
 const selectedCustomerImage = ref("");
@@ -92,11 +93,11 @@ const GetCustomerClothes = async () => {
 };
 
 onMounted(async () => {
-  token.value = localStorage.getItem('token');
-  if (!token.value) {
+  if (!await checkToken()) {
     router.push('/');
     return;
   }
+  token.value = localStorage.getItem('token');
   customers.value = await GetCustomers();
   await GetCustomerClothes();
 })

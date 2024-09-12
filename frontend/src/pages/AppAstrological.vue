@@ -102,6 +102,7 @@ import defaultAvatar from '@/assets/default-avatar.jpg';
 import zodiacCompatibilityPairs from '@/assets/zodiac_compatibility_pairs.json';
 import { ref } from 'vue';
 import router from "../router/index";
+import checkToken from '../services/TokenService';
 
 const token = ref()
 
@@ -204,12 +205,12 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
+		if (!await checkToken()) {
+			router.push('/');
+			return;
+		}
     token.value = localStorage.getItem('token');
-    if (!token.value) {
-      router.push('/');
-      return;
-    }
     this.GetCustomers();
     this.getCustomerImage(this.selectedCustomer1, 'customerImage1');
     this.getCustomerImage(this.selectedCustomer2, 'customerImage2');

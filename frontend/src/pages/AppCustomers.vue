@@ -2,6 +2,7 @@
     import axios from 'axios';
     import { ref, onMounted } from 'vue';
     import router from '../router/index';
+    import checkToken from '../services/TokenService';
 
     const value = ref("");
     const items = ref([]);
@@ -11,11 +12,11 @@
     const token = ref();
 
     onMounted(async () => {
+		if (!await checkToken()) {
+			router.push('/');
+			return;
+		}
         token.value = localStorage.getItem('token');
-        if (!token.value) {
-            router.push('/');
-            return;
-        }
         const response = await axios.get('http://localhost:3000/customers', {
             headers: {
                 'Content-Type': 'application/json',

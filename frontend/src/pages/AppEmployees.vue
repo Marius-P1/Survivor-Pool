@@ -2,17 +2,18 @@
     import axios from 'axios';
     import { ref, onMounted } from 'vue';
     import router from '../router/index';
+    import checkToken from '../services/TokenService';
 
     var employeesData = ref([]);
     const clients = ref([]);
     const token = ref();
 
     onMounted(async () => {
+		if (!await checkToken()) {
+			router.push('/');
+			return;
+		}
         token.value = localStorage.getItem('token');
-        if (!token.value) {
-            router.push('/');
-            return;
-        }
         const response = await axios.get('http://localhost:3000/employee', {
                 headers: {
                     Authorization: `Bearer ${token.value}`

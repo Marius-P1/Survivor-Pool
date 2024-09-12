@@ -2,7 +2,7 @@
 	import axios from 'axios';
 	import { ref, onMounted } from 'vue';
 	import router from '../router/index';
-
+	import checkToken from '../services/TokenService';
 
 	const sales = ref(0);
 	const customers = ref(0);
@@ -47,11 +47,11 @@
 	};
 
 	onMounted(async () => {
-		token.value = localStorage.getItem('token');
-		if (!token.value) {
+		if (!await checkToken()) {
 			router.push('/');
 			return;
 		}
+		token.value = localStorage.getItem('token');
 		await getSales();
 		await getCustomers();
 		await getEncounters();

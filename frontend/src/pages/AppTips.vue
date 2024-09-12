@@ -4,6 +4,7 @@ import axios from 'axios';
 import Card from 'primevue/card';
 import { ref, onMounted } from 'vue';
 import router from '../router/index';
+import checkToken from '../services/TokenService';
 
 const tips = ref([]);
 const token = ref();
@@ -22,12 +23,12 @@ const GetTips = async () => {
   }
 };
 
-onMounted(() => {
-  token.value = localStorage.getItem('token');
-  if (!token.value) {
+onMounted(async () => {
+  if (!await checkToken()) {
     router.push('/');
     return;
   }
+  token.value = localStorage.getItem('token');
   GetTips();
 });
 
