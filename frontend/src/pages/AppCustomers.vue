@@ -3,6 +3,7 @@
     import { ref, onMounted } from 'vue';
     import router from '../router/index';
     import checkToken from '../services/TokenService';
+    import { useToast } from 'primevue/usetoast';
 
 	const API_URL = process.env.VUE_APP_BACKEND_URL;
     const value = ref("");
@@ -11,6 +12,7 @@
     const customersList : string[] = [];
     const isACustomertSelected = ref(false);
     const token = ref();
+    const toast = useToast();
 
     onMounted(async () => {
 		if (!await checkToken()) {
@@ -31,7 +33,14 @@
         }
     });
 
+    const hasNoCustomers = async () => {
+        if (customersList.length === 0) {
+            toast.add({ severity: 'error', summary: 'No customers found', detail: 'No customers assigned to you !\n(Contact your manager so that he can assign you some)', life: 5000 });
+        }
+    };
+
     const search = async (event : any) => {
+        hasNoCustomers();
         const query = event.query;
         items.value = customersList.filter((customer) => customer.toLowerCase().includes(query.toLowerCase()));
     };
@@ -108,10 +117,10 @@
 	<AppHeader />
 
     <div>
+        <PrimeToast />
         <div class="px-1 md:px-6">
             <h1>Customers</h1>
         </div>
-        <hr />
         <div>
             <div v-if="!isACustomertSelected" class="px-1 md:px-6 w-full justify-content-center">
                 <div class="flex justify-content-center flex-wrap">
@@ -124,7 +133,7 @@
             <div v-else class="flex flex-column justify-content-between px-1 md:px-6 md:flex-row">
                 <div class="flex flex-column justify-content-evenly">
                     <div>
-                        <AutoComplete v-model="value" forceSelection dropdown :suggestions="items" @complete="search" @change="getCustomer" />
+                        <AutoComplete v-model="value" forceSelection dropdown :suggestions="items" @complete="search" @change="getCustomer" @dropdown-click="hasNoCustomers"/>
                     </div>
                     <div>
                         <div class="flex flex-row gap-1 md:gap-4">

@@ -129,8 +129,9 @@ router.get('/', managerAuthMiddleware, async (req, res) => {
                 name: employee.name,
                 surname: employee.surname,
                 birthdate: employee.birthdate,
-                lastLogin: employee.lastLogin,
-                work: employee.work
+                email: employee.email,
+                work: employee.work,
+                clientNbr: employee.customerIds.length
             }
         });
         res.send(employeesWithoutImage);
@@ -297,6 +298,47 @@ router.put('/:id/customerslist/remove/:idconst', managerAuthMiddleware, async (r
         }
     } catch (error) {
         console.error("Error removing customer:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.post('/', managerAuthMiddleware, async (req, res) => {
+    try {
+        const { email, password, name, surname, birthdate } = req.body;
+        if (!email || !password || !name || !surname || !birthdate) {
+            res.status(400).send("Missing fields");
+            return;
+        }
+        const highestID = await prisma.employee.findFirst({
+            orderBy: {
+                id: 'desc'
+            }
+        });
+        if (highestID === null) {
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+        const employee = await prisma.employee.create({
+            data: {
+                id: highestID.id + 1,
+                email: email,
+                name: name,
+                surname: surname,
+                birthdate: birthdate,
+                customerIds: [],
+                work: "Coach",
+                role: "COACH"
+            }
+        });
+        const employeeCredentials = await prisma.credentials.create({
+            data: {
+                email: email,
+                password: password
+            }
+        });
+        res.send(employee);
+    } catch (error) {
+        console.error("Error creating employee:", error);
         res.status(500).send("Internal Server Error");
     }
 });
