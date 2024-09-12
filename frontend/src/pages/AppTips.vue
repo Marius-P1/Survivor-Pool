@@ -113,7 +113,6 @@ onMounted(async () => {
     .card-tips {
       width: 22%;
     }
-
   }
 
   @media (min-width: 1500px) {
@@ -128,25 +127,18 @@ onMounted(async () => {
     }
   }
 
-  .tip-content {
-    display: flex;
-    justify-content: flex-start;
+  .header-bar {
     padding-top: 10px;
+    padding-bottom: 10px;
   }
-
-  .p {
-    margin: 0;
-    padding: 0;
-    box-sizing: unset;
-  }
-
+  
 </style>
 
 <style>
 
   .p-accordion-content {
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 2px;
     margin-bottom: 5px;
     border-radius: 5px;
   }
@@ -156,7 +148,7 @@ onMounted(async () => {
 <template>
 	<AppHeader />
 
-  <div class="left-padding">
+  <div class="left-padding header-bar">
     <h1>Tips for Coaches</h1>
   </div>
   <div class="left-padding right-padding">
