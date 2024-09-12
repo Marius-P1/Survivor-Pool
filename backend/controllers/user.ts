@@ -116,6 +116,6 @@ exports.login = (async (request: Request, response: Response) => {
 	});
 	response.status(200).json({ token });
 	if (isOldDBUser) {
-		console.log("User added to the database"); // TODO : Add the fetch of the db
+		console.log("User Credentials added to the database (user that hasn't connect to the system before)");
 	}
 });

@@ -3,14 +3,19 @@
 import axios from 'axios';
 import Card from 'primevue/card';
 import { ref, onMounted } from 'vue';
+import router from '../router/index';
+import checkToken from '../services/TokenService';
 
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 const tips = ref([]);
+const token = ref();
 
 const GetTips = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/tips', {
+    const response = await axios.get(API_URL + '/tips', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
       }
     });
     tips.value = response.data;
@@ -19,7 +24,12 @@ const GetTips = async () => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  if (!await checkToken()) {
+    router.push('/');
+    return;
+  }
+  token.value = localStorage.getItem('token');
   GetTips();
 });
 
@@ -91,6 +101,8 @@ onMounted(() => {
 </style>
 
 <template>
+	<AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Tips</h1>
   </div>

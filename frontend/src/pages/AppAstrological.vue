@@ -1,4 +1,6 @@
 <template>
+	<AppHeader />
+
   <div class="px-1 md:px-6">
     <h1>Zodiac Compatibility Checker</h1>
   </div>
@@ -98,7 +100,12 @@ import PrimePanel from "@/main";
 import PrimeAvatar from "@/main";
 import defaultAvatar from '@/assets/default-avatar.jpg';
 import zodiacCompatibilityPairs from '@/assets/zodiac_compatibility_pairs.json';
+import { ref } from 'vue';
+import router from "../router/index";
+import checkToken from '../services/TokenService';
 
+const token = ref()
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 
 export default {
   components: {PrimeAvatar, PrimePanel},
@@ -137,9 +144,10 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:3000/customers/${customer.id}/image`, {
+        const response = await axios.get(API_URL + `/customers/${customer.id}/image`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token.value}`
           }
         });
         this[infoProp] = "data:image/png;base64," + response.data;
@@ -154,9 +162,10 @@ export default {
     },
     async getCustomerInfo(id, infoProp) {
       try {
-        const response = await axios.get(`http://localhost:3000/customers/${id}`, {
+        const response = await axios.get(API_URL + `/customers/${id}`, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token.value}`
           }
         });
         this[infoProp] = response.data;
@@ -181,9 +190,10 @@ export default {
     },
     async GetCustomers() {
       try {
-        const response = await axios.get('http://localhost:3000/customers', {
+        const response = await axios.get(API_URL + '/customers', {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token.value}`
           }
         });
         this.CustomersList = response.data.map(customer => ({
@@ -196,7 +206,12 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
+		if (!await checkToken()) {
+			router.push('/');
+			return;
+		}
+    token.value = localStorage.getItem('token');
     this.GetCustomers();
     this.getCustomerImage(this.selectedCustomer1, 'customerImage1');
     this.getCustomerImage(this.selectedCustomer2, 'customerImage2');
