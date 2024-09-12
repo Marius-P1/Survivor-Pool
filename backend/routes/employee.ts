@@ -314,20 +314,21 @@ router.get('/me/stats', authMiddleware, async (req, res) => {
             return;
         }
         const customerIdsList = employee.customerIds;
-        let stats = [];
+        let allStats = [];
         for (let i = 0; i < customerIdsList.length; i++) {
-            let paymentStatsById = prisma.payments.findMany({
-                where: { customer_id: customerIdsList[i] },
-                select: {
-                    amount: true,
-                    date: true
-                }
+            let paymentStatsByConstId = await prisma.payments.findMany({
+                where: { customer_id: customerIdsList[i] }
             });
-            // @ts-ignore
-            stats.sort((a, b) => (a.date > b.date) ? 1 : -1);
-            stats.push(paymentStatsById);
+            let stats = paymentStatsByConstId.map(payment => ({
+                amount: payment.amount,
+                date: payment.date,
+                month: payment.date.split('-')[1]
+            }));
+            console.log("Payment stats by month:" + paymentStatsByConstId);
+            allStats.push(stats);
         }
-        res.send(stats);
+        console.log("Stats:", allStats.flat());
+        res.send(allStats.flat());
     } catch (error) {
         console.error("Error fetching stats:", error);
         res.status(500).send("Internal Server Error");
@@ -347,20 +348,22 @@ router.get('/:id/stats', managerAuthMiddleware, async (req, res) => {
             return;
         }
         const customerIdsList = employee.customerIds;
-        let stats = [];
+        console.log(customerIdsList);
+        let allStats = [];
         for (let i = 0; i < customerIdsList.length; i++) {
-            let paymentStatsById = prisma.payments.findMany({
-                where: { customer_id: customerIdsList[i] },
-                select: {
-                    amount: true,
-                    date: true
-                }
+            let paymentStatsByConstId = await prisma.payments.findMany({
+                where: { customer_id: customerIdsList[i] }
             });
-            // @ts-ignore
-            stats.sort((a, b) => (a.date > b.date) ? 1 : -1);
-            stats.push(paymentStatsById);
+            let stats = paymentStatsByConstId.map(payment => ({
+                amount: payment.amount,
+                date: payment.date,
+                month: payment.date.split('-')[1]
+            }));
+            console.log("Payment stats by month:" + paymentStatsByConstId);
+            allStats.push(stats);
         }
-        res.send(stats);
+        console.log("Stats:", allStats.flat());
+        res.send(allStats.flat());
     } catch (error) {
         console.error("Error fetching stats:", error);
         res.status(500).send("Internal Server Error");

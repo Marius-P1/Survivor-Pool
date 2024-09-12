@@ -36,7 +36,7 @@ module.exports = async (req : any, res : any, next : any) => {
             res.status(401).json({ error: "Employee not found" });
             return;
         }
-        if (employee.role !== "MANAGER" && employee.role !== "manager") {
+        if (employee.role !== "MANAGER") {
             res.status(401).json({ error: "Not an admin" });
             return;
         }
